@@ -396,6 +396,8 @@
                 if (error || !data) {
                     tampilkanPesanError("Kombinasi Akun/Sandi tidak cocok atau tidak terdaftar.", 'loginUsername');
                     return;
+                    if (!data.nama) {
+            data.nama = data.username;
                 }
                 userLoginAktif = data;
                 localStorage.setItem('sesiPetugas', JSON.stringify(data));
