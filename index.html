@@ -22,14 +22,12 @@
 <body class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 font-sans min-h-screen flex items-center justify-center p-4">
     <div id="areaCetakStruk" class="hidden p-4 bg-white text-black text-xs leading-tight"></div>
     
-    <!-- LANDING PAGE -->
     <div id="landingPage" class="bg-white/10 backdrop-blur-xl p-10 rounded-3xl shadow-2xl border border-white/20 max-w-sm w-full text-center flex flex-col items-center justify-center no-print">
         <div class="w-20 h-20 bg-gradient-to-tr from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center text-4xl shadow-lg mb-6 animate-pulse"> 📦 </div>
         <h1 class="text-3xl font-black text-white tracking-tight mb-2">Package Apps</h1>
         <p class="text-xs text-indigo-200 font-medium mb-8 px-4">Sistem Manajemen Pengarsipan Logistik Terpadu Pesantren.</p>
         <button onclick="pilihMenuAwal()" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-black px-6 py-3.5 rounded-2xl text-sm shadow-xl transition transform scale-[1.02]">Mulai Sistem ➔ </button>
     </div>
-    <!-- PORTAL PAGE -->
     <div id="portalPage" class="hidden bg-white/10 backdrop-blur-xl p-8 rounded-3xl shadow-2xl border border-white/20 max-w-md w-full text-center no-print">
         <h2 class="text-xl font-bold text-white mb-6 tracking-wide">PILIH PORTAL AKSES</h2>
         <div class="grid grid-cols-1 gap-4">
@@ -44,7 +42,6 @@
         </div>
         <button onclick="kembaliKeLanding()" class="mt-6 text-xs text-slate-300 hover:text-white transition underline"> ➔ Kembali Ke Beranda</button>
     </div>
-    <!-- PORTAL PUBLIK (CARI MANDIRI) -->
     <div id="portalPublik" class="hidden bg-slate-900/90 backdrop-blur-2xl rounded-3xl shadow-2xl w-full max-w-2xl p-8 border border-slate-700/50 text-white no-print">
         <div class="flex justify-between items-center border-b border-slate-700 pb-4 mb-6">
             <div>
@@ -65,7 +62,6 @@
             </div>
         </div>
     </div>
-    <!-- MAIN DASHBOARD UTAMA -->
     <div id="mainDashboard" class="hidden bg-white rounded-3xl shadow-2xl w-full max-w-6xl p-6 h-[90vh] flex flex-col text-gray-800 no-print">
         <div class="flex flex-wrap justify-between items-center border-b pb-3 mb-4 gap-2">
             <div>
@@ -83,7 +79,6 @@
                 <button onclick="keluarSistem()" class="bg-red-500 text-white font-bold px-3 py-2 rounded-xl ml-1"> 🔒 Keluar</button>
             </div>
         </div>
-        <!-- STATISTIK KOTAK KOTAK -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center mb-4">
             <div class="bg-blue-50 rounded-xl p-2.5"><p class="text-[9px] font-bold text-blue-600">TOTAL PAKET</p><p id="statTotal" class="text-lg font-black text-blue-950">0</p></div>
             <div class="bg-amber-50 rounded-xl p-2.5"><p class="text-[9px] font-bold text-amber-600">BELUM DIAMBIL</p><p id="statBelum" class="text-lg font-black text-amber-950">0</p></div>
@@ -91,7 +86,6 @@
             <div class="bg-purple-50 rounded-xl p-2.5"><p class="text-[9px] font-bold text-purple-600">SUDAH DIAMBIL</p><p id="statSudahAmbil" class="text-lg font-black text-purple-950">0</p></div>
         </div>
         
-        <!-- TAB 1: INPUT PAKET SANTRI -->
         <div id="kontenTabInput" class="space-y-4 flex-grow flex flex-col overflow-hidden">
             <div id="boxFormInputBatas" class="bg-slate-50 p-4 rounded-2xl border">
                 <form id="formPaket" onsubmit="simpanPaketBaru(event)" class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
@@ -135,13 +129,11 @@
             </div>
         </div>
 
-        <!-- TAB 1.5: INPUT PAKET GURU -->
         <div id="kontenTabInputGuru" class="hidden space-y-4 flex-grow flex flex-col overflow-hidden">
             <div class="bg-slate-50 p-4 rounded-2xl border relative">
                 <form id="formPaketGuru" onsubmit="simpanPaketGuruBaru(event)" class="grid grid-cols-2 md:grid-cols-5 gap-2 text-xs">
                     <div class="relative col-span-1 md:col-span-2">
                         <input type="text" id="namaGuruInput" placeholder="Ketik Nama Guru di sini..." required oninput="cariSugestiNamaGuru(this.value)" autocomplete="off" class="w-full p-2 border-2 border-purple-400 bg-purple-50 rounded-md font-bold placeholder-purple-600 focus:outline-none focus:border-purple-600">
-                        <!-- Dropdown Sugesti mirip Excel -->
                         <div id="dropdownSugestiGuru" class="hidden absolute left-0 right-0 mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-48 overflow-y-auto z-50 sugest-box"></div>
                     </div>
                     <input type="text" id="kamarGuru" placeholder="Kamar (Otomatis)" required readonly class="p-2 border rounded-md bg-gray-200 font-semibold text-gray-700 text-center">
@@ -178,7 +170,6 @@
             </div>
         </div>
 
-        <!-- TAB 2: PENGAMBILAN & MANAJEMEN DATA SANTRI -->
         <div id="kontenTabAmbil" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden">
             <div class="flex flex-wrap justify-between items-center gap-2 bg-slate-50 p-3 rounded-xl border">
                 <div class="flex flex-wrap items-center gap-3 text-xs">
@@ -228,7 +219,6 @@
             </div>
         </div>
 
-        <!-- TAB 2.5: PENGAMBILAN PAKET GURU -->
         <div id="kontenTabAmbilGuru" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden">
             <div class="flex flex-wrap justify-between items-center gap-2 bg-slate-50 p-3 rounded-xl border text-xs">
                 <div class="flex items-center gap-1.5">
@@ -259,7 +249,6 @@
             </div>
         </div>
 
-        <!-- TAB 3: ANALISIS GRAFIK -->
         <div id="kontenTabAnalisis" class="hidden space-y-4 flex-grow flex flex-col overflow-hidden">
             <div class="bg-slate-50 p-3 rounded-xl border flex flex-wrap justify-between items-center gap-2 text-xs">
                 <h3 class="font-bold text-gray-700">📊 Grafik Analisis Logistik Real-Time (Siswa vs Guru)</h3>
@@ -268,7 +257,6 @@
                 <canvas id="grafikLogistikUtama" class="max-w-full max-h-[320px]"></canvas>
             </div>
         </div>
-        <!-- TAB 4: LOG AUDIT SYSTEM -->
         <div id="kontenTabAudit" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden">
             <div class="flex justify-between items-center bg-slate-50 p-3 rounded-xl border text-xs">
                 <span class="font-bold text-slate-700"> 📜 LOG RIWAYAT AKTIVITAS AUDIT SISTEM (REAL-TIME)</span>
@@ -276,7 +264,6 @@
             </div>
             <div class="overflow-y-auto border rounded-xl flex-grow p-2 bg-slate-900 font-mono text-xs text-green-400 space-y-1" id="boxLogAuditSystem"></div>
         </div>
-        <!-- TAB 5: MANAGEMENT USER (SUPERADMIN) -->
         <div id="kontenTabUsers" class="hidden space-y-4 flex-grow flex flex-col overflow-hidden">
             <div class="bg-purple-50 p-4 rounded-2xl border border-purple-200">
                 <h3 class="font-black text-xs text-purple-900 mb-2"> ➕ Tambah / Update Akun Petugas</h3>
@@ -300,7 +287,6 @@
         </div>
     </div>
 
-    <!-- MODAL POPUP JENDELA FITUR CARI NAMA SANTRI (CTRL + F EXCEL STYLE) -->
     <div id="modalCtrlFSantri" class="fixed inset-0 bg-black/70 z-50 flex justify-center items-center hidden no-print p-4">
         <div class="bg-slate-900 border border-slate-700 w-full max-w-md p-5 rounded-2xl flex flex-col text-white shadow-2xl">
             <div class="flex justify-between items-center border-b border-slate-700 pb-2.5 mb-4">
@@ -312,7 +298,6 @@
         </div>
     </div>
 
-    <!-- MODAL NOTIFIKASI PILIHAN JENIS PENGAMBILAN PAKET GURU -->
     <div id="modalAmbilPaketGuru" class="fixed inset-0 bg-black/70 z-50 flex justify-center items-center hidden no-print p-4">
         <div class="bg-white rounded-2xl p-6 w-full max-w-sm border shadow-2xl text-center text-gray-800 animate-fade-in">
             <div class="text-3xl mb-2">🎉</div>
@@ -326,7 +311,6 @@
                 <option value="di ambilkan">di ambilkan</option>
             </select>
             
-            <!-- Dinamis Input Field tambahan -->
             <div id="boxInputTambahanGuru" class="hidden mb-4 transition-all">
                 <label id="labelTambahanGuru" class="block text-left text-[10px] font-bold text-gray-600 mb-1"></label>
                 <input type="text" id="inputTambahanGuru" placeholder="Masukkan nama..." class="w-full p-2 border rounded-lg text-xs font-semibold focus:border-purple-600 focus:outline-none">
@@ -339,7 +323,6 @@
         </div>
     </div>
 
-    <!-- MODAL POPUP HISTORY PUBLIK SANTRI -->
     <div id="modalHistoryPublik" class="fixed inset-0 bg-black/80 z-50 flex justify-center items-center hidden no-print p-4">
         <div class="bg-slate-900 border border-slate-700 w-full max-w-2xl p-6 rounded-2xl max-h-[80vh] flex flex-col text-white">
             <div class="flex justify-between items-center border-b border-slate-700 pb-3 mb-4">
@@ -349,7 +332,6 @@
             <div id="boxHistorySudahAmbil" class="space-y-2 overflow-y-auto flex-grow pr-1 text-xs"></div>
         </div>
     </div>
-    <!-- MODAL POPUP LOGIN ADMIN -->
     <div id="modalLoginAdmin" class="fixed inset-0 bg-black/70 z-50 flex justify-center items-center hidden no-print">
         <div class="bg-white p-6 rounded-3xl shadow-2xl w-full max-w-xs text-center text-gray-800">
             <div class="text-4xl mb-2"> 🔐 </div>
@@ -362,7 +344,6 @@
             </div>
         </div>
     </div>
-    <!-- CUSTOM ALERT POPUP MODAL -->
     <div id="customAlertModal" class="fixed inset-0 bg-black/80 z-[9999] flex justify-center items-center hidden no-print p-4">
         <div class="bg-slate-900 border-2 border-red-500 p-6 rounded-2xl w-full max-w-sm text-center text-white shadow-2xl">
             <div class="text-red-500 text-4xl mb-3"> ⚠️ </div>
@@ -470,15 +451,40 @@
             }
         }
 
-        // AMBIL CACHE DAFTAR UTK FITUR CARI CEPAT (CTRL + F)
+        // === PERBAIKAN UTAMA: AMBIL DATA SECARA BERTAHAP (PAGINATION LOOPER) SUPAYA TEMBUS LIMIT 1000 DATA ===
         async function prefetchDaftarSantriDanGuru() {
             try {
-                const res1 = await _supabase.from('mahasiswa').select('stambuk,nama,kelas,rayon,daerah,orangtua');
-                if(!res1.error) listSeluruhMahasiswa = res1.data || [];
+                let seluruhSantri = [];
+                let barisMulai = 0;
+                const barisPerHalaman = 1000;
+                let statusSelesai = false;
+
+                // Looper penarik data dinamis sampai seluruh isi tabel 'mahasiswa' terbawa tanpa limit
+                while (!statusSelesai) {
+                    const { data, error } = await _supabase
+                        .from('mahasiswa')
+                        .select('stambuk,nama,kelas,rayon,daerah,orangtua')
+                        .range(barisMulai, barisMulai + barisPerHalaman - 1);
+                    
+                    if (error) throw error;
+                    
+                    if (data && data.length > 0) {
+                        seluruhSantri = seluruhSantri.concat(data);
+                        barisMulai += barisPerHalaman;
+                    } else {
+                        statusSelesai = true;
+                    }
+                }
+                listSeluruhMahasiswa = seluruhSantri;
                 
+                // Prefetch data guru
                 const res2 = await _supabase.from('guru').select('*');
                 if(!res2.error) listSeluruhGuruData = res2.data || [];
-            } catch (err) { console.error("Cache master gagal dimuat", err); }
+                
+                console.log(`Berhasil memuat total ${listSeluruhMahasiswa.length} data santri ke aplikasi.`);
+            } catch (err) { 
+                console.error("Cache master gagal dimuat penuh:", err); 
+            }
         }
 
         // === FITUR CARI NAMA (CTRL+F EXCEL STYLE) UNTUK SANTRI ===
@@ -492,8 +498,12 @@
         function filterListCtrlFSantri(keyword) {
             const kw = keyword.toLowerCase().trim();
             const box = document.getElementById('boxListCtrlFSantri');
-            // Jika kosong tampilkan max 10 saja, jika ada kata kunci filter datanya
-            const hasil = listSeluruhMahasiswa.filter(s => s.nama.toLowerCase().includes(kw) || s.stambuk.toLowerCase().includes(kw));
+            
+            const hasil = listSeluruhMahasiswa.filter(s => 
+                (s.nama && s.nama.toLowerCase().includes(kw)) || 
+                (s.stambuk && s.stambuk.toLowerCase().includes(kw))
+            );
+            
             if(hasil.length === 0) {
                 box.innerHTML = `<div class="p-3 text-center text-xs text-slate-500">Santri tidak ditemukan</div>`;
                 return;
@@ -586,7 +596,7 @@
                 petugas_input: namaPetugasAktif,
                 waktu_masuk: dapatkanWaktuSekarang(),
                 waktu_keluar: '-',
-                keterangan: 'siswa' // Otomatis terisi siswa sesuai poin 10
+                keterangan: 'siswa'
             };
             try {
                 const { error } = await _supabase.from('paket').insert([paket]);
@@ -607,18 +617,18 @@
             const namaPetugasAktif = userLoginAktif.nama || userLoginAktif.username;
             const paketGuru = {
                 nama: document.getElementById('namaGuruInput').value.trim(),
-                kelas: document.getElementById('kamarGuru').value, // Ditampung ke kolom kelas (Kamar)
-                rayon: document.getElementById('tahunGuru').value, // Ditampung ke kolom rayon (Tahun)
+                kelas: document.getElementById('kamarGuru').value,
+                rayon: document.getElementById('tahunGuru').value,
                 jenis_paket: document.getElementById('jenis_paket_guru').value,
                 tempat: document.getElementById('tempat_guru').value.trim(),
-                stambuk: '-', // Guru tidak wajib stambuk
+                stambuk: '-',
                 daerah: '-',
                 orangtua: '-',
                 status: 'Belum Diambil',
                 petugas_input: namaPetugasAktif,
                 waktu_masuk: dapatkanWaktuSekarang(),
                 waktu_keluar: '-',
-                keterangan: 'guru' // Otomatis terisi guru sesuai poin 11
+                keterangan: 'guru'
             };
             try {
                 const { error } = await _supabase.from('paket').insert([paketGuru]);
@@ -686,7 +696,6 @@
             const statusVal = document.getElementById('filterStatusInput').value;
             const cariVal = document.getElementById('cariDashboardAmbil').value.trim().toLowerCase();
             
-            // Filter Khusus Santri (Keterangan !== 'guru')
             const databaseSantri = databasePaket.filter(p => p.keterangan !== 'guru');
 
             dataPaketTerfilter = databaseSantri.filter(p => {
@@ -697,7 +706,6 @@
                 return matchTgl && matchStatus && matchCari;
             });
 
-            // Render Log Tabel Terkini (Input Tab) - Hanya Tipe Siswa
             const tbodyTerkini = document.getElementById('tabelBodyLogTerkini');
             if(tbodyTerkini) {
                 tbodyTerkini.innerHTML = databaseSantri.slice(0, 50).map(p => `
@@ -717,7 +725,6 @@
                 `).join('');
             }
 
-            // Render Log Tabel Terkini Guru (Input Paket Guru Tab)
             const databaseGuruOnly = databasePaket.filter(p => p.keterangan === 'guru');
             const tbodyGuruTerkini = document.getElementById('tabelBodyLogGuruTerkini');
             if(tbodyGuruTerkini) {
@@ -736,7 +743,6 @@
                 `).join('');
             }
 
-            // Render Tab Pengambilan Santri
             const tbodyAmbil = document.getElementById('tabelBodyPengambilan');
             if(tbodyAmbil) {
                 tbodyAmbil.innerHTML = dataPaketTerfilter.map(p => `
@@ -766,7 +772,6 @@
                 `).join('');
             }
 
-            // PERBAIKAN HITUNGAN STATISTIK TOTAL
             document.getElementById('statTotal').innerText = databasePaket.length;
             document.getElementById('statBelum').innerText = databasePaket.filter(x => x.status === 'Belum Diambil').length;
             document.getElementById('statSudahAmbil').innerText = databasePaket.filter(x => x.status === 'Sudah Diambil').length;
@@ -810,7 +815,6 @@
             `).join('');
         }
 
-        // === AMBIL PAKET GURU DIIRINGI NOTIFIKASI PILIHAN METODE ===
         function bukaModalProsesAmbilGuru(id) {
             document.getElementById('idTargetAmbilGuru').value = id;
             document.getElementById('selectJenisAmbilGuru').value = 'Ambil sendiri';
@@ -847,7 +851,6 @@
             const namaPetugasSekarang = userLoginAktif.nama || userLoginAktif.username;
 
             try {
-                // status diupdate dan nama pengambilan dicatat ke database
                 const { error } = await _supabase.from('paket').update({ 
                     status: 'Sudah Diambil', 
                     waktu_keluar: dapatkanWaktuSekarang(), 
@@ -862,7 +865,6 @@
             }
         }
 
-        // === UPDATE STATUS PENGAMBILAN SANTRI KE SUPABASE ===
         async function prosesAmbilPaketLangsung(id) {
             if(!userLoginAktif) return;
             try {
@@ -875,7 +877,6 @@
                 tampilkanPesanError("Gagal memperbarui status pengambilan ke Supabase."); 
             }
         }
-        // === BATALKAN AMBIL PAKET ===
         async function batalAmbilPaket(id) {
             if(!confirm("Apakah Anda yakin ingin membatalkan pengambilan paket ini dan mengembalikannya ke rak?")) return;
             try {
@@ -887,7 +888,6 @@
                 tampilkanPesanError("Gagal membatalkan status ambil di database.");
             }
         }
-        // === EDIT LOKASI POSISI RAK ===
         async function editPosisiRakPaket(id, lokasiLama) {
             const lokasiBaru = prompt(`Ubah posisi Rak untuk paket ini:\n(Posisi saat ini: ${lokasiLama})`, lokasiLama);
             if(lokasiBaru === null) return;
@@ -904,7 +904,6 @@
             }
         }
 
-        // === PERBAIKI DAN OPTIMALKAN GRAFIK TABEL (CHART.JS) ===
         function perbaruiGrafikAnalisis() {
             const ctx = document.getElementById('grafikLogistikUtama');
             if(!ctx) return;
@@ -988,7 +987,6 @@
             jalankanFilterDashboardAmbil();
         }
 
-        // === KELOLA DAFTAR AKUN PETUGAS DI SUPABASE ===
         async function muatDaftarPenggunaPetugas() {
             const bodyUsers = document.getElementById('tabelBodyUsers');
             if(!bodyUsers) return;
@@ -1079,7 +1077,6 @@
                                 <p class="text-[10px] font-bold text-amber-400">METADATA: STATUS BELUM DIAMBIL</p>
                                 <h4 class="font-bold text-sm text-white">${p.nama} ${p.stambuk !== '-' ? '('+p.stambuk+')' : ''}</h4>
                                 <p class="text-xs text-slate-300 mt-1">Jenis: <span class="text-indigo-400 font-bold">${p.jenis_paket}</span> | Rak: <span class="text-emerald-400 font-bold">${p.tempat}</span></p>
-                                <!-- Keterangan Tipe Tertera Sesuai Poin 9 -->
                                 <p class="text-[10px] text-gray-400 mt-1">Kategori Pemilik: <span class="uppercase text-amber-500 font-bold">${p.keterangan || 'siswa'}</span></p>
                             </div>
                             <span class="bg-amber-500 text-slate-900 font-black text-[10px] px-2.5 py-1 rounded-md">SILAKAN AMBIL</span>
@@ -1115,13 +1112,11 @@
         }
         function tutupModalHistoryPublik() { document.getElementById('modalHistoryPublik').classList.add('hidden'); }
         
-        // Hide Dropdown sugesti jika klik di area mana saja di dokumen
         document.addEventListener('click', function(e){
             const dropdown = document.getElementById('dropdownSugestiGuru');
             if(dropdown && e.target.id !== 'namaGuruInput') { dropdown.classList.add('hidden'); }
         });
 
-        // === PROSES SINKRONISASI OTOMATIS SAAT HALAMAN DIMUAT ===
         window.addEventListener('DOMContentLoaded', () => {
             const cekSesiLokal = localStorage.getItem('sesiPetugas');
             if (cekSesiLokal) {
