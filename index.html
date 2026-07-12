@@ -25,7 +25,7 @@
     <div id="landingPage" class="bg-white/10 backdrop-blur-xl p-10 rounded-3xl shadow-2xl border border-white/20 max-w-sm w-full text-center flex flex-col items-center justify-center no-print">
         <div class="w-20 h-20 bg-gradient-to-tr from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center text-4xl shadow-lg mb-6 animate-pulse">  📦  </div>
         <h1 class="text-3xl font-black text-white tracking-tight mb-2">Package Apps</h1>
-        <p class="text-xs text-indigo-200 font-medium mb-8 px-4">Sistem Manajemen Pengarsipan Logistik Terpadu Pesantren.</p>
+        <p class="text-xs text-indigo-200 font-medium mb-8 px-4">Sistem Manajemen Pengarsipan Paket Terpadu Pesantren.</p>
         <button onclick="pilihMenuAwal()" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-black px-6 py-3.5 rounded-2xl text-sm shadow-xl transition transform scale-[1.02]">Mulai Sistem  ➔  </button>
     </div>
 
@@ -58,7 +58,7 @@
             <input type="text" id="cariPublikInput" placeholder="Ketik nomor stambuk atau nama lengkap Anda..." onkeydown="if(event.key === 'Enter') lakukanPencarianPublik()" class="w-full p-3.5 bg-slate-800/80 border border-slate-700 rounded-2xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 font-medium">
             <button onclick="lakukanPencarianPublik()" class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold px-6 rounded-2xl text-sm transition">Cari Paket</button>
         </div>
-        <div id="boxHasilPublik" class="space-y-3 max-h-[300px] overflow-y-auto hidden pr-1"></div>
+        <div id="boxHasilPublik" class="space-y-3 max-h-[350px] overflow-y-auto hidden pr-1"></div>
         <div id="areaHistoryPublik" class="mt-4 pt-4 border-t border-slate-700 hidden">
             <button onclick="bukaModalHistoryPublik()" class="w-full bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/30 text-xs font-bold py-2.5 rounded-xl transition">  📜  Lihat Riwayat Paket yang Sudah Diambil </button>
             <div class="mt-4 flex justify-end">
@@ -113,7 +113,7 @@
                         <option value="Lainnya">Lainnya Dll</option>
                     </select>
                     <input type="text" id="tempat" placeholder="Lokasi Rak" required onkeydown="pindahInput(event, 'SUBMIT_FORM')" class="p-2 border-2 border-emerald-400 rounded-md font-bold text-center placeholder-emerald-600 focus:outline-none focus:border-emerald-600">
-                    <button type="submit" id="btnSubmitPaket" class="col-span-2 md:col-span-4 bg-indigo-600 text-white font-black p-2.5 rounded-md tracking-wider shadow hover:bg-indigo-700 transition">+= DAFTARKAN LOGISTIK SANTRI BARU</button>
+                    <button type="submit" id="btnSubmitPaket" class="col-span-2 md:col-span-4 bg-indigo-600 text-white font-black p-2.5 rounded-md tracking-wider shadow hover:bg-indigo-700 transition">+= DAFTARKAN PAKET SANTRI BARU</button>
                 </form>
             </div>
             <div class="flex-grow overflow-auto border rounded-xl">
@@ -143,12 +143,12 @@
             <div class="bg-slate-50 p-4 rounded-2xl border relative">
                 <form id="formPaketGuru" onsubmit="simpanPaketGuruBaru(event)" class="grid grid-cols-2 md:grid-cols-5 gap-2 text-xs">
                     <div class="relative col-span-1 md:col-span-2">
-                        <input type="text" id="namaGuruInput" placeholder="Ketik Nama Guru di sini..." required oninput="cariSugestiNamaGuru(this.value)" autocomplete="off" class="w-full p-2 border-2 border-purple-400 bg-purple-50 rounded-md font-bold placeholder-purple-600 focus:outline-none focus:border-purple-600">
+                        <input type="text" id="namaGuruInput" placeholder="Ketik Nama Guru di sini..." required oninput="cariSugestiNamaGuru(this.value)" onkeydown="pindahInputGuruTab(event, 'jenis_paket_guru')" autocomplete="off" class="w-full p-2 border-2 border-purple-400 bg-purple-50 rounded-md font-bold placeholder-purple-600 focus:outline-none focus:border-purple-600">
                         <div id="dropdownSugestiGuru" class="hidden absolute left-0 right-0 mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-48 overflow-y-auto z-50 sugest-box"></div>
                     </div>
                     <input type="text" id="kamarGuru" placeholder="Kamar (Otomatis)" required readonly class="p-2 border rounded-md bg-gray-200 font-semibold text-gray-700 text-center">
                     <input type="text" id="tahunGuru" placeholder="Tahun (Otomatis)" required readonly class="p-2 border rounded-md bg-gray-200 font-semibold text-gray-700 text-center">
-                    <select id="jenis_paket_guru" required class="p-2 border-2 border-slate-300 rounded-md bg-white font-bold text-center">
+                    <select id="jenis_paket_guru" required onkeydown="pindahInputGuruTab(event, 'tempat_guru')" class="p-2 border-2 border-slate-300 rounded-md bg-white font-bold text-center">
                         <option value="">-- Jenis Paket --</option>
                         <option value="Kardus">Kardus</option>
                         <option value="Container">Container</option>
@@ -156,8 +156,8 @@
                         <option value="Shopee">Shopee</option>
                         <option value="Lainnya">Lainnya Dll</option>
                     </select>
-                    <input type="text" id="tempat_guru" placeholder="Lokasi Rak" required class="col-span-2 md:col-span-1 p-2 border-2 border-emerald-400 rounded-md font-bold text-center placeholder-emerald-600 focus:outline-none focus:border-emerald-600">
-                    <button type="submit" class="col-span-2 md:col-span-5 bg-purple-700 text-white font-black p-2.5 rounded-md tracking-wider shadow hover:bg-purple-800 transition">+= DAFTARKAN LOGISTIK GURU BARU</button>
+                    <input type="text" id="tempat_guru" placeholder="Lokasi Rak" required onkeydown="pindahInputGuruTab(event, 'SUBMIT_GURU')" class="col-span-2 md:col-span-1 p-2 border-2 border-emerald-400 rounded-md font-bold text-center placeholder-emerald-600 focus:outline-none focus:border-emerald-600">
+                    <button type="submit" id="btnSubmitPaketGuru" class="col-span-2 md:col-span-5 bg-purple-700 text-white font-black p-2.5 rounded-md tracking-wider shadow hover:bg-purple-800 transition">+= DAFTARKAN PAKET GURU BARU</button>
                 </form>
             </div>
             <div class="flex-grow overflow-auto border rounded-xl">
@@ -189,10 +189,10 @@
                     <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  🔍  Cari:</label> <input type="text" id="cariDashboardAmbil" placeholder="Ketik nama / stambuk..." oninput="jalankanFilterDashboardAmbil()" class="p-1.5 border-2 border-indigo-400 rounded-lg bg-white font-bold w-48 placeholder-gray-400 focus:outline-none focus:border-indigo-600"> </div>
                     <button onclick="resetSemuaFilterAmbil()" class="bg-gray-500 text-white px-2.5 py-1.5 rounded-lg font-bold">Reset Filter</button>
                 </div>
-                <button onclick="eksporKeExcel()" class="bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-lg font-bold">  📥  Ekspor Logistik ke Excel (.xlsx)</button>
+                <button onclick="eksporKeExcel('siswa')" class="bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-lg font-bold">  📥  Ekspor Paket Santri ke Excel (.xlsx)</button>
             </div>
             <div class="overflow-auto border rounded-xl flex-grow">
-                <table class="w-full text-left text-[11px] border-collapse min-w-[1950px] table-fixed">
+                <table class="w-full text-left text-[11px] border-collapse min-w-[2100px] table-fixed">
                     <thead class="bg-slate-800 text-white sticky top-0">
                         <tr>
                             <th class="p-2 w-[100px]">Stambuk</th>
@@ -209,7 +209,7 @@
                             <th class="p-2 w-[130px]">Petugas Input</th>
                             <th class="p-2 w-[130px]">Waktu Keluar</th>
                             <th class="p-2 w-[130px]">Petugas Ambil</th>
-                            <th class="p-2 w-[220px] text-center">Aksi / Tindakan</th>
+                            <th class="p-2 w-[280px] text-center">Aksi / Tindakan</th>
                         </tr>
                     </thead>
                     <tbody id="tabelBodyPengambilan" class="divide-y"></tbody>
@@ -220,14 +220,16 @@
         <!-- TAB 2.5: PENGAMBILAN GURU -->
         <div id="kontenTabAmbilGuru" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden">
             <div class="flex flex-wrap justify-between items-center gap-2 bg-slate-50 p-3 rounded-xl border text-xs">
-                <div class="flex items-center gap-1.5">
-                    <label class="font-bold text-gray-700">  🔍  Cari Paket Guru:</label>
-                    <input type="text" id="cariAmbilGuruInput" placeholder="Ketik nama guru..." oninput="renderTabelAmbilGuru()" class="p-1.5 border-2 border-purple-400 rounded-lg bg-white font-bold w-64 placeholder-gray-400 focus:outline-none">
+                <div class="flex flex-wrap items-center gap-3">
+                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  📅  Tanggal:</label> <input type="date" id="filterTanggalGuru" onchange="renderTabelAmbilGuru()" class="p-1.5 border rounded-lg bg-white font-medium"> </div>
+                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  📌  Status:</label> <select id="filterStatusGuru" onchange="renderTabelAmbilGuru()" class="p-1.5 border rounded-lg bg-white font-bold text-purple-800 focus:outline-none"> <option value="Semua">Semua Status</option> <option value="Belum Diambil">Belum Diambil</option> <option value="Sudah Diambil">Sudah Diambil</option> </select> </div>
+                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  🔍  Cari:</label> <input type="text" id="cariAmbilGuruInput" placeholder="Ketik nama guru..." oninput="renderTabelAmbilGuru()" class="p-1.5 border-2 border-purple-400 rounded-lg bg-white font-bold w-48 placeholder-gray-400 focus:outline-none"> </div>
+                    <button onclick="resetFilterAmbilGuru()" class="bg-gray-500 text-white px-2.5 py-1.5 rounded-lg font-bold">Reset</button>
                 </div>
-                <span class="text-xs text-purple-800 font-bold">Dashboard Manajemen Pengambilan Paket Khusus Guru</span>
+                <button onclick="eksporKeExcel('guru')" class="bg-purple-700 text-white text-xs px-3 py-1.5 rounded-lg font-bold">  📥  Ekspor Paket Guru ke Excel (.xlsx)</button>
             </div>
             <div class="overflow-auto border rounded-xl flex-grow">
-                <table class="w-full text-left text-[11px] border min-w-[1300px] table-fixed">
+                <table class="w-full text-left text-[11px] border min-w-[1500px] table-fixed">
                     <thead class="bg-purple-900 text-white sticky top-0">
                         <tr>
                             <th class="p-2 w-[180px]">Nama Guru</th>
@@ -240,7 +242,7 @@
                             <th class="p-2 w-[120px]">Petugas Input</th>
                             <th class="p-2 w-[120px]">Waktu Keluar</th>
                             <th class="p-2 w-[120px]">Petugas Keluar</th>
-                            <th class="p-2 w-[220px] text-center">Tindakan / Aksi</th>
+                            <th class="p-2 w-[280px] text-center">Tindakan / Aksi</th>
                         </tr>
                     </thead>
                     <tbody id="tabelBodyAmbilGuru" class="divide-y"></tbody>
@@ -251,7 +253,8 @@
         <!-- TAB 3: ANALISIS GRAFIK -->
         <div id="kontenTabAnalisis" class="hidden space-y-4 flex-grow flex flex-col overflow-hidden">
             <div class="bg-slate-50 p-3 rounded-xl border flex flex-wrap justify-between items-center gap-2 text-xs">
-                <h3 class="font-bold text-gray-700"> 📊  Grafik Analisis Logistik Real-Time (Siswa vs Guru)</h3>
+                <h3 class="font-bold text-gray-700"> 📊  Grafik Analisis Paket Real-Time (Siswa vs Guru)</h3>
+                <button onclick="eksporGrafikKeGambar()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-lg"> 📸 Ekspor Grafik ke Gambar (.png)</button>
             </div>
             <div class="flex-grow p-4 bg-slate-50 border rounded-xl flex items-center justify-center relative">
                 <canvas id="grafikLogistikUtama" class="max-w-full max-h-[320px]"></canvas>
@@ -308,7 +311,7 @@
         <div class="bg-white rounded-2xl p-6 w-full max-w-sm border shadow-2xl text-center text-gray-800 animate-fade-in">
             <div class="text-3xl mb-2"> 🎉 </div>
             <h3 class="font-black text-sm text-slate-900 uppercase tracking-wide mb-1">Berhasil Proses Paket</h3>
-            <p class="text-xs text-gray-500 mb-4">Silakan tentukan jenis metode pengambilan logistik guru:</p>
+            <p class="text-xs text-gray-500 mb-4">Silakan tentukan jenis metode pengambilan paket guru:</p>
             <input type="hidden" id="idTargetAmbilGuru">
             <select id="selectJenisAmbilGuru" onchange="handleDropdownMetodeGuru(this.value)" class="w-full p-2.5 border-2 border-purple-500 rounded-xl font-bold text-xs bg-purple-50 text-purple-950 focus:outline-none mb-3">
                 <option value="Ambil sendiri">Ambil sendiri</option>
@@ -330,7 +333,7 @@
     <div id="modalHistoryPublik" class="fixed inset-0 bg-black/80 z-50 flex justify-center items-center hidden no-print p-4">
         <div class="bg-slate-900 border border-slate-700 w-full max-w-2xl p-6 rounded-2xl max-h-[80vh] flex flex-col text-white">
             <div class="flex justify-between items-center border-b border-slate-700 pb-3 mb-4">
-                <h3 class="font-black text-sm tracking-wide text-amber-400">  📜  RIWAYAT LOGISTIK YANG SUDAH DIAMBEL</h3>
+                <h3 class="font-black text-sm tracking-wide text-amber-400">  📜  RIWAYAT PAKET YANG SUDAH DIAMBIL</h3>
                 <button onclick="tutupModalHistoryPublik()" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded-lg">Tutup</button>
             </div>
             <div id="boxHistorySudahAmbil" class="space-y-2 overflow-y-auto flex-grow pr-1 text-xs"></div>
@@ -366,7 +369,7 @@
         </div>
     </div>
 
-    <!-- Script Logistik Terpadu -->
+    <!-- Script Paket Terpadu -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script>
         const SUPABASE_URL = "https://eimdfqhkjfocelsqkxql.supabase.co";
@@ -408,6 +411,17 @@
                 event.preventDefault();
                 if (targetId === 'SUBMIT_FORM') {
                     document.getElementById('btnSubmitPaket').click();
+                } else {
+                    const targetNode = document.getElementById(targetId);
+                    if (targetNode) targetNode.focus();
+                }
+            }
+        }
+        function pindahInputGuruTab(event, targetId) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                if (targetId === 'SUBMIT_GURU') {
+                    document.getElementById('btnSubmitPaketGuru').click();
                 } else {
                     const targetNode = document.getElementById(targetId);
                     if (targetNode) targetNode.focus();
@@ -472,11 +486,9 @@
                 }
                 listSeluruhMahasiswa = seluruhSantri;
                 
-                // Prefetch tabel guru secara komplit
                 const res2 = await _supabase.from('guru').select('*');
                 if(!res2.error) {
                     listSeluruhGuruData = res2.data || [];
-                    console.log(`Berhasil memuat total ${listSeluruhGuruData.length} data master guru.`);
                 }
             } catch (err) {
                 console.error("Cache master gagal dimuat penuh:", err);
@@ -528,23 +540,21 @@
             }
         }
 
-        // =======================================================
-        // PERBAIKAN TOTAL AUTO-SUGESTI DROPDOWN GURU (CASE-INSENSITIVE)
-        // =======================================================
         function cariSugestiNamaGuru(keyword) {
             const kw = keyword.toLowerCase().trim();
             const dropdown = document.getElementById('dropdownSugestiGuru');
             if (!kw) { dropdown.innerHTML = ''; dropdown.classList.add('hidden'); return; }
 
-            // Cari dengan toleransi penulisan nama di DB (menggunakan properti nama / Nama)
             const hasilFilter = listSeluruhGuruData.filter(g => {
                 const namaGuru = g.nama || g.Nama || "";
                 return namaGuru.toLowerCase().includes(kw);
             });
 
             if (hasilFilter.length === 0) {
-                dropdown.innerHTML = `<div class="p-2 text-xs text-gray-500 italic text-center">Nama guru tidak terdaftar</div>`;
+                dropdown.innerHTML = `<div class="p-2 text-xs text-red-500 italic text-center font-bold">⚠️ Nama guru tidak terdaftar</div>`;
                 dropdown.classList.remove('hidden');
+                document.getElementById('kamarGuru').value = '';
+                document.getElementById('tahunGuru').value = '';
                 return;
             }
 
@@ -553,7 +563,6 @@
                 const kamarFinal = g.kamar || g.Kamar || "-";
                 const tahunFinal = g.tahun || g.Tahun || "-";
                 
-                // Escape petik tunggal agar aman di parameter onclick
                 const namaEscaped = namaFinal.replace(/'/g, "\\'");
                 const kamarEscaped = kamarFinal.replace(/'/g, "\\'");
                 const tahunEscaped = String(tahunFinal).replace(/'/g, "\\'");
@@ -577,8 +586,9 @@
             dropdown.innerHTML = '';
             dropdown.classList.add('hidden');
             
-            // Pindahkan fokus langsung ke pilihan jenis paket guru
-            document.getElementById('jenis_paket_guru').focus();
+            setTimeout(() => {
+                document.getElementById('jenis_paket_guru').focus();
+            }, 50);
         }
 
         async function simpanPaketBaru(e) {
@@ -730,29 +740,37 @@
                         <td class="p-2 text-gray-400">${p.petugas_input || '-'}</td>
                         <td class="p-2 text-gray-500">${p.waktu_keluar || '-'}</td>
                         <td class="p-2 text-gray-400">${p.petugas_keluar || '-'}</td>
-                        <td class="p-2 text-center flex justify-center gap-1.5">
+                        <td class="p-2 text-center flex items-center justify-center gap-1.5">
                             ${p.status === 'Belum Diambil' ? 
                             `<button onclick="prosesAmbilPaketLangsung('${p.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Set Diambil</button>` : 
                             `<button onclick="batalAmbilPaket('${p.id}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Batal Ambil</button>` }
                             <button onclick="editPosisiRakPaket('${p.id}', '${p.tempat}')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-2 py-0.5 rounded text-[10px]">Edit Rak</button>
+                            <button onclick="hapusPaketSistem('${p.id}', '${p.nama}')" class="bg-red-700 hover:bg-red-800 text-white font-black px-2 py-0.5 rounded text-[10px]">Hapus</button>
                         </td>
                     </tr>
                 `).join('');
             }
-            document.getElementById('statTotal').innerText = databasePaket.length;
-            document.getElementById('statBelum').innerText = databasePaket.filter(x => x.status === 'Belum Diambil').length;
-            document.getElementById('statSudahAmbil').innerText = databasePaket.filter(x => x.status === 'Sudah Diambil').length;
-            const tglHariIni = new Date().toLocaleDateString('id-ID', {day: '2-digit', month: '2-digit', year: 'numeric'});
-            const jumlahMasukHariIni = databasePaket.filter(p => p.waktu_masuk && p.waktu_masuk.includes(tglHariIni)).length;
-            document.getElementById('statTotalMasuk').innerText = jumlahMasukHariIni;
+            perbaruiStatistikDashboard();
         }
 
         function renderTabelAmbilGuru() {
             const tbody = document.getElementById('tabelBodyAmbilGuru');
             if(!tbody) return;
+            
+            const tglVal = document.getElementById('filterTanggalGuru').value;
+            const statusVal = document.getElementById('filterStatusGuru').value;
             const keyword = document.getElementById('cariAmbilGuruInput').value.toLowerCase().trim();
+            
             let dataGuru = databasePaket.filter(p => p.keterangan === 'guru');
-            if(keyword) { dataGuru = dataGuru.filter(g => g.nama && g.nama.toLowerCase().includes(keyword)); }
+            
+            dataGuru = dataGuru.filter(g => {
+                let matchTgl = true, matchStatus = true, matchCari = true;
+                if (tglVal) matchTgl = g.waktu_masuk && g.waktu_masuk.includes(tglVal.split('-').reverse().join('/'));
+                if (statusVal !== 'Semua') matchStatus = g.status === statusVal;
+                if (keyword) matchCari = g.nama && g.nama.toLowerCase().includes(keyword);
+                return matchTgl && matchStatus && matchCari;
+            });
+
             tbody.innerHTML = dataGuru.map(g => `
                 <tr class="border-b text-slate-700 hover:bg-slate-50 transition">
                     <td class="p-2 font-bold text-slate-900">${g.nama}</td>
@@ -765,11 +783,12 @@
                     <td class="p-2 text-gray-400">${g.petugas_input || '-'}</td>
                     <td class="p-2 text-gray-500">${g.waktu_keluar || '-'}</td>
                     <td class="p-2 text-gray-400 truncate max-w-[120px]" title="${g.petugas_keluar || '-'}">${g.petugas_keluar || '-'}</td>
-                    <td class="p-2 text-center flex justify-center gap-1">
+                    <td class="p-2 text-center flex items-center justify-center gap-1">
                         ${g.status === 'Belum Diambil' ? 
                         `<button onclick="bukaModalProsesAmbilGuru('${g.id}')" class="bg-purple-700 hover:bg-purple-800 text-white font-bold px-2 py-0.5 rounded text-[10px]">Opsi Ambil</button>` : 
                         `<button onclick="batalAmbilPaket('${g.id}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Batalkan</button>`}
                         <button onclick="editPosisiRakPaket('${g.id}', '${g.tempat}')" class="bg-amber-500 text-slate-950 font-black px-2 py-0.5 rounded text-[10px]">Edit Rak</button>
+                        <button onclick="hapusPaketSistem('${g.id}', '${g.nama}')" class="bg-red-700 hover:bg-red-800 text-white font-black px-2 py-0.5 rounded text-[10px]">Hapus</button>
                     </td>
                 </tr>
             `).join('');
@@ -790,6 +809,36 @@
                         <td class="p-2 text-gray-400 truncate max-w-[100px]">${g.petugas_keluar || '-'}</td>
                     </tr>
                 `).join('');
+            }
+            perbaruiStatistikDashboard();
+        }
+
+        function perbaruiStatistikDashboard() {
+            document.getElementById('statTotal').innerText = databasePaket.length;
+            document.getElementById('statBelum').innerText = databasePaket.filter(x => x.status === 'Belum Diambil').length;
+            document.getElementById('statSudahAmbil').innerText = databasePaket.filter(x => x.status === 'Sudah Diambil').length;
+            const tglHariIni = new Date().toLocaleDateString('id-ID', {day: '2-digit', month: '2-digit', year: 'numeric'});
+            const jumlahMasukHariIni = databasePaket.filter(p => p.waktu_masuk && p.waktu_masuk.includes(tglHariIni)).length;
+            document.getElementById('statTotalMasuk').innerText = jumlahMasukHariIni;
+        }
+
+        function resetFilterAmbilGuru() {
+            document.getElementById('filterTanggalGuru').value = '';
+            document.getElementById('filterStatusGuru').value = 'Semua';
+            document.getElementById('cariAmbilGuruInput').value = '';
+            renderTabelAmbilGuru();
+        }
+
+        async function hapusPaketSistem(id, namaPemilik) {
+            if(!confirm(`Apakah Anda yakin ingin MENGHAPUS PERMANEN data paket milik [ ${namaPemilik} ] dari database cloud?`)) return;
+            try {
+                const { error } = await _supabase.from('paket').delete().eq('id', id);
+                if (error) throw error;
+                catatAuditLog(`Menghapus permanen paket ID ${id} milik ${namaPemilik}`);
+                await muatDataKomplit();
+                tampilkanPesanError(`Berhasil menghapus data paket milik ${namaPemilik}.`);
+            } catch(e) {
+                tampilkanPesanError("Gagal menghapus data paket dari Supabase.");
             }
         }
 
@@ -871,7 +920,7 @@
                 renderTabelAmbilGuru();
                 buatGrafikAnalisisStatistik();
             } catch(err) {
-                console.error("Gagal menyingkronkan database logistik paket:", err);
+                console.error("Gagal menyingkronkan database paket:", err);
             }
         }
 
@@ -899,16 +948,67 @@
             });
         }
 
-        function eksporKeExcel() {
-            const dataTarget = dataPaketTerfilter.length > 0 ? dataPaketTerfilter : databasePaket.filter(p => p.keterangan !== 'guru');
-            if (dataTarget.length === 0) { tampilkanPesanError("Tidak ada data logistik paket dalam database untuk diekspor!"); return; }
+        function eksporGrafikKeGambar() {
+            const canvas = document.getElementById('grafikLogistikUtama');
+            if(!canvas) return;
             try {
-                const dataSiapEkspor = dataTarget.map((p, index) => ({ "No": index + 1, "No Stambuk": p.stambuk || "", "Nama Pemilik": p.nama || "", "Kelas / Kamar": p.kelas || "", "Rayon / Tahun": p.rayon || "-", "Daerah": p.daerah || "-", "Jenis Paket": p.jenis_paket || "", "Lokasi Rak": p.tempat || "", "Tipe Pengguna": p.keterangan || "siswa", "Status Paket": p.status || "", "Waktu Masuk": p.waktu_masuk || "", "Petugas Input": p.petugas_input || "" }));
+                const urlGambar = canvas.toDataURL("image/png");
+                const linkPemicu = document.createElement('a');
+                linkPemicu.download = 'Analisis_Grafik_Kuantitas_Paket.png';
+                linkPemicu.href = urlGambar;
+                linkPemicu.click();
+                catatAuditLog(`Berhasil mengekspor grafik analisis kuantitas paket ke gambar PNG.`);
+            } catch(e) {
+                tampilkanPesanError("Gagal mengonversi grafik menjadi berkas gambar.");
+            }
+        }
+
+        function eksporKeExcel(tipe) {
+            let dataTarget = [];
+            let namaBerkas = "";
+            
+            if(tipe === 'siswa') {
+                dataTarget = dataPaketTerfilter.length > 0 ? dataPaketTerfilter : databasePaket.filter(p => p.keterangan !== 'guru');
+                namaBerkas = "Laporan_Arsip_Paket_Santri.xlsx";
+            } else if(tipe === 'guru') {
+                const tglVal = document.getElementById('filterTanggalGuru').value;
+                const statusVal = document.getElementById('filterStatusGuru').value;
+                const keyword = document.getElementById('cariAmbilGuruInput').value.toLowerCase().trim();
+                
+                dataTarget = databasePaket.filter(p => p.keterangan === 'guru');
+                dataTarget = dataTarget.filter(g => {
+                    let matchTgl = true, matchStatus = true, matchCari = true;
+                    if (tglVal) matchTgl = g.waktu_masuk && g.waktu_masuk.includes(tglVal.split('-').reverse().join('/'));
+                    if (statusVal !== 'Semua') matchStatus = g.status === statusVal;
+                    if (keyword) matchCari = g.nama && g.nama.toLowerCase().includes(keyword);
+                    return matchTgl && matchStatus && matchCari;
+                });
+                namaBerkas = "Laporan_Arsip_Paket_Guru.xlsx";
+            }
+
+            if (dataTarget.length === 0) { tampilkanPesanError("Tidak ada data paket untuk diekspor!"); return; }
+            try {
+                const dataSiapEkspor = dataTarget.map((p, index) => ({ 
+                    "No": index + 1, 
+                    "No Stambuk": p.stambuk || "-", 
+                    "Nama Pemilik": p.nama || "", 
+                    "Kelas / Kamar": p.kelas || "", 
+                    "Rayon / Tahun": p.rayon || "-", 
+                    "Daerah": p.daerah || "-", 
+                    "Jenis Paket": p.jenis_paket || "", 
+                    "Lokasi Rak": p.tempat || "", 
+                    "Tipe Pengguna": p.keterangan || "siswa", 
+                    "Status Paket": p.status || "", 
+                    "Waktu Tiba/Masuk": p.waktu_masuk || "", 
+                    "Petugas Input": p.petugas_input || "",
+                    "Waktu Keluar": p.waktu_keluar || "-",
+                    "Petugas Keluar / Pengambil": p.petugas_keluar || "-"
+                }));
                 const worksheet = XLSX.utils.json_to_sheet(dataSiapEkspor);
                 const workbook = XLSX.utils.book_new();
                 XLSX.utils.book_append_sheet(workbook, worksheet, "Data Paket");
-                XLSX.writeFile(workbook, "Laporan_Arsip_Logistik_Paket.xlsx");
-                catatAuditLog(`Berhasil mengekspor ${dataSiapEkspor.length} data ke berkas Excel.`);
+                XLSX.writeFile(workbook, namaBerkas);
+                catatAuditLog(`Berhasil mengekspor ${dataSiapEkspor.length} data paket ke berkas Excel.`);
             } catch (error) {
                 tampilkanPesanError("Gagal membuat dan mendownload berkas Excel.");
             }
@@ -964,33 +1064,69 @@
             try {
                 const { data, error } = await _supabase.from('paket').select('*');
                 if (error) throw error;
-                const hasil = data.filter(p => (p.nama && p.nama.toLowerCase().includes(kw)) || (p.stambuk && p.stambuk.toLowerCase().includes(kw)) );
-                window.dataHistorySantriSaja = hasil.filter(p => p.status === 'Sudah Diambil');
-                const belumAmbil = hasil.filter(p => p.status === 'Belum Diambil');
+                
+                const hasilSesuaiNama = data.filter(p => (p.nama && p.nama.toLowerCase().includes(kw)) || (p.stambuk && p.stambuk.toLowerCase().includes(kw)) );
+                window.dataHistorySantriSaja = hasilSesuaiNama.filter(p => p.status === 'Sudah Diambil');
+                const belumAmbil = hasilSesuaiNama.filter(p => p.status === 'Belum Diambil');
+                
                 box.classList.remove('hidden');
                 document.getElementById('areaHistoryPublik').classList.remove('hidden');
-                if(belumAmbil.length === 0) {
+                
+                if (hasilSesuaiNama.length === 0) {
                     box.innerHTML = `
-                        <div class="p-4 bg-amber-500/10 border border-amber-500/30 rounded-2xl text-center">
-                            <p class="font-bold text-amber-400 text-sm"> Tidak ada paket yang belum diambil </p>
-                            <p class="text-[11px] text-slate-400 mt-0.5">Semua paket Anda kemungkinan besar sudah diambil atau belum diinput petugas piket.</p>
+                        <div class="p-6 bg-red-500/10 border border-red-500/30 rounded-2xl text-center">
+                            <p class="font-black text-red-400 text-sm uppercase tracking-wide">📦 Paket Tidak Ada</p>
+                            <p class="text-[11px] text-slate-400 mt-1">Nama atau nomor stambuk tersebut tidak terdaftar memiliki paket di sistem.</p>
                         </div>`;
                     return;
                 }
-                box.innerHTML = belumAmbil.map(p => `
-                    <div class="p-4 bg-gradient-to-r from-indigo-950 to-slate-900 border border-indigo-500/40 rounded-2xl shadow-xl flex justify-between items-center animate-fade-in">
-                        <div class="max-w-[75%]">
-                            <p class="text-[10px] uppercase font-bold tracking-wider text-indigo-400">${p.jenis_paket} — <span class="text-slate-300">${p.keterangan || 'siswa'}</span></p>
-                            <h4 class="font-black text-sm text-white mt-0.5 truncate">${p.nama}</h4>
-                            <p class="text-[11px] text-slate-400 mt-1">Kelas/Kamar: <span class="text-white font-semibold">${p.kelas}</span> | Rayon: <span class="text-white font-semibold">${p.rayon || '-'}</span></p>
-                            <p class="text-[10px] text-slate-500 mt-0.5">Diterima Piket: ${p.waktu_masuk}</p>
-                        </div>
-                        <div class="text-center bg-indigo-900/60 border border-indigo-400 px-4 py-2.5 rounded-xl min-w-[80px]">
-                            <p class="text-[9px] font-bold text-indigo-300 uppercase">KODE RAK</p>
-                            <p class="text-lg font-black text-amber-400 tracking-tight">${p.tempat}</p>
-                        </div>
-                    </div>
-                `).join('');
+                
+                if (belumAmbil.length === 0 && window.dataHistorySantriSaja.length > 0) {
+                    box.innerHTML = `
+                        <div class="p-6 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-center">
+                            <p class="font-black text-emerald-400 text-sm uppercase tracking-wide">✅ Semua Paket Telah Diambil</p>
+                            <p class="text-[11px] text-slate-400 mt-1">Seluruh riwayat paket Anda sudah diserahterimakan. Silakan cek detail di tombol riwayat bawah.</p>
+                        </div>`;
+                    return;
+                }
+
+                box.innerHTML = belumAmbil.map(p => {
+                    const isSiswa = p.keterangan !== 'guru';
+                    if (isSiswa) {
+                        return `
+                            <div class="p-4 bg-gradient-to-r from-indigo-950 to-slate-900 border border-indigo-500/40 rounded-2xl shadow-xl flex justify-between items-center animate-fade-in">
+                                <div class="max-w-[75%]">
+                                    <p class="text-[10px] uppercase font-bold tracking-wider text-blue-400">PENGGUNA: ${p.keterangan || 'siswa'}</p>
+                                    <h4 class="font-black text-sm text-white mt-0.5 truncate">${p.nama}</h4>
+                                    <p class="text-[11px] text-slate-300 mt-1">Kelas: <span class="text-white font-bold">${p.kelas}</span> | Rayon: <span class="text-white font-bold">${p.rayon || '-'}</span></p>
+                                    <p class="text-[11px] text-slate-300">Jenis Paket: <span class="text-indigo-300 font-bold">${p.jenis_paket}</span></p>
+                                    <p class="text-[10px] text-slate-500 mt-1.5 font-medium">🕒 Waktu Tiba: ${p.waktu_masuk}</p>
+                                </div>
+                                <div class="text-center bg-indigo-900/60 border border-indigo-400 px-4 py-2.5 rounded-xl min-w-[80px]">
+                                    <p class="text-[9px] font-bold text-indigo-300 uppercase">KODE RAK</p>
+                                    <p class="text-lg font-black text-amber-400 tracking-tight">${p.tempat}</p>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        return `
+                            <div class="p-4 bg-gradient-to-r from-purple-950 to-slate-900 border border-purple-500/40 rounded-2xl shadow-xl flex justify-between items-center animate-fade-in">
+                                <div class="max-w-[75%]">
+                                    <p class="text-[10px] uppercase font-bold tracking-wider text-purple-400">PENGGUNA: ${p.keterangan || 'guru'}</p>
+                                    <h4 class="font-black text-sm text-white mt-0.5 truncate">${p.nama}</h4>
+                                    <p class="text-[11px] text-slate-300 mt-1">Kamar: <span class="text-white font-bold">${p.kelas}</span> | Tahun: <span class="text-white font-bold">${p.rayon || '-'}</span></p>
+                                    <p class="text-[11px] text-slate-300">Jenis Paket: <span class="text-purple-300 font-bold">${p.jenis_paket}</span></p>
+                                    <p class="text-[10px] text-slate-500 mt-1.5 font-medium">🕒 Waktu Tiba: ${p.waktu_masuk}</p>
+                                    ${p.status === 'Sudah Diambil' ? `<p class="text-[10px] text-amber-400 font-bold mt-0.5">📤 Diambil: ${p.waktu_keluar} (${p.petugas_keluar || '-'})</p>` : ''}
+                                </div>
+                                <div class="text-center bg-purple-900/60 border border-purple-400 px-4 py-2.5 rounded-xl min-w-[80px]">
+                                    <p class="text-[9px] font-bold text-purple-300 uppercase">KODE RAK</p>
+                                    <p class="text-lg font-black text-amber-400 tracking-tight">${p.tempat}</p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }).join('');
             } catch(e) { alert("Koneksi gagal mengunduh data publik."); }
         }
 
@@ -1000,9 +1136,11 @@
             const box = document.getElementById('boxHistorySudahAmbil');
             if(window.dataHistorySantriSaja && window.dataHistorySantriSaja.length > 0) {
                 box.innerHTML = window.dataHistorySantriSaja.map(p => `
-                    <div class="p-3 bg-slate-800 border border-slate-700 rounded-xl">
-                        <p class="font-bold text-slate-200">${p.jenis_paket} - Rak ${p.tempat} (<span class="text-xs text-amber-400 uppercase">${p.keterangan || 'siswa'}</span>)</p>
-                        <p class="text-[11px] text-slate-400 mt-0.5">Diterima: ${p.waktu_masuk} | Diambil: ${p.waktu_keluar} (Oleh: ${p.petugas_keluar || 'Petugas'})</p>
+                    <div class="p-3 bg-slate-800 border border-slate-700 rounded-xl text-xs">
+                        <p class="font-bold text-slate-200">${p.jenis_paket} - Rak [ ${p.tempat} ] (<span class="text-amber-400 uppercase font-black text-[10px]">${p.keterangan || 'siswa'}</span>)</p>
+                        <p class="text-slate-300 mt-0.5">Nama Pemilik: <span class="font-bold text-white">${p.nama}</span></p>
+                        <p class="text-[11px] text-slate-400 mt-0.5">Tiba: ${p.waktu_masuk} | Keluar: ${p.waktu_keluar}</p>
+                        <p class="text-[11px] text-indigo-300 font-medium">Keterangan Ambil: ${p.petugas_keluar || '-'}</p>
                     </div>
                 `).join('');
             } else {
