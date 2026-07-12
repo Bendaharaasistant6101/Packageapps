@@ -3,197 +3,444 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Cek Paket Wali Santri - Premium Logistics</title>
-    <!-- Tailwind CSS untuk Desain Responsif & Modern -->
+    <title>Portal Logistik Pesantren - Professional Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Supabase JS Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Google Fonts untuk Tampilan Lebih Bersahabat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen flex flex-col justify-between text-slate-800">
 
-    <!-- HEADER / LOGO UTAMA -->
-    <header class="w-full bg-white border-b border-slate-200/80 px-4 py-4 sticky top-0 z-40 shadow-sm">
-        <div class="max-w-md mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-gradient-to-tr from-amber-500 to-orange-500 rounded-xl flex items-center justify-center text-xl shadow-md shadow-orange-500/20">
+    <div id="screenAuth" class="w-full max-w-md mx-auto my-auto px-4 py-8">
+        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xl">
+            <div class="flex flex-col items-center text-center mb-6">
+                <div class="w-12 h-12 bg-gradient-to-tr from-indigo-600 to-violet-600 rounded-2xl flex items-center justify-center text-2xl shadow-lg shadow-indigo-600/20 mb-3">
                     📦
                 </div>
+                <h1 class="text-xl font-extrabold text-slate-900">Logistik Pesantren</h1>
+                <p class="text-xs text-slate-500 mt-1">Sistem Dashboard Paket Wali & Guru</p>
+            </div>
+
+            <div id="formLogin" class="space-y-4">
+                <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Masuk ke Akun</h2>
                 <div>
-                    <h1 class="text-base font-extrabold tracking-tight text-slate-900">Portal Paket Santri</h1>
-                    <p class="text-[10px] text-slate-500 font-medium">Layanan Cek Logistik Khusus Wali Murid</p>
+                    <label class="text-xs font-semibold text-slate-600 block mb-1">Email</label>
+                    <input type="email" id="loginEmail" placeholder="nama@email.com" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition font-medium">
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-slate-600 block mb-1">Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition font-medium">
+                </div>
+                <button onclick="prosesLogin()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold py-3.5 rounded-xl text-sm shadow-lg shadow-indigo-600/10 transition">
+                    Masuk Dashboard
+                </button>
+                <p class="text-xs text-center text-slate-500 mt-2">Belum punya akun? <span onclick="switchForm('register')" class="text-indigo-600 font-bold cursor-pointer hover:underline">Daftar Sekarang</span></p>
+            </div>
+
+            <div id="formRegister" class="space-y-4 hidden">
+                <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Pendaftaran Akun Baru</h2>
+                
+                <div>
+                    <label class="text-xs font-semibold text-slate-600 block mb-1">Daftar Sebagai</label>
+                    <select id="regRole" onchange="handleRoleChange()" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-700 focus:outline-none focus:border-indigo-500 focus:bg-white transition">
+                        <option value="wali">Wali Santri (Gunakan Stambuk Anak)</option>
+                        <option value="guru">Guru / Ustadz (Gunakan Nama)</option>
+                    </select>
+                </div>
+
+                <div id="inputWaliGroup">
+                    <label class="text-xs font-semibold text-slate-600 block mb-1">Nomor Stambuk Anak</label>
+                    <input type="text" id="regStambuk" placeholder="Contoh: 2024001" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition font-bold text-slate-900">
+                </div>
+
+                <div id="inputGuruGroup" class="relative hidden">
+                    <label class="text-xs font-semibold text-slate-600 block mb-1">Nama Guru (Ketik & Pilih)</label>
+                    <input type="text" id="regNamaGuru" oninput="cariSugestiGuru(this.value)" placeholder="Ketik nama Anda..." autocomplete="off" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition font-bold text-slate-900">
+                    
+                    <div id="sugestiGuruBox" class="absolute left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-lg max-h-40 overflow-y-auto z-50 hidden"></div>
+                </div>
+
+                <div>
+                    <label class="text-xs font-semibold text-slate-600 block mb-1">Email Aktif</label>
+                    <input type="email" id="regEmail" placeholder="nama@email.com" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition font-medium">
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-slate-600 block mb-1">Password Pembuatan Akun</label>
+                    <input type="password" id="regPassword" placeholder="Minimal 6 karakter" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition font-medium">
+                </div>
+
+                <button onclick="prosesRegister()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3.5 rounded-xl text-sm shadow-lg shadow-emerald-600/10 transition">
+                    Selesaikan Pendaftaran
+                </button>
+                <p class="text-xs text-center text-slate-500 mt-2">Sudah punya akun? <span onclick="switchForm('login')" class="text-indigo-600 font-bold cursor-pointer hover:underline">Masuk di sini</span></p>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="screenDashboard" class="w-full flex flex-col justify-between flex-grow hidden">
+        <header class="w-full bg-white border-b border-slate-200 px-4 py-4 sticky top-0 z-40 shadow-sm">
+            <div class="max-w-md mx-auto flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-tr from-amber-500 to-orange-500 rounded-xl flex items-center justify-center text-xl shadow-md shadow-orange-500/20">
+                        📦
+                    </div>
+                    <div>
+                        <h1 class="text-base font-extrabold tracking-tight text-slate-900" id="dashHeaderTitle">Portal Paket</h1>
+                        <p class="text-[10px] text-emerald-600 font-bold flex items-center gap-1">
+                            <span class="h-1.5 w-1.5 bg-emerald-500 rounded-full inline-block animate-pulse"></span> Terautentikasi (Sesi Aktif)
+                        </p>
+                    </div>
+                </div>
+                <button onclick="prosesLogout()" class="text-xs font-bold text-red-500 hover:bg-red-50 p-2 rounded-lg transition">Keluar 🚪</button>
+            </div>
+        </header>
+
+        <main class="w-full max-w-md mx-auto px-4 py-6 flex-grow flex flex-col gap-6">
+            <div class="bg-gradient-to-br from-indigo-900 to-indigo-950 p-5 rounded-2xl text-white shadow-xl shadow-indigo-950/10 relative overflow-hidden">
+                <div class="absolute -right-4 -bottom-4 text-7xl opacity-10 pointer-events-none"> 🏢 </div>
+                <span class="text-[9px] bg-indigo-500/40 text-indigo-200 font-black tracking-widest uppercase px-2 py-0.5 rounded-md border border-indigo-400/30" id="dashBadgeRole">ROLE</span>
+                <h2 class="text-lg font-black mt-2 mb-0.5" id="dashNamaUser">Memuat nama...</h2>
+                <p class="text-xs text-indigo-200/90 font-medium" id="dashSubInfo">Memuat informasi stambuk/identitas...</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Belum Diambil</p>
+                    <p class="text-2xl font-black text-amber-500 mt-1" id="statBelumDiambil">0</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Sudah Diambil</p>
+                    <p class="text-2xl font-black text-emerald-500 mt-1" id="statSudahDiambil">0</p>
                 </div>
             </div>
-            <span class="flex h-2 w-2 relative">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-        </div>
-    </header>
 
-    <!-- KONTEN UTAMA -->
-    <main class="w-full max-w-md mx-auto px-4 py-6 flex-grow flex flex-col gap-6">
-        
-        <!-- KOTAK INFORMASI / SAMBUTAN -->
-        <div class="bg-gradient-to-br from-indigo-900 to-indigo-950 p-5 rounded-2xl text-white shadow-xl shadow-indigo-950/10 relative overflow-hidden">
-            <div class="absolute -right-4 -bottom-4 text-7xl opacity-10 pointer-events-none">🚚</div>
-            <h2 class="text-base font-bold mb-1">Cek Kiriman Paket Ayah / Bunda</h2>
-            <p class="text-xs text-indigo-200/90 leading-relaxed font-medium">Silakan masukkan Nomor Stambuk atau Nama Lengkap Ananda untuk memantau apakah paket kiriman dari rumah sudah tiba di pondok.</p>
-        </div>
-
-        <!-- FORM PENCARIAN -->
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col gap-3">
-            <label for="inputCariWali" class="text-xs font-bold text-slate-700 tracking-wide block">MASUKKAN DATA PENCARIAN:</label>
-            <div class="relative">
-                <input type="text" id="inputCariWali" placeholder="Ketik No. Stambuk atau Nama Anak..." onkeydown="if(event.key === 'Enter') lakukanPencarianWali()" class="w-full px-4 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl text-sm font-bold text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white transition">
+            <div class="flex flex-col gap-3">
+                <div class="flex justify-between items-center px-1">
+                    <h3 class="text-xs font-extrabold text-slate-500 tracking-wider uppercase">Daftar Kiriman Paket</h3>
+                    <button onclick="muatDataPaketDashboard()" class="text-xs font-bold text-indigo-600 hover:underline">Segarkan 🔄</button>
+                </div>
+                
+                <div id="wrapperListPaketDashboard" class="flex flex-col gap-3">
+                    </div>
             </div>
-            <button onclick="lakukanPencarianWali()" class="w-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-extrabold py-3.5 rounded-xl text-sm tracking-wide shadow-lg shadow-indigo-600/10 transition flex items-center justify-center gap-2">
-                <span>🔍</span> Periksa Status Paket
-            </button>
-        </div>
+        </main>
 
-        <!-- AREA HASIL PENCARIAN -->
-        <div id="areaHasilWali" class="flex flex-col gap-3.5 hidden">
-            <!-- Header Status -->
-            <div class="flex justify-between items-center px-1">
-                <h3 class="text-xs font-extrabold text-slate-500 tracking-wider uppercase">Hasil Pencarian</h3>
-                <button onclick="bersihkanPencarianWali()" class="text-xs font-bold text-red-500 hover:text-red-600 transition">Bersihkan ✕</button>
-            </div>
-            
-            <!-- Box List Paket yang Akan Dimuat Lewat JS -->
-            <div id="wrapperListPaketWali" class="flex flex-col gap-3"></div>
-        </div>
+        <footer class="w-full text-center py-4 text-[10px] text-slate-400 font-medium border-t border-slate-200 bg-white">
+            &copy; 2026 Package Apps Pesantren. Terintegrasi Supabase Real-Time.
+        </footer>
+    </div>
 
-    </main>
 
-    <!-- FOOTER BAWAH -->
-    <footer class="w-full text-center py-4 text-[10px] text-slate-400 font-medium border-t border-slate-200 bg-white">
-        &copy; 2026 Package Apps Pesantren. Terintegrasi Supabase Real-Time.
-    </footer>
-
-    <!-- ALERT KUSTOM APABILA TERJADI KENDALA -->
     <div id="alertWaliModal" class="fixed inset-0 bg-black/60 z-50 flex justify-center items-center p-4 hidden">
-        <div class="bg-white p-6 rounded-2xl w-full max-w-xs text-center border shadow-xl animate-fade-in">
-            <div class="text-amber-500 text-3xl mb-2">⚠️</div>
+        <div class="bg-white p-6 rounded-2xl w-full max-w-xs text-center border shadow-xl">
+            <div class="text-amber-500 text-3xl mb-2"> ⚠️ </div>
             <h4 class="text-sm font-bold text-slate-900 mb-1">Pemberitahuan</h4>
             <p id="alertWaliMessage" class="text-xs text-slate-600 leading-relaxed mb-4"></p>
             <button onclick="tutupAlertWali()" class="w-full bg-slate-900 text-white text-xs font-bold py-2.5 rounded-xl">Tutup</button>
         </div>
     </div>
 
-    <!-- SCRIPT LOGIKA KONEKSI & PENCARIAN -->
+
     <script>
-        // === KONFIGURASI SUPABASE (SAMA DENGAN APLIKASI PETUGAS) ===
-        const SUPABASE_URL = "https://eimdfqhkjfocelsqkxql.supabase.co";
-        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpbWRmcWhramZvY2Vsc3FreHFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxNzUwODksImV4cCI6MjA5ODc1MTA4OX0.5s6W7G8rgfEg8ttiKes5FDAGRJeTWupJbW6enCWELaQ";
+        // === KONFIGURASI LINK DATA SUPABASE ===
+        const SUPABASE_URL = "https://eimdfqhkjfocelsqkxql.supabase.co"; [cite: 85]
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpbWRmcWhramZvY2Vsc3FreHFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxNzUwODksImV4cCI6MjA5ODc1MTA4OX0.5s6W7G8rgfEg8ttiKes5FDAGRJeTWupJbW6enCWELaQ"; [cite: 86]
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); [cite: 87]
+
+        // MASTER DATA GURU DUMMY (Nanti otomatis di-sinkronkan ke tabel 'master_guru' di Supabase Anda)
+        const dataGuruMondok = [
+            { id: 1, nama: "Ahmad Fauzi, S.Pd." },
+            { id: 2, nama: "Ahmad Fuadi, Lc." },
+            { id: 3, nama: "Siti Aminah, M.Pd." },
+            { id: 4, nama: "Zainal Abidin, S.Th.I" },
+            { id: 5, nama: "Ustadzah Khadijah" }
+        ];
+
+        // VARIABEL STATE GLOBAL UNTUK MENYIMPAN DATA USER YANG SEDANG LOGIN
+        let SESSION_USER_DATA = null;
+
+        // Cek status sesi login otomatis ketika aplikasi pertama kali dibuka oleh user
+        window.addEventListener('DOMContentLoaded', async () => {
+            const { data: { session } } = await _supabase.auth.getSession();
+            if (session) {
+                fetchProfilDanBukaDashboard(session.user);
+            }
+        });
+
+        // FUNGSI ALERT KUSTOM [cite: 88]
+        function tampilkanAlertWali(pesan) { [cite: 88]
+            document.getElementById('alertWaliMessage').innerText = pesan; [cite: 89]
+            document.getElementById('alertWaliModal').classList.remove('hidden'); [cite: 90]
+        } [cite: 91]
         
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        function tampilkanAlertWali(pesan) {
-            document.getElementById('alertWaliMessage').innerText = pesan;
-            document.getElementById('alertWaliModal').classList.remove('hidden');
+        function tutupAlertWali() { [cite: 92]
+            document.getElementById('alertWaliModal').classList.add('hidden'); [cite: 93]
         }
 
-        function tutupAlertWali() {
-            document.getElementById('alertWaliModal').classList.add('hidden');
-            document.getElementById('inputCariWali').focus();
+        // FUNGSI PERPINDAHAN FORM LOGIN / REGISTER
+        function switchForm(target) {
+            if(target === 'register') {
+                document.getElementById('formLogin').classList.add('hidden');
+                document.getElementById('formRegister').classList.remove('hidden');
+            } else {
+                document.getElementById('formRegister').classList.add('hidden');
+                document.getElementById('formLogin').classList.remove('hidden');
+            }
         }
 
-        function bersihkanPencarianWali() {
-            document.getElementById('inputCariWali').value = '';
-            document.getElementById('wrapperListPaketWali').innerHTML = '';
-            document.getElementById('areaHasilWali').classList.add('hidden');
-            document.getElementById('inputCariWali').focus();
+        // FUNGSI ATUR FORM BERDASARKAN PILIHAN ROLE (WALI / GURU)
+        function handleRoleChange() {
+            const role = document.getElementById('regRole').value;
+            if(role === 'wali') {
+                document.getElementById('inputWaliGroup').classList.remove('hidden');
+                document.getElementById('inputGuruGroup').classList.add('hidden');
+            } else {
+                document.getElementById('inputWaliGroup').classList.add('hidden');
+                document.getElementById('inputGuruGroup').classList.remove('hidden');
+            }
         }
 
-        // === FUNGSI LOGIKA UTAMA PENCARIAN PAKET ===
-        async function lakukanPencarianWali() {
-            const keyword = document.getElementById('inputCariWali').value.trim();
-            if (!keyword) {
-                tampilkanAlertWali("Silakan ketik nomor stambuk atau nama anak terlebih dahulu.");
+        // FUNGSI AUTO-SUGGEST NAMA GURU SAAT DIKETIK
+        function cariSugestiGuru(keyword) {
+            const box = document.getElementById('sugestiGuruBox');
+            if (!keyword.trim()) {
+                box.classList.add('hidden');
+                return;
+            }
+            const hasilFilter = dataGuruMondok.filter(g => g.nama.toLowerCase().includes(keyword.toLowerCase()));
+            if (hasilFilter.length > 0) {
+                box.classList.remove('hidden');
+                box.innerHTML = hasilFilter.map(g => `
+                    <div onclick="pilihGuru('${g.nama}')" class="px-4 py-2.5 text-xs font-bold hover:bg-indigo-50 text-slate-700 cursor-pointer border-b border-slate-100 last:border-0 text-left">
+                        👨‍🏫 ${g.nama}
+                    </div>
+                `).join('');
+            } else {
+                box.innerHTML = `<div class="px-4 py-2.5 text-xs text-slate-400 text-left">Nama tidak ditemukan</div>`;
+                box.classList.remove('hidden');
+            }
+        }
+
+        function pilihGuru(nama) {
+            document.getElementById('regNamaGuru').value = nama;
+            document.getElementById('sugestiGuruBox').classList.add('hidden');
+        }
+
+        // ==========================================
+        // ALUR LOGIKA REGISTER (DAFTAR AKUN BARU)
+        // ==========================================
+        async function prosesRegister() {
+            const role = document.getElementById('regRole').value;
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const stambuk = document.getElementById('regStambuk').value.trim();
+            const namaGuru = document.getElementById('regNamaGuru').value.trim();
+
+            if (!email || !password) {
+                tampilkanAlertWali("Email dan Password tidak boleh kosong.");
+                return;
+            }
+            if (role === 'wali' && !stambuk) {
+                tampilkanAlertWali("Mohon isi nomor stambuk anak Anda untuk validasi.");
+                return;
+            }
+            if (role === 'guru' && !namaGuru) {
+                tampilkanAlertWali("Mohon pilih atau ketik nama lengkap Guru Anda.");
                 return;
             }
 
             try {
-                // Mencari data paket berdasarkan stambuk tepat atau substring nama (case-insensitive)
-                const { data, error } = await _supabase
-                    .from('paket')
+                // 1. Daftarkan kredensial login ke Supabase Auth
+                const { data: authData, error: authError } = await _supabase.auth.signUp({
+                    email: email,
+                    password: password
+                });
+
+                if (authError) throw authError;
+
+                if (authData.user) {
+                    // 2. Simpan profil data tambahannya ke tabel 'profil_pengguna' di database Supabase
+                    const { error: profileError } = await _supabase
+                        .from('profil_pengguna')
+                        .insert([{
+                            id: authData.user.id,
+                            role: role,
+                            identitas_kunci: role === 'wali' ? stambuk : namaGuru,
+                            email: email
+                        }]);
+
+                    if (profileError) throw profileError;
+
+                    tampilkanAlertWali("Pendaftaran Akun Berhasil! Silakan masuk dengan akun baru Anda.");
+                    switchForm('login');
+                }
+            } catch (err) {
+                console.error(err);
+                tampilkanAlertWali("Gagal Mendaftar: " + err.message);
+            }
+        }
+
+        // ==========================================
+        // ALUR LOGIKA LOGIN (MASUK KE DASHBOARD)
+        // ==========================================
+        async function prosesLogin() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                tampilkanAlertWali("Mohon isi email dan password Anda.");
+                return;
+            }
+
+            try {
+                const { data, error } = await _supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (error) throw error;
+                if (data.user) {
+                    fetchProfilDanBukaDashboard(data.user);
+                }
+            } catch (err) {
+                console.error(err);
+                tampilkanAlertWali("Gagal Masuk: Kredensial salah atau gangguan server.");
+            }
+        }
+
+        // AMBIL DATA ROLE DARI TABEL PROFIL LALU AKTIFKAN DASHBOARD UTAMA
+        async function fetchProfilDanBukaDashboard(authUser) {
+            try {
+                const { data: profil, error } = await _supabase
+                    .from('profil_pengguna')
                     .select('*')
-                    .or(`stambuk.eq.${keyword},nama.ilike.%${keyword}%`)
-                    .order('id', { ascending: false }); // Tampilkan yang terbaru di atas
+                    .eq('id', authUser.id)
+                    .single();
 
                 if (error) throw error;
 
-                const areaHasil = document.getElementById('areaHasilWali');
-                const wrapperList = document.getElementById('wrapperListPaketWali');
-                
-                areaHasil.classList.remove('hidden');
-                wrapperList.innerHTML = '';
+                SESSION_USER_DATA = profil;
+
+                // Sembunyikan layar Auth, nyalakan layar Dashboard
+                document.getElementById('screenAuth').classList.add('hidden');
+                document.getElementById('screenDashboard').classList.remove('hidden');
+
+                // Atur teks tampilan di Dashboard sesuai role-nya masing-masing
+                if (profil.role === 'wali') {
+                    document.getElementById('dashBadgeRole').innerText = "Wali Santri";
+                    document.getElementById('dashBadgeRole').className = "text-[9px] bg-amber-500/20 text-amber-300 font-black tracking-widest uppercase px-2 py-0.5 rounded-md border border-amber-400/30";
+                    document.getElementById('dashNamaUser').innerText = "Ayah / Bunda Wali Santri";
+                    document.getElementById('dashSubInfo').innerText = "Memantau No. Stambuk Anak: " + profil.identitas_kunci;
+                } else {
+                    document.getElementById('dashBadgeRole').innerText = "Guru / Ustadz";
+                    document.getElementById('dashBadgeRole').className = "text-[9px] bg-emerald-500/20 text-emerald-300 font-black tracking-widest uppercase px-2 py-0.5 rounded-md border border-emerald-400/30";
+                    document.getElementById('dashNamaUser').innerText = profil.identitas_kunci;
+                    document.getElementById('dashSubInfo').innerText = "Akses Dashboard Logistik Internal Guru";
+                }
+
+                // Ambil data kiriman paket secara otomatis dari database
+                muatDataPaketDashboard();
+
+            } catch (err) {
+                console.error(err);
+                tampilkanAlertWali("Gagal memuat profil pengguna.");
+            }
+        }
+
+        // ==========================================
+        // AMBIL DATA & LOGIKA FILTER PAKET OTOMATIS
+        // ==========================================
+        async function muatDataPaketDashboard() {
+            if (!SESSION_USER_DATA) return;
+
+            const wrapperList = document.getElementById('wrapperListPaketDashboard');
+            wrapperList.innerHTML = `<p class="text-xs text-center text-slate-400 font-medium py-6 animate-pulse">Sedang memetakan data paket Anda...</p>`;
+
+            try {
+                let query = _supabase.from('paket').select('*'); [cite: 111, 113]
+
+                // FILTER OTOMATIS: Jika Wali murid, ambil berdasarkan stambuk. Jika Guru, ambil berdasarkan nama guru.
+                if (SESSION_USER_DATA.role === 'wali') {
+                    query = query.eq('stambuk', SESSION_USER_DATA.identitas_kunci);
+                } else {
+                    query = query.eq('nama', SESSION_USER_DATA.identitas_kunci);
+                }
+
+                const { data, error } = await query.order('id', { ascending: false }); [cite: 115, 116]
+
+                if (error) throw error;
+
+                // Hitung data statistik paket untuk widget di atas
+                const belumDiambilCount = data.filter(p => p.status === 'Belum Diambil').length;
+                const sudahDiambilCount = data.filter(p => p.status === 'Sudah Diambil').length;
+
+                document.getElementById('statBelumDiambil').innerText = belumDiambilCount;
+                document.getElementById('statSudahDiambil').innerText = sudahDiambilCount;
 
                 if (!data || data.length === 0) {
                     wrapperList.innerHTML = `
                         <div class="p-6 bg-white border border-dashed border-slate-300 rounded-2xl text-center">
-                            <p class="text-2xl mb-1">📦</p>
-                            <p class="text-xs font-bold text-slate-700">Tidak Ada Paket Ditemukan</p>
-                            <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">Paket belum datang, salah ketik stambuk, atau paket yang dicari sudah lama diserahterimakan ke anak.</p>
+                            <p class="text-2xl mb-1"> 📦 </p> [cite: 124]
+                            <p class="text-xs font-bold text-slate-700">Belum Ada Paket Untuk Anda</p>
+                            <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">Saat ini tidak ada kiriman paket logistik terdaftar yang ditujukan kepada identitas akun Anda.</p>
                         </div>
                     `;
                     return;
                 }
 
-                // Bangun elemen HTML daftar paket
-                wrapperList.innerHTML = data.map(p => {
-                    const isBelumDiambil = p.status === 'Belum Diambil';
-                    
+                // Susun cetak struktur daftar paket ke layar dashboard [cite: 131]
+                wrapperList.innerHTML = data.map(p => { [cite: 132]
+                    const isBelumDiambil = p.status === 'Belum Diambil'; [cite: 133]
+
                     return `
-                        <div class="bg-white p-4 rounded-2xl border ${isBelumDiambil ? 'border-amber-300 shadow-sm shadow-amber-500/5' : 'border-slate-200'} flex flex-col gap-3">
-                            
-                            <!-- Baris Atas: Nama Anak & Label Status -->
-                            <div class="flex justify-between items-start gap-2">
+                        <div class="bg-white p-4 rounded-2xl border ${isBelumDiambil ? 'border-amber-300 shadow-sm' : 'border-slate-200'} flex flex-col gap-3"> [cite: 135]
+                            <div class="flex justify-between items-start gap-2"> [cite: 137]
                                 <div>
-                                    <h4 class="font-extrabold text-sm text-slate-900 leading-snug">${p.nama}</h4>
-                                    <p class="text-[11px] text-slate-500 font-mono font-bold mt-0.5">Stambuk: ${p.stambuk} | Kelas: ${p.kelas}</p>
+                                    <h4 class="font-extrabold text-sm text-slate-900 leading-snug">${p.nama}</h4> [cite: 139]
+                                    <p class="text-[11px] text-slate-500 font-mono font-bold mt-0.5">ID Identitas: ${p.stambuk} ${p.kelas ? '| Kelas: '+p.kelas : ''}</p> [cite: 140]
                                 </div>
-                                <span class="text-[10px] font-black uppercase px-2.5 py-1 rounded-lg tracking-wider shrink-0 ${
-                                    isBelumDiambil 
-                                    ? 'bg-amber-100 text-amber-800 border border-amber-200' 
-                                    : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                                <span class="text-[10px] font-black uppercase px-2.5 py-1 rounded-lg tracking-wider shrink-0 ${ [cite: 142]
+                                    isBelumDiambil [cite: 143]
+                                    ? 'bg-amber-100 text-amber-800 border border-amber-200' [cite: 144]
+                                    : 'bg-emerald-100 text-emerald-800 border border-emerald-200' [cite: 145]
                                 }">
-                                    ${p.status}
+                                    ${p.status} [cite: 147]
                                 </span>
                             </div>
-
-                            <!-- Baris Tengah: Detail Kiriman -->
-                            <div class="bg-slate-50 p-3 rounded-xl text-[11px] space-y-1 border border-slate-100">
-                                <div class="flex justify-between"><span class="text-slate-400">Jenis Paket:</span><span class="font-bold text-indigo-600">${p.jenis_paket}</span></div>
-                                <div class="flex justify-between"><span class="text-slate-400">Lokasi Pos/Rak:</span><span class="font-extrabold text-slate-800">${p.tempat}</span></div>
-                                <div class="flex justify-between"><span class="text-slate-400">Tanggal Masuk:</span><span class="font-medium text-slate-700">${p.waktu_masuk || '-'}</span></div>
+                            <div class="bg-slate-50 p-3 rounded-xl text-[11px] space-y-1 border border-slate-100"> [cite: 151]
+                                <div class="flex justify-between"><span class="text-slate-400">Jenis Kiriman:</span><span class="font-bold text-indigo-600">${p.jenis_paket}</span></div> [cite: 152]
+                                <div class="flex justify-between"><span class="text-slate-400">Lokasi Penyimpanan:</span><span class="font-extrabold text-slate-800">${p.tempat}</span></div> [cite: 153]
+                                <div class="flex justify-between"><span class="text-slate-400">Tanggal Masuk Pos:</span><span class="font-medium text-slate-700">${p.waktu_masuk || '-'}</span></div> [cite: 154]
                             </div>
-
-                            <!-- Baris Bawah: Catatan Status Alur -->
-                            <div class="text-[11px] flex items-center gap-1.5 pt-1 border-t border-dashed border-slate-100">
-                                ${isBelumDiambil 
-                                    ? `<span class="text-amber-600 font-semibold">⚠️ Mohon infokan ke Ananda untuk segera mengambil paket di Rak ${p.tempat}.</span>`
-                                    : `<span class="text-emerald-600 font-semibold">✅ Alhamdulillah, paket sudah diambil Ananda pada <strong>${p.waktu_keluar}</strong>.</span>`
+                            <div class="text-[11px] flex items-center gap-1.5 pt-1 border-t border-dashed border-slate-100"> [cite: 157]
+                                ${isBelumDiambil [cite: 158]
+                                    ? `<span class="text-amber-600 font-bold"> ⚠️ Mohon segera diambil/diinfokan untuk diambil di Rak ${p.tempat}.</span>`
+                                    : `<span class="text-emerald-600 font-bold"> ✅ Paket sudah selesai diambil pada: <strong>${p.waktu_keluar}</strong></span>`
                                 }
                             </div>
-
                         </div>
                     `;
-                }).join('');
+                }).join(''); [cite: 165]
 
             } catch (err) {
                 console.error(err);
-                tampilkanAlertWali("Terjadi gangguan jaringan saat menghubungkan ke server pondok. Silakan coba sesaat lagi.");
+                tampilkanAlertWali("Gagal memuat daftar kiriman paket.");
             }
+        }
+
+        // FUNGSI KELUAR AKUN (LOGOUT)
+        async function prosesLogout() {
+            await _supabase.auth.signOut();
+            SESSION_USER_DATA = null;
+            document.getElementById('screenDashboard').classList.add('hidden');
+            document.getElementById('screenAuth').classList.remove('hidden');
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
         }
     </script>
 </body>
