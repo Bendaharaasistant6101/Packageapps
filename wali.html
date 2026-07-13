@@ -148,11 +148,10 @@
 
     <script>
         // === KONFIGURASI LINK DATA SUPABASE ===
-        const SUPABASE_URL = "https://eimdfqhkjfocelsqkxql.supabase.co"; [cite: 85]
-        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpbWRmcWhramZvY2Vsc3FreHFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxNzUwODksImV4cCI6MjA5ODc1MTA4OX0.5s6W7G8rgfEg8ttiKes5FDAGRJeTWupJbW6enCWELaQ"; [cite: 86]
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); [cite: 87]
+        const SUPABASE_URL = "https://eimdfqhkjfocelsqkxql.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpbWRmcWhramZvY2Vsc3FreHFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxNzUwODksImV4cCI6MjA5ODc1MTA4OX0.5s6W7G8rgfEg8ttiKes5FDAGRJeTWupJbW6enCWELaQ";
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // MASTER DATA GURU DUMMY (Nanti otomatis di-sinkronkan ke tabel 'master_guru' di Supabase Anda)
         const dataGuruMondok = [
             { id: 1, nama: "Ahmad Fauzi, S.Pd." },
             { id: 2, nama: "Ahmad Fuadi, Lc." },
@@ -161,10 +160,8 @@
             { id: 5, nama: "Ustadzah Khadijah" }
         ];
 
-        // VARIABEL STATE GLOBAL UNTUK MENYIMPAN DATA USER YANG SEDANG LOGIN
         let SESSION_USER_DATA = null;
 
-        // Cek status sesi login otomatis ketika aplikasi pertama kali dibuka oleh user
         window.addEventListener('DOMContentLoaded', async () => {
             const { data: { session } } = await _supabase.auth.getSession();
             if (session) {
@@ -172,17 +169,15 @@
             }
         });
 
-        // FUNGSI ALERT KUSTOM [cite: 88]
-        function tampilkanAlertWali(pesan) { [cite: 88]
-            document.getElementById('alertWaliMessage').innerText = pesan; [cite: 89]
-            document.getElementById('alertWaliModal').classList.remove('hidden'); [cite: 90]
-        } [cite: 91]
+        function tampilkanAlertWali(pesan) {
+            document.getElementById('alertWaliMessage').innerText = pesan;
+            document.getElementById('alertWaliModal').classList.remove('hidden');
+        }
         
-        function tutupAlertWali() { [cite: 92]
-            document.getElementById('alertWaliModal').classList.add('hidden'); [cite: 93]
+        function tutupAlertWali() {
+            document.getElementById('alertWaliModal').classList.add('hidden');
         }
 
-        // FUNGSI PERPINDAHAN FORM LOGIN / REGISTER
         function switchForm(target) {
             if(target === 'register') {
                 document.getElementById('formLogin').classList.add('hidden');
@@ -193,7 +188,6 @@
             }
         }
 
-        // FUNGSI ATUR FORM BERDASARKAN PILIHAN ROLE (WALI / GURU)
         function handleRoleChange() {
             const role = document.getElementById('regRole').value;
             if(role === 'wali') {
@@ -205,7 +199,6 @@
             }
         }
 
-        // FUNGSI AUTO-SUGGEST NAMA GURU SAAT DIKETIK
         function cariSugestiGuru(keyword) {
             const box = document.getElementById('sugestiGuruBox');
             if (!keyword.trim()) {
@@ -232,7 +225,7 @@
         }
 
         // ==========================================
-        // ALUR LOGIKA REGISTER (DAFTAR AKUN BARU)
+        // FIXED REGISTER LOGIC (TOMBOL SUDAH AKTIF)
         // ==========================================
         async function prosesRegister() {
             const role = document.getElementById('regRole').value;
@@ -255,7 +248,7 @@
             }
 
             try {
-                // 1. Daftarkan kredensial login ke Supabase Auth
+                // 1. Daftarkan kredensial ke Supabase Auth
                 const { data: authData, error: authError } = await _supabase.auth.signUp({
                     email: email,
                     password: password
@@ -264,7 +257,7 @@
                 if (authError) throw authError;
 
                 if (authData.user) {
-                    // 2. Simpan profil data tambahannya ke tabel 'profil_pengguna' di database Supabase
+                    // 2. Simpan profil tambahan ke tabel 'profil_pengguna'
                     const { error: profileError } = await _supabase
                         .from('profil_pengguna')
                         .insert([{
@@ -278,6 +271,9 @@
 
                     tampilkanAlertWali("Pendaftaran Akun Berhasil! Silakan masuk dengan akun baru Anda.");
                     switchForm('login');
+                } else {
+                    tampilkanAlertWali("Pendaftaran berhasil, harap periksa kotak masuk email Anda untuk verifikasi (jika diaktifkan) atau langsung coba masuk.");
+                    switchForm('login');
                 }
             } catch (err) {
                 console.error(err);
@@ -285,9 +281,6 @@
             }
         }
 
-        // ==========================================
-        // ALUR LOGIKA LOGIN (MASUK KE DASHBOARD)
-        // ==========================================
         async function prosesLogin() {
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
@@ -313,7 +306,6 @@
             }
         }
 
-        // AMBIL DATA ROLE DARI TABEL PROFIL LALU AKTIFKAN DASHBOARD UTAMA
         async function fetchProfilDanBukaDashboard(authUser) {
             try {
                 const { data: profil, error } = await _supabase
@@ -326,11 +318,9 @@
 
                 SESSION_USER_DATA = profil;
 
-                // Sembunyikan layar Auth, nyalakan layar Dashboard
                 document.getElementById('screenAuth').classList.add('hidden');
                 document.getElementById('screenDashboard').classList.remove('hidden');
 
-                // Atur teks tampilan di Dashboard sesuai role-nya masing-masing
                 if (profil.role === 'wali') {
                     document.getElementById('dashBadgeRole').innerText = "Wali Santri";
                     document.getElementById('dashBadgeRole').className = "text-[9px] bg-amber-500/20 text-amber-300 font-black tracking-widest uppercase px-2 py-0.5 rounded-md border border-amber-400/30";
@@ -343,18 +333,14 @@
                     document.getElementById('dashSubInfo').innerText = "Akses Dashboard Logistik Internal Guru";
                 }
 
-                // Ambil data kiriman paket secara otomatis dari database
                 muatDataPaketDashboard();
 
             } catch (err) {
                 console.error(err);
-                tampilkanAlertWali("Gagal memuat profil pengguna.");
+                tampilkanAlertWali("Gagal memuat profil pengguna. Pastikan tabel 'profil_pengguna' sudah dibuat di Supabase.");
             }
         }
 
-        // ==========================================
-        // AMBIL DATA & LOGIKA FILTER PAKET OTOMATIS
-        // ==========================================
         async function muatDataPaketDashboard() {
             if (!SESSION_USER_DATA) return;
 
@@ -362,20 +348,18 @@
             wrapperList.innerHTML = `<p class="text-xs text-center text-slate-400 font-medium py-6 animate-pulse">Sedang memetakan data paket Anda...</p>`;
 
             try {
-                let query = _supabase.from('paket').select('*'); [cite: 111, 113]
+                let query = _supabase.from('paket').select('*');
 
-                // FILTER OTOMATIS: Jika Wali murid, ambil berdasarkan stambuk. Jika Guru, ambil berdasarkan nama guru.
                 if (SESSION_USER_DATA.role === 'wali') {
                     query = query.eq('stambuk', SESSION_USER_DATA.identitas_kunci);
                 } else {
                     query = query.eq('nama', SESSION_USER_DATA.identitas_kunci);
                 }
 
-                const { data, error } = await query.order('id', { ascending: false }); [cite: 115, 116]
+                const { data, error } = await query.order('id', { ascending: false });
 
                 if (error) throw error;
 
-                // Hitung data statistik paket untuk widget di atas
                 const belumDiambilCount = data.filter(p => p.status === 'Belum Diambil').length;
                 const sudahDiambilCount = data.filter(p => p.status === 'Sudah Diambil').length;
 
@@ -385,7 +369,7 @@
                 if (!data || data.length === 0) {
                     wrapperList.innerHTML = `
                         <div class="p-6 bg-white border border-dashed border-slate-300 rounded-2xl text-center">
-                            <p class="text-2xl mb-1"> 📦 </p> [cite: 124]
+                            <p class="text-2xl mb-1"> 📦 </p>
                             <p class="text-xs font-bold text-slate-700">Belum Ada Paket Untuk Anda</p>
                             <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">Saat ini tidak ada kiriman paket logistik terdaftar yang ditujukan kepada identitas akun Anda.</p>
                         </div>
@@ -393,39 +377,38 @@
                     return;
                 }
 
-                // Susun cetak struktur daftar paket ke layar dashboard [cite: 131]
-                wrapperList.innerHTML = data.map(p => { [cite: 132]
-                    const isBelumDiambil = p.status === 'Belum Diambil'; [cite: 133]
+                wrapperList.innerHTML = data.map(p => {
+                    const isBelumDiambil = p.status === 'Belum Diambil';
 
                     return `
-                        <div class="bg-white p-4 rounded-2xl border ${isBelumDiambil ? 'border-amber-300 shadow-sm' : 'border-slate-200'} flex flex-col gap-3"> [cite: 135]
-                            <div class="flex justify-between items-start gap-2"> [cite: 137]
+                        <div class="bg-white p-4 rounded-2xl border ${isBelumDiambil ? 'border-amber-300 shadow-sm' : 'border-slate-200'} flex flex-col gap-3">
+                            <div class="flex justify-between items-start gap-2">
                                 <div>
-                                    <h4 class="font-extrabold text-sm text-slate-900 leading-snug">${p.nama}</h4> [cite: 139]
-                                    <p class="text-[11px] text-slate-500 font-mono font-bold mt-0.5">ID Identitas: ${p.stambuk} ${p.kelas ? '| Kelas: '+p.kelas : ''}</p> [cite: 140]
+                                    <h4 class="font-extrabold text-sm text-slate-900 leading-snug">${p.nama}</h4>
+                                    <p class="text-[11px] text-slate-500 font-mono font-bold mt-0.5">ID Identitas: ${p.stambuk} ${p.kelas ? '| Kelas: '+p.kelas : ''}</p>
                                 </div>
-                                <span class="text-[10px] font-black uppercase px-2.5 py-1 rounded-lg tracking-wider shrink-0 ${ [cite: 142]
-                                    isBelumDiambil [cite: 143]
-                                    ? 'bg-amber-100 text-amber-800 border border-amber-200' [cite: 144]
-                                    : 'bg-emerald-100 text-emerald-800 border border-emerald-200' [cite: 145]
+                                <span class="text-[10px] font-black uppercase px-2.5 py-1 rounded-lg tracking-wider shrink-0 ${
+                                    isBelumDiambil
+                                    ? 'bg-amber-100 text-amber-800 border border-amber-200'
+                                    : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
                                 }">
-                                    ${p.status} [cite: 147]
+                                    ${p.status}
                                 </span>
                             </div>
-                            <div class="bg-slate-50 p-3 rounded-xl text-[11px] space-y-1 border border-slate-100"> [cite: 151]
-                                <div class="flex justify-between"><span class="text-slate-400">Jenis Kiriman:</span><span class="font-bold text-indigo-600">${p.jenis_paket}</span></div> [cite: 152]
-                                <div class="flex justify-between"><span class="text-slate-400">Lokasi Penyimpanan:</span><span class="font-extrabold text-slate-800">${p.tempat}</span></div> [cite: 153]
-                                <div class="flex justify-between"><span class="text-slate-400">Tanggal Masuk Pos:</span><span class="font-medium text-slate-700">${p.waktu_masuk || '-'}</span></div> [cite: 154]
+                            <div class="bg-slate-50 p-3 rounded-xl text-[11px] space-y-1 border border-slate-100">
+                                <div class="flex justify-between"><span class="text-slate-400">Jenis Kiriman:</span><span class="font-bold text-indigo-600">${p.jenis_paket}</span></div>
+                                <div class="flex justify-between"><span class="text-slate-400">Lokasi Penyimpanan:</span><span class="font-extrabold text-slate-800">${p.tempat}</span></div>
+                                <div class="flex justify-between"><span class="text-slate-400">Tanggal Masuk Pos:</span><span class="font-medium text-slate-700">${p.waktu_masuk || '-'}</span></div>
                             </div>
-                            <div class="text-[11px] flex items-center gap-1.5 pt-1 border-t border-dashed border-slate-100"> [cite: 157]
-                                ${isBelumDiambil [cite: 158]
+                            <div class="text-[11px] flex items-center gap-1.5 pt-1 border-t border-dashed border-slate-100">
+                                ${isBelumDiambil
                                     ? `<span class="text-amber-600 font-bold"> ⚠️ Mohon segera diambil/diinfokan untuk diambil di Rak ${p.tempat}.</span>`
                                     : `<span class="text-emerald-600 font-bold"> ✅ Paket sudah selesai diambil pada: <strong>${p.waktu_keluar}</strong></span>`
                                 }
                             </div>
                         </div>
                     `;
-                }).join(''); [cite: 165]
+                }).join('');
 
             } catch (err) {
                 console.error(err);
@@ -433,7 +416,6 @@
             }
         }
 
-        // FUNGSI KELUAR AKUN (LOGOUT)
         async function prosesLogout() {
             await _supabase.auth.signOut();
             SESSION_USER_DATA = null;
