@@ -28,7 +28,6 @@
         <p class="text-xs text-indigo-200 font-medium mb-8 px-4">Sistem Manajemen Pengarsipan Paket Terpadu Pesantren.</p>
         <button onclick="pilihMenuAwal()" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-black px-6 py-3.5 rounded-2xl text-sm shadow-xl transition transform scale-[1.02]">Mulai Sistem  ➔  </button>
     </div>
-
     <!-- PORTAL PAGE -->
     <div id="portalPage" class="hidden bg-white/10 backdrop-blur-xl p-8 rounded-3xl shadow-2xl border border-white/20 max-w-md w-full text-center no-print">
         <h2 class="text-xl font-bold text-white mb-6 tracking-wide">PILIH PORTAL AKSES</h2>
@@ -44,7 +43,6 @@
         </div>
         <button onclick="kembaliKeLanding()" class="mt-6 text-xs text-slate-300 hover:text-white transition underline">  ➔  Kembali Ke Beranda</button>
     </div>
-
     <!-- PORTAL PUBLIK (CARI MANDIRI) -->
     <div id="portalPublik" class="hidden bg-slate-900/90 backdrop-blur-2xl rounded-3xl shadow-2xl w-full max-w-2xl p-8 border border-slate-700/50 text-white no-print">
         <div class="flex justify-between items-center border-b border-slate-700 pb-4 mb-6">
@@ -66,7 +64,6 @@
             </div>
         </div>
     </div>
-
     <!-- MAIN DASHBOARD UTAMA -->
     <div id="mainDashboard" class="hidden bg-white rounded-3xl shadow-2xl w-full max-w-6xl p-6 h-[90vh] flex flex-col text-gray-800 no-print">
         <div class="flex flex-wrap justify-between items-center border-b pb-3 mb-4 gap-2">
@@ -79,6 +76,7 @@
                 <button onclick="switchTab('navTabInputGuru')" id="navTabInputGuru" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  📥  Tab 1.5: Input Paket Guru</button>
                 <button onclick="switchTab('navTabAmbil')" id="navTabAmbil" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  📤  Tab 2: Pengambilan Santri</button>
                 <button onclick="switchTab('navTabAmbilGuru')" id="navTabAmbilGuru" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  📤  Tab 2.5: Pengambilan Guru</button>
+                <button onclick="switchTab('navTabPesanWali')" id="navTabPesanWali" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl relative">  💬  Tab 2.8: Pesan Wali <span id="badgeNotifPesan" class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-black px-1 rounded-full animate-bounce">0</span></button>
                 <button onclick="switchTab('navTabAnalisis')" id="navTabAnalisis" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  📊  Tab 3: Analisis Grafik</button>
                 <button onclick="switchTab('navTabAudit')" id="navTabAudit" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  📜  Tab 4: Log Audit</button>
                 <button onclick="switchTab('navTabUsers')" id="navTabUsers" class="hidden px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  👥  Tab 5: Kelola Akun</button>
@@ -137,7 +135,6 @@
                 </table>
             </div>
         </div>
-
         <!-- TAB 1.5: INPUT PAKET GURU -->
         <div id="kontenTabInputGuru" class="hidden space-y-4 flex-grow flex flex-col overflow-hidden">
             <div class="bg-slate-50 p-4 rounded-2xl border relative">
@@ -179,7 +176,6 @@
                 </table>
             </div>
         </div>
-
         <!-- TAB 2: PENGAMBILAN SANTRI -->
         <div id="kontenTabAmbil" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden">
             <div class="flex flex-wrap justify-between items-center gap-2 bg-slate-50 p-3 rounded-xl border">
@@ -216,7 +212,6 @@
                 </table>
             </div>
         </div>
-
         <!-- TAB 2.5: PENGAMBILAN GURU -->
         <div id="kontenTabAmbilGuru" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden">
             <div class="flex flex-wrap justify-between items-center gap-2 bg-slate-50 p-3 rounded-xl border text-xs">
@@ -249,6 +244,31 @@
                 </table>
             </div>
         </div>
+        
+        <!-- TAB 2.8: HUBUNGI PETUGAS (PESAN MASUK DARI WALI/USTADZ) -->
+        <div id="kontenTabPesanWali" class="hidden space-y-4 flex-grow flex flex-col overflow-hidden">
+            <div class="bg-slate-50 p-3 rounded-xl border flex justify-between items-center text-xs">
+                <span class="font-bold text-indigo-950">💬 PESAN & LAPORAN MASUK DARI WALI / USTADZ (REAL-TIME)</span>
+                <span class="text-slate-500 font-medium">Pesan otomatis diperbarui tanpa refresh halaman.</span>
+            </div>
+            <div class="flex-grow overflow-auto border rounded-xl bg-white">
+                <table class="w-full text-left text-[11px] table-fixed min-w-[900px]">
+                    <thead class="bg-indigo-950 text-white sticky top-0">
+                        <tr>
+                            <th class="p-2.5 w-[130px]">Waktu Masuk</th>
+                            <th class="p-2.5 w-[150px]">Pengirim (Email)</th>
+                            <th class="p-2.5 w-[150px]">Identitas Asal</th>
+                            <th class="p-2.5">Isi Pesan Konten</th>
+                            <th class="p-2.5 w-[110px] text-center">Status Baca</th>
+                            <th class="p-2.5 w-[100px] text-center">Tindakan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelBodyPesanMasuk" class="divide-y">
+                        <tr><td colspan="6" class="p-4 text-center text-slate-400">Memuat pesan...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <!-- TAB 3: ANALISIS GRAFIK -->
         <div id="kontenTabAnalisis" class="hidden space-y-4 flex-grow flex flex-col overflow-hidden">
@@ -260,7 +280,6 @@
                 <canvas id="grafikLogistikUtama" class="max-w-full max-h-[320px]"></canvas>
             </div>
         </div>
-
         <!-- TAB 4: LOG AUDIT SYSTEM -->
         <div id="kontenTabAudit" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden">
             <div class="flex justify-between items-center bg-slate-50 p-3 rounded-xl border text-xs">
@@ -269,7 +288,6 @@
             </div>
             <div class="overflow-y-auto border rounded-xl flex-grow p-2 bg-slate-900 font-mono text-xs text-green-400 space-y-1" id="boxLogAuditSystem"></div>
         </div>
-
         <!-- TAB 5: KELOLA AKUN -->
         <div id="kontenTabUsers" class="hidden space-y-4 flex-grow flex flex-col overflow-hidden">
             <div class="bg-purple-50 p-4 rounded-2xl border border-purple-200">
@@ -293,7 +311,6 @@
             </div>
         </div>
     </div>
-
     <!-- MODAL CTRL+F SANTRI -->
     <div id="modalCtrlFSantri" class="fixed inset-0 bg-black/70 z-50 flex justify-center items-center hidden no-print p-4">
         <div class="bg-slate-900 border border-slate-700 w-full max-w-md p-5 rounded-2xl flex flex-col text-white shadow-2xl">
@@ -305,7 +322,6 @@
             <div class="overflow-y-auto max-h-[250px] divide-y divide-slate-800 bg-slate-950 rounded-lg border border-slate-800 p-1" id="boxListCtrlFSantri"></div>
         </div>
     </div>
-
     <!-- MODAL AMBIL PAKET GURU -->
     <div id="modalAmbilPaketGuru" class="fixed inset-0 bg-black/70 z-50 flex justify-center items-center hidden no-print p-4">
         <div class="bg-white rounded-2xl p-6 w-full max-w-sm border shadow-2xl text-center text-gray-800 animate-fade-in">
@@ -328,7 +344,6 @@
             </div>
         </div>
     </div>
-
     <!-- MODAL HISTORY PUBLIK -->
     <div id="modalHistoryPublik" class="fixed inset-0 bg-black/80 z-50 flex justify-center items-center hidden no-print p-4">
         <div class="bg-slate-900 border border-slate-700 w-full max-w-2xl p-6 rounded-2xl max-h-[80vh] flex flex-col text-white">
@@ -339,7 +354,6 @@
             <div id="boxHistorySudahAmbil" class="space-y-2 overflow-y-auto flex-grow pr-1 text-xs"></div>
         </div>
     </div>
-
     <!-- MODAL LOGIN ADMIN -->
     <div id="modalLoginAdmin" class="fixed inset-0 bg-black/70 z-50 flex justify-center items-center hidden no-print p-4">
         <div class="bg-white rounded-2xl p-6 w-full max-w-sm border shadow-2xl text-gray-800">
@@ -360,7 +374,6 @@
             </form>
         </div>
     </div>
-
     <!-- CUSTOM ALERT MODAL -->
     <div id="customAlertModal" class="fixed inset-0 bg-black/80 z-[100] flex justify-center items-center hidden no-print p-4">
         <div class="bg-slate-900 border border-slate-700 p-6 rounded-2xl max-w-xs w-full text-center shadow-2xl">
@@ -368,14 +381,12 @@
             <button id="customAlertBtn" onclick="tutupAlertKustom()" class="bg-gradient-to-r from-amber-500 to-orange-500 font-black text-xs text-slate-950 px-6 py-2.5 rounded-xl w-full tracking-wider shadow-md">KONFIRMASI</button>
         </div>
     </div>
-
     <!-- Script Paket Terpadu -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script>
         const SUPABASE_URL = "https://eimdfqhkjfocelsqkxql.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpbWRmcWhramZvY2Vsc3FreHFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxNzUwODksImV4cCI6MjA5ODc1MTA4OX0.5s6W7G8rgfEg8ttiKes5FDAGRJeTWupJbW6enCWELaQ";
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
         let listSeluruhMahasiswa = [];
         let databasePaket = [];
         let dataPaketTerfilter = [];
@@ -384,6 +395,7 @@
         let logAuditSystem = [];
         let elemenFokusTerakhir = null;
         let objekGrafikLogistik = null;
+        let listPesanMasuk = []; // Menampung data tabel hubungi_petugas
 
         function tampilkanPesanError(pesan, elemenUntukFokus = null) {
             elemenFokusTerakhir = elemenUntukFokus;
@@ -438,6 +450,11 @@
             const tgl = new Date();
             return tgl.toLocaleDateString('id-ID', {day: '2-digit', month: '2-digit', year: 'numeric'}) + ' ' + tgl.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
         }
+        function formatWaktuSupabase(tglString) {
+            if(!tglString) return '-';
+            const tgl = new Date(tglString);
+            return tgl.toLocaleDateString('id-ID', {day: '2-digit', month: '2-digit', year: 'numeric'}) + ' ' + tgl.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
+        }
         function catatAuditLog(pesan) {
             const waktu = dapatkanWaktuSekarang();
             const namaOp = userLoginAktif ? (userLoginAktif.nama || userLoginAktif.username || 'Admin') : 'System';
@@ -460,14 +477,12 @@
                 perbaruiTampilanAuditLog();
             }
         }
-
         function pilihMenuAwal() { document.getElementById('landingPage').classList.add('hidden'); document.getElementById('portalPage').classList.remove('hidden'); }
         function kembaliKeLanding() { document.getElementById('portalPage').classList.add('hidden'); document.getElementById('landingPage').classList.remove('hidden'); }
         function bukaPortalPublik() { document.getElementById('portalPage').classList.add('hidden'); document.getElementById('portalPublik').classList.remove('hidden'); setTimeout(() => { document.getElementById('cariPublikInput').focus(); }, 100); }
         function kembaliKePortal() { document.getElementById('portalPublik').classList.add('hidden'); document.getElementById('portalPage').classList.remove('hidden'); document.getElementById('cariPublikInput').value = ''; document.getElementById('boxHasilPublik').innerHTML = ''; document.getElementById('boxHasilPublik').classList.add('hidden'); document.getElementById('areaHistoryPublik').classList.add('hidden'); }
         function bukaModalLoginAdmin() { document.getElementById('modalLoginAdmin').classList.remove('hidden'); document.getElementById('loginUsername').value = ''; document.getElementById('loginPassword').value = ''; setTimeout(() => { document.getElementById('loginUsername').focus(); }, 120); }
         function tutupModalLoginAdmin() { document.getElementById('modalLoginAdmin').classList.add('hidden'); }
-
         async function prefetchDaftarSantriDanGuru() {
             try {
                 let seluruhSantri = [];
@@ -494,7 +509,6 @@
                 console.error("Cache master gagal dimuat penuh:", err);
             }
         }
-
         function bukaCtrlFSantri() { document.getElementById('modalCtrlFSantri').classList.remove('hidden'); document.getElementById('inputFilterCtrlF').value = ''; filterListCtrlFSantri(''); setTimeout(() => { document.getElementById('inputFilterCtrlF').focus(); }, 120); }
         function tutupCtrlFSantri() { document.getElementById('modalCtrlFSantri').classList.add('hidden'); }
         function filterListCtrlFSantri(keyword) {
@@ -513,7 +527,6 @@
             `).join('');
         }
         function pilihSantriDariCtrlF(stVal) { document.getElementById('stambuk').value = stVal; tutupCtrlFSantri(); cekStambukOtomatis(); setTimeout(() => { document.getElementById('jenis_paket').focus(); }, 150); }
-
         async function cekStambukOtomatis() {
             const stambukInput = document.getElementById('stambuk');
             const stambukVal = stambukInput.value.trim();
@@ -539,17 +552,14 @@
                 tampilkanPesanError("Gagal memeriksa nomor stambuk.", 'stambuk');
             }
         }
-
         function cariSugestiNamaGuru(keyword) {
             const kw = keyword.toLowerCase().trim();
             const dropdown = document.getElementById('dropdownSugestiGuru');
             if (!kw) { dropdown.innerHTML = ''; dropdown.classList.add('hidden'); return; }
-
             const hasilFilter = listSeluruhGuruData.filter(g => {
                 const namaGuru = g.nama || g.Nama || "";
                 return namaGuru.toLowerCase().includes(kw);
             });
-
             if (hasilFilter.length === 0) {
                 dropdown.innerHTML = `<div class="p-2 text-xs text-red-500 italic text-center font-bold">⚠️ Nama guru tidak terdaftar</div>`;
                 dropdown.classList.remove('hidden');
@@ -557,7 +567,6 @@
                 document.getElementById('tahunGuru').value = '';
                 return;
             }
-
             dropdown.innerHTML = hasilFilter.slice(0, 10).map(g => {
                 const namaFinal = g.nama || g.Nama || "-";
                 const kamarFinal = g.kamar || g.Kamar || "-";
@@ -566,7 +575,6 @@
                 const namaEscaped = namaFinal.replace(/'/g, "\\'");
                 const kamarEscaped = kamarFinal.replace(/'/g, "\\'");
                 const tahunEscaped = String(tahunFinal).replace(/'/g, "\\'");
-
                 return `
                     <div onclick="pilihGuruDariSugesti('${namaEscaped}', '${kamarEscaped}', '${tahunEscaped}')" 
                          class="p-2 text-xs hover:bg-purple-100 cursor-pointer font-semibold border-b border-gray-100 text-gray-800 transition">
@@ -576,7 +584,6 @@
             }).join('');
             dropdown.classList.remove('hidden');
         }
-
         function pilihGuruDariSugesti(nama, kamar, tahun) {
             document.getElementById('namaGuruInput').value = nama;
             document.getElementById('kamarGuru').value = kamar;
@@ -590,7 +597,6 @@
                 document.getElementById('jenis_paket_guru').focus();
             }, 50);
         }
-
         async function simpanPaketBaru(e) {
             e.preventDefault();
             if(!userLoginAktif) {
@@ -624,7 +630,6 @@
                 tampilkanPesanError("Gagal menyimpan paket ke Supabase.");
             }
         }
-
         async function simpanPaketGuruBaru(e) {
             e.preventDefault();
             if(!userLoginAktif) return;
@@ -655,7 +660,6 @@
                 tampilkanPesanError("Gagal mendaftarkan paket guru ke Supabase.");
             }
         }
-
         async function prosesOtentikasiAdmin(e) {
             e.preventDefault();
             const u = document.getElementById('loginUsername').value.trim();
@@ -670,7 +674,6 @@
                 tampilkanPesanError("Gagal terhubung ke autentikasi Supabase.", 'loginUsername');
             }
         }
-
         function jalankanInisialisasiDashboard() {
             if(!userLoginAktif) return;
             document.getElementById('namaPetugasLabel').innerText = userLoginAktif.nama || userLoginAktif.username;
@@ -685,16 +688,16 @@
             switchTab('navTabInput');
             prefetchDaftarSantriDanGuru();
             muatDataKomplit();
+            muatPesanHubungiPetugas();
+            langgananPesanRealtime(); // Aktifkan pendengar pesan real-time
             if(userLoginAktif.role === 'superadmin') { muatDaftarPenggunaPetugas(); }
         }
         function keluarSistem() { localStorage.removeItem('sesiPetugas'); userLoginAktif = null; document.getElementById('mainDashboard').classList.add('hidden'); document.getElementById('portalPage').classList.remove('hidden'); }
-
         function jalankanFilterDashboardAmbil() {
             const tglVal = document.getElementById('filterTanggalInput').value;
             const statusVal = document.getElementById('filterStatusInput').value;
             const cariVal = document.getElementById('cariDashboardAmbil').value.trim().toLowerCase();
             const databaseSantri = databasePaket.filter(p => p.keterangan !== 'guru');
-
             dataPaketTerfilter = databaseSantri.filter(p => {
                 let matchTgl = true, matchStatus = true, matchCari = true;
                 if (tglVal) matchTgl = p.waktu_masuk && p.waktu_masuk.includes(tglVal.split('-').reverse().join('/'));
@@ -702,7 +705,6 @@
                 if (cariVal) matchCari = (p.nama && p.nama.toLowerCase().includes(cariVal)) || (p.stambuk && p.stambuk.toLowerCase().includes(cariVal));
                 return matchTgl && matchStatus && matchCari;
             });
-
             const tbodyTerkini = document.getElementById('tabelBodyLogTerkini');
             if(tbodyTerkini) {
                 tbodyTerkini.innerHTML = databaseSantri.slice(0, 50).map(p => `
@@ -721,7 +723,6 @@
                     </tr>
                 `).join('');
             }
-
             const tbodyAmbil = document.getElementById('tabelBodyPengambilan');
             if(tbodyAmbil) {
                 tbodyAmbil.innerHTML = dataPaketTerfilter.map(p => `
@@ -752,7 +753,6 @@
             }
             perbaruiStatistikDashboard();
         }
-
         function renderTabelAmbilGuru() {
             const tbody = document.getElementById('tabelBodyAmbilGuru');
             if(!tbody) return;
@@ -770,7 +770,6 @@
                 if (keyword) matchCari = g.nama && g.nama.toLowerCase().includes(keyword);
                 return matchTgl && matchStatus && matchCari;
             });
-
             tbody.innerHTML = dataGuru.map(g => `
                 <tr class="border-b text-slate-700 hover:bg-slate-50 transition">
                     <td class="p-2 font-bold text-slate-900">${g.nama}</td>
@@ -813,6 +812,101 @@
             perbaruiStatistikDashboard();
         }
 
+        // ============================================
+        // FITUR BARU: MANAJEMEN PESAN WALI (REAL-TIME)
+        // ============================================
+        async function muatPesanHubungiPetugas() {
+            try {
+                const { data, error } = await _supabase.from('hubungi_petugas').select('*').order('id', { ascending: false });
+                if(error) throw error;
+                listPesanMasuk = data || [];
+                renderTabelPesanMasuk();
+            } catch(e) {
+                console.error("Gagal mengambil pesan wali:", e);
+            }
+        }
+
+        function renderTabelPesanMasuk() {
+            const tbody = document.getElementById('tabelBodyPesanMasuk');
+            if(!tbody) return;
+
+            // Hitung pesan yang belum dibaca untuk notifikasi badge
+            const jumlahBelumBaca = listPesanMasuk.filter(p => p.status_baca === false).length;
+            const badge = document.getElementById('badgeNotifPesan');
+            if(jumlahBelumBaca > 0) {
+                badge.innerText = jumlahBelumBaca;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+
+            if(listPesanMasuk.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">[ Belum ada pesan masuk dari wali / ustadz ]</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = listPesanMasuk.map(p => {
+                // Deteksi apakah pengirim Wali (stambuk) atau Ustadz (nama)
+                let asalPengirim = "-";
+                if(p.stambuk_anak) {
+                    asalPengirim = `<span class="bg-blue-100 text-blue-800 border border-blue-200 px-1.5 py-0.5 rounded font-bold">Wali Stambuk: ${p.stambuk_anak}</span>`;
+                } else if(p.nama_ustadz) {
+                    asalPengirim = `<span class="bg-purple-100 text-purple-800 border border-purple-200 px-1.5 py-0.5 rounded font-bold">Ustadz: ${p.nama_ustadz}</span>`;
+                }
+
+                return `
+                    <tr class="border-b hover:bg-slate-50 text-slate-700 font-medium ${p.status_baca === false ? 'bg-amber-50/50 font-semibold' : ''}">
+                        <td class="p-2.5 font-mono text-slate-500">${formatWaktuSupabase(p.created_at)}</td>
+                        <td class="p-2.5 text-slate-900 truncate max-w-[140px]" title="${p.pengirim_email}">${p.pengirim_email}</td>
+                        <td class="p-2.5">${asalPengirim}</td>
+                        <td class="p-2.5 text-slate-800 break-words font-sans text-xs">${p.isi_pesan}</td>
+                        <td class="p-2.5 text-center">
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-black ${p.status_baca === true ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800 animate-pulse'}">
+                                ${p.status_baca === true ? 'Sudah Dibaca' : 'Pesan Baru'}
+                            </span>
+                        </td>
+                        <td class="p-2.5 text-center">
+                            ${p.status_baca === false ? 
+                            `<button onclick="tandaiPesanTelahDibaca('${p.id}')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-2 py-1 rounded text-[10px] shadow">Tandai Baca</button>` : 
+                            `<button onclick="hapusPesanMasuk('${p.id}')" class="bg-slate-200 hover:bg-red-100 hover:text-red-700 text-slate-500 font-bold px-2 py-1 rounded text-[10px]">Hapus</button>`}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function tandaiPesanTelahDibaca(id) {
+            try {
+                const { error } = await _supabase.from('hubungi_petugas').update({ status_baca: true }).eq('id', id);
+                if(error) throw error;
+                catatAuditLog(`Membaca pesan masuk ID: ${id}`);
+                await muatPesanHubungiPetugas();
+            } catch(e) {
+                alert("Gagal memperbarui status baca.");
+            }
+        }
+
+        async function hapusPesanMasuk(id) {
+            if(!confirm("Hapus riwayat pesan masuk ini dari database cloud?")) return;
+            try {
+                const { error } = await _supabase.from('hubungi_petugas').delete().eq('id', id);
+                if(error) throw error;
+                catatAuditLog(`Menghapus log arsip pesan masuk ID: ${id}`);
+                await muatPesanHubungiPetugas();
+            } catch(e) {
+                alert("Gagal menghapus pesan.");
+            }
+        }
+
+        function langgananPesanRealtime() {
+            _supabase.channel('public:hubungi_petugas')
+                .on('postgres_changes', { event: '*', filter: undefined, schema: 'public', table: 'hubungi_petugas' }, payload => {
+                    console.log('Pesan Real-time terdeteksi:', payload);
+                    muatPesanHubungiPetugas();
+                })
+                .subscribe();
+        }
+
         function perbaruiStatistikDashboard() {
             document.getElementById('statTotal').innerText = databasePaket.length;
             document.getElementById('statBelum').innerText = databasePaket.filter(x => x.status === 'Belum Diambil').length;
@@ -821,14 +915,12 @@
             const jumlahMasukHariIni = databasePaket.filter(p => p.waktu_masuk && p.waktu_masuk.includes(tglHariIni)).length;
             document.getElementById('statTotalMasuk').innerText = jumlahMasukHariIni;
         }
-
         function resetFilterAmbilGuru() {
             document.getElementById('filterTanggalGuru').value = '';
             document.getElementById('filterStatusGuru').value = 'Semua';
             document.getElementById('cariAmbilGuruInput').value = '';
             renderTabelAmbilGuru();
         }
-
         async function hapusPaketSistem(id, namaPemilik) {
             if(!confirm(`Apakah Anda yakin ingin MENGHAPUS PERMANEN data paket milik [ ${namaPemilik} ] dari database cloud?`)) return;
             try {
@@ -841,7 +933,6 @@
                 tampilkanPesanError("Gagal menghapus data paket dari Supabase.");
             }
         }
-
         function bukaModalProsesAmbilGuru(id) { document.getElementById('idTargetAmbilGuru').value = id; document.getElementById('selectJenisAmbilGuru').value = 'Ambil sendiri'; handleDropdownMetodeGuru('Ambil sendiri'); document.getElementById('modalAmbilPaketGuru').classList.remove('hidden'); }
         function tutupModalAmbilGuru() { document.getElementById('modalAmbilPaketGuru').classList.add('hidden'); }
         function handleDropdownMetodeGuru(v) {
@@ -852,7 +943,6 @@
             else if(v === 'di ambilkan') { box.classList.remove('hidden'); label.innerText = "Nama Penerima Kuasa / Yang Mengambilkan:"; inp.value = ''; inp.placeholder = "Ketik nama ustadz lain / orang ketiga..."; }
             else { box.classList.add('hidden'); inp.value = ''; }
         }
-
         async function simpanMetodeAmbilGuru() {
             const id = document.getElementById('idTargetAmbilGuru').value;
             const metode = document.getElementById('selectJenisAmbilGuru').value;
@@ -872,12 +962,11 @@
                 tampilkanPesanError("Gagal memproses pengambilan paket guru.");
             }
         }
-
         async function prosesAmbilPaketLangsung(id) {
             if(!userLoginAktif) return;
             try {
                 const namaPetugasSekarang = userLoginAktif.nama || userLoginAktif.username;
-                const { error } = await _supabase.from('paket').update({ status: 'Sudah Diambil', waktu_keluar: dapatkanWaktuSekarang(), petugas_keluar: namaPetugasSekarang }).eq('id', id);
+                const { error } = await { error } = await _supabase.from('paket').update({ status: 'Sudah Diambil', waktu_keluar: dapatkanWaktuSekarang(), petugas_keluar: namaPetugasSekarang }).eq('id', id);
                 if (error) throw error;
                 catatAuditLog(`Menandai paket ID ${id} sebagai sudah diambil.`);
                 await muatDataKomplit();
@@ -910,7 +999,6 @@
                 tampilkanPesanError("Gagal memperbarui data perubahan lokasi rak.");
             }
         }
-
         async function muatDataKomplit() {
             try {
                 const { data, error } = await _supabase.from('paket').select('*').order('id', { ascending: false });
@@ -923,7 +1011,6 @@
                 console.error("Gagal menyingkronkan database paket:", err);
             }
         }
-
         function buatGrafikAnalisisStatistik() {
             const ctx = document.getElementById('grafikLogistikUtama');
             if(!ctx) return;
@@ -947,7 +1034,6 @@
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
             });
         }
-
         function eksporGrafikKeGambar() {
             const canvas = document.getElementById('grafikLogistikUtama');
             if(!canvas) return;
@@ -962,7 +1048,6 @@
                 tampilkanPesanError("Gagal mengonversi grafik menjadi berkas gambar.");
             }
         }
-
         function eksporKeExcel(tipe) {
             let dataTarget = [];
             let namaBerkas = "";
@@ -985,7 +1070,6 @@
                 });
                 namaBerkas = "Laporan_Arsip_Paket_Guru.xlsx";
             }
-
             if (dataTarget.length === 0) { tampilkanPesanError("Tidak ada data paket untuk diekspor!"); return; }
             try {
                 const dataSiapEkspor = dataTarget.map((p, index) => ({ 
@@ -1014,7 +1098,6 @@
             }
         }
         function resetSemuaFilterAmbil() { document.getElementById('filterTanggalInput').value = ''; document.getElementById('filterStatusInput').value = 'Semua'; document.getElementById('cariDashboardAmbil').value = ''; jalankanFilterDashboardAmbil(); }
-
         async function muatDaftarPenggunaPetugas() {
             const bodyUsers = document.getElementById('tabelBodyUsers');
             if(!bodyUsers) return;
@@ -1030,7 +1113,6 @@
                 `).join('');
             } catch(e) { console.error(e); }
         }
-
         async function tambahUserPetugas(e) {
             e.preventDefault();
             const usernameInp = document.getElementById('newUsername').value.trim();
@@ -1045,7 +1127,6 @@
                 alert("Sukses menyimpan akun petugas!");
             } catch(e) { alert("Gagal mendaftarkan akun baru."); }
         }
-
         async function hapusAkunPetugas(id, username) {
             if(username === userLoginAktif.username) { alert("Anda tidak diperbolehkan menghapus akun Anda sendiri yang sedang aktif!"); return; }
             if(!confirm(`Hapus hak akses sistem untuk user petugas [ ${username} ]?`)) return;
@@ -1056,7 +1137,6 @@
                 await muatDaftarPenggunaPetugas();
             } catch(e) { alert("Gagal menghapus data petugas."); }
         }
-
         async function lakukanPencarianPublik() {
             const kw = document.getElementById('cariPublikInput').value.trim().toLowerCase();
             const box = document.getElementById('boxHasilPublik');
@@ -1089,7 +1169,6 @@
                         </div>`;
                     return;
                 }
-
                 box.innerHTML = belumAmbil.map(p => {
                     const isSiswa = p.keterangan !== 'guru';
                     if (isSiswa) {
@@ -1129,7 +1208,6 @@
                 }).join('');
             } catch(e) { alert("Koneksi gagal mengunduh data publik."); }
         }
-
         function konfirmasiSelesaiCariPublik() { kembaliKePortal(); }
         function bukaModalHistoryPublik() {
             document.getElementById('modalHistoryPublik').classList.remove('hidden');
@@ -1153,7 +1231,6 @@
             const dropdown = document.getElementById('dropdownSugestiGuru');
             if(dropdown && e.target.id !== 'namaGuruInput') { dropdown.classList.add('hidden'); }
         });
-
         window.addEventListener('DOMContentLoaded', () => {
             const cekSesiLokal = localStorage.getItem('sesiPetugas');
             if (cekSesiLokal) {
@@ -1164,9 +1241,8 @@
             }
             perbaruiTampilanAuditLog();
         });
-
         function switchTab(tabId) {
-            ['navTabInput', 'navTabInputGuru', 'navTabAmbil', 'navTabAmbilGuru', 'navTabAnalisis', 'navTabAudit', 'navTabUsers'].forEach(t => {
+            ['navTabInput', 'navTabInputGuru', 'navTabAmbil', 'navTabAmbilGuru', 'navTabPesanWali', 'navTabAnalisis', 'navTabAudit', 'navTabUsers'].forEach(t => {
                 const el = document.getElementById(t);
                 if(el) { el.classList.replace('bg-indigo-600', 'bg-gray-200'); el.classList.replace('text-white', 'text-gray-700'); }
             });
@@ -1176,6 +1252,7 @@
             document.getElementById('kontenTabInputGuru').classList.add('hidden');
             document.getElementById('kontenTabAmbil').classList.add('hidden');
             document.getElementById('kontenTabAmbilGuru').classList.add('hidden');
+            document.getElementById('kontenTabPesanWali').classList.add('hidden');
             document.getElementById('kontenTabAnalisis').classList.add('hidden');
             document.getElementById('kontenTabAudit').classList.add('hidden');
             document.getElementById('kontenTabUsers').classList.add('hidden');
@@ -1183,6 +1260,7 @@
             if(tabId === 'navTabInputGuru') { document.getElementById('kontenTabInputGuru').classList.remove('hidden'); setTimeout(()=> { document.getElementById('namaGuruInput').focus(); }, 50); }
             if(tabId === 'navTabAmbil') document.getElementById('kontenTabAmbil').classList.remove('hidden');
             if(tabId === 'navTabAmbilGuru') { document.getElementById('kontenTabAmbilGuru').classList.remove('hidden'); renderTabelAmbilGuru(); }
+            if(tabId === 'navTabPesanWali') { document.getElementById('kontenTabPesanWali').classList.remove('hidden'); muatPesanHubungiPetugas(); }
             if(tabId === 'navTabAnalisis') { document.getElementById('kontenTabAnalisis').classList.remove('hidden'); buatGrafikAnalisisStatistik(); }
             if(tabId === 'navTabAudit') { document.getElementById('kontenTabAudit').classList.remove('hidden'); perbaruiTampilanAuditLog(); }
             if(tabId === 'navTabUsers') document.getElementById('kontenTabUsers').classList.remove('hidden');
