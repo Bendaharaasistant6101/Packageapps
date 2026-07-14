@@ -748,7 +748,7 @@
             }
 
             try {
-                let { data, error } = await _supabase.from('users_petugas')
+                let { data, error } = await _supabase.from('users')
                     .select('*')
                     .eq('username', u)
                     .eq('password', p)
@@ -1409,7 +1409,7 @@
 
         async function memuatDaftarPenggunaPetugas() {
             try {
-                const { data, error } = await _supabase.from('users_petugas').select('*');
+                const { data, error } = await _supabase.from('uesers').select('*');
                 if(error) throw error;
                 const tbody = document.getElementById('tabelBodyUsers');
                 tbody.innerHTML = '';
@@ -1436,7 +1436,7 @@
             const r = document.getElementById('newRole').value;
 
             try {
-                const { error } = await _supabase.from('users_petugas').insert([{ username: u, password: p, role: r }]);
+                const { error } = await _supabase.from('uesers').insert([{ username: u, password: p, role: r }]);
                 if(error) throw error;
                 document.getElementById('formUser').reset();
                 simpanLogAuditSystemLocal(`Menambahkan/memperbarui akun petugas piket bernama: ${u}`);
@@ -1449,7 +1449,7 @@
         async function hapusAkunPetugasPiket(id, uname) {
             if(!confirm(`Apakah Anda yakin ingin menghapus akun petugas "${uname}"?`)) return;
             try {
-                const { error } = await _supabase.from('users_petugas').delete().eq('id', id);
+                const { error } = await _supabase.from('uesers').delete().eq('id', id);
                 if(error) throw error;
                 simpanLogAuditSystemLocal(`Menghapus akun petugas bernama: ${uname}`);
                 await memuatDaftarPenggunaPetugas();
