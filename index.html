@@ -20,33 +20,36 @@
 </head>
 <body class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 font-sans min-h-screen flex items-center justify-center p-4">
     <div id="areaCetakStruk" class="hidden p-4 bg-white text-black text-xs leading-tight"></div>
-
+    
+    <!-- LANDING PAGE -->
     <div id="landingPage" class="bg-white/10 backdrop-blur-xl p-10 rounded-3xl shadow-2xl border border-white/20 max-w-sm w-full text-center flex flex-col items-center justify-center no-print">
-        <div class="w-20 h-20 bg-gradient-to-tr from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center text-4xl shadow-lg mb-6 animate-pulse">   📦   </div>
+        <div class="w-20 h-20 bg-gradient-to-tr from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center text-4xl shadow-lg mb-6 animate-pulse">  📦  </div>
         <h1 class="text-3xl font-black text-white tracking-tight mb-2">Package Apps</h1>
         <p class="text-xs text-indigo-200 font-medium mb-8 px-4">Sistem Manajemen Pengarsipan Paket Terpadu Pesantren.</p>
-        <button onclick="pilihMenuAwal()" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-black px-6 py-3.5 rounded-2xl text-sm shadow-xl transition transform scale-[1.02]">Mulai Sistem   ➔   </button>
+        <button onclick="pilihMenuAwal()" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-black px-6 py-3.5 rounded-2xl text-sm shadow-xl transition transform scale-[1.02]">Mulai Sistem  ➔  </button>
     </div>
 
+    <!-- PORTAL PAGE -->
     <div id="portalPage" class="hidden bg-white/10 backdrop-blur-xl p-8 rounded-3xl shadow-2xl border border-white/20 max-w-md w-full text-center no-print">
         <h2 class="text-xl font-bold text-white mb-6 tracking-wide">PILIH PORTAL AKSES</h2>
         <div class="grid grid-cols-1 gap-4">
             <button onclick="bukaPortalPublik()" class="p-5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold rounded-2xl shadow-lg transition flex flex-col items-center gap-2 transform hover:scale-[1.01]">
-                <span class="text-3xl">   🔍   </span>
+                <span class="text-3xl">  🔍  </span>
                 <span class="text-sm">Portal Cari Paket Mandiri (Santri / Guru)</span>
             </button>
             <button onclick="bukaModalLoginAdmin()" class="p-5 bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-700 hover:to-slate-900 text-white font-bold rounded-2xl shadow-lg transition flex flex-col items-center gap-2 transform hover:scale-[1.01]">
-                <span class="text-3xl">   🔐   </span>
+                <span class="text-3xl">  🔐  </span>
                 <span class="text-sm">Login Akun Admin / Petugas</span>
             </button>
         </div>
-        <button onclick="kembaliKeLanding()" class="mt-6 text-xs text-slate-300 hover:text-white transition underline">   ➔   Kembali Ke Beranda</button>
+        <button onclick="kembaliKeLanding()" class="mt-6 text-xs text-slate-300 hover:text-white transition underline">  ➔  Kembali Ke Beranda</button>
     </div>
 
+    <!-- PORTAL PUBLIK (CARI MANDIRI) -->
     <div id="portalPublik" class="hidden bg-slate-900/90 backdrop-blur-2xl rounded-3xl shadow-2xl w-full max-w-2xl p-8 border border-slate-700/50 text-white no-print">
         <div class="flex justify-between items-center border-b border-slate-700 pb-4 mb-6">
             <div>
-                <h2 class="text-xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">   🔍   PENCARIAN PAKET MANDIRI</h2>
+                <h2 class="text-xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">  🔍  PENCARIAN PAKET MANDIRI</h2>
                 <p class="text-[10px] text-slate-400">Silakan masukkan stambuk atau nama Anda untuk melacak paket.</p>
             </div>
             <button onclick="kembaliKePortal()" class="text-xs bg-slate-800 border border-slate-700 px-4 py-1.5 rounded-xl font-bold text-slate-300 hover:bg-slate-700">Kembali</button>
@@ -57,39 +60,41 @@
         </div>
         <div id="boxHasilPublik" class="space-y-3 max-h-[350px] overflow-y-auto hidden pr-1"></div>
         <div id="areaHistoryPublik" class="mt-4 pt-4 border-t border-slate-700 hidden">
-            <button onclick="bukaModalHistoryPublik()" class="w-full bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/30 text-xs font-bold py-2.5 rounded-xl transition">   📜   Lihat Riwayat Paket yang Sudah Diambil </button>
+            <button onclick="bukaModalHistoryPublik()" class="w-full bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/30 text-xs font-bold py-2.5 rounded-xl transition">  📜  Lihat Riwayat Paket yang Sudah Diambil </button>
             <div class="mt-4 flex justify-end">
                 <button onclick="konfirmasiSelesaiCariPublik()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2 rounded-xl text-xs shadow-md transition">OK (Selesai)</button>
             </div>
         </div>
     </div>
 
+    <!-- MAIN DASHBOARD UTAMA -->
     <div id="mainDashboard" class="hidden bg-white rounded-3xl shadow-2xl w-full max-w-6xl p-6 h-[90vh] flex flex-col text-gray-800 no-print">
         <div class="flex flex-wrap justify-between items-center border-b pb-3 mb-4 gap-2">
             <div>
-                <h2 class="text-xl font-black tracking-tight text-slate-900">   📦   Package Apps Dashboard</h2>
+                <h2 class="text-xl font-black tracking-tight text-slate-900">  📦  Package Apps Dashboard</h2>
                 <p class="text-[11px] text-indigo-600 font-medium">Operator Piket: <span id="namaPetugasLabel" class="font-bold text-amber-600"></span> (<span id="roleLabel" class="uppercase text-gray-500 font-bold"></span>)</p>
             </div>
             <div class="flex flex-wrap items-center gap-1.5 text-xs">
-                <button onclick="switchTab('navTabInput')" id="navTabInput" class="px-3 py-2 bg-indigo-600 text-white font-bold rounded-xl">   📥   Tab 1: Input Santri</button>
-                <button onclick="switchTab('navTabInputGuru')" id="navTabInputGuru" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">   📥   Tab 1.5: Input Guru</button>
-                <button onclick="switchTab('navTabAmbil')" id="navTabAmbil" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">   📤   Tab 2: Pengambilan Santri</button>
-                <button onclick="switchTab('navTabAmbilGuru')" id="navTabAmbilGuru" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">   📤   Tab 2.5: Pengambilan Guru</button>
-                <button onclick="switchTab('navTabPesanWali')" id="navTabPesanWali" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">   💬   Tab 2.8: Pesan Wali</button>
-                <button onclick="switchTab('navTabAnalisis')" id="navTabAnalisis" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">   📊   Tab 3: Analisis Grafik</button>
-                <button onclick="switchTab('navTabAudit')" id="navTabAudit" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">   📜   Tab 4: Log Audit</button>
-                <button onclick="switchTab('navTabUsers')" id="navTabUsers" class="hidden px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">   👥   Tab 5: Kelola Akun</button>
-                <button onclick="keluarSistem()" class="bg-red-500 text-white font-bold px-3 py-2 rounded-xl ml-1">   🔒   Keluar</button>
+                <button onclick="switchTab('navTabInput')" id="navTabInput" class="px-3 py-2 bg-indigo-600 text-white font-bold rounded-xl">  📥  Tab 1: Input Paket Santri</button>
+                <button onclick="switchTab('navTabInputGuru')" id="navTabInputGuru" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  📥  Tab 1.5: Input Paket Guru</button>
+                <button onclick="switchTab('navTabAmbil')" id="navTabAmbil" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  📤  Tab 2: Pengambilan Santri</button>
+                <button onclick="switchTab('navTabAmbilGuru')" id="navTabAmbilGuru" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  📤  Tab 2.5: Pengambilan Guru</button>
+                <button onclick="switchTab('navTabAnalisis')" id="navTabAnalisis" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  📊  Tab 3: Analisis Grafik</button>
+                <button onclick="switchTab('navTabAudit')" id="navTabAudit" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  📜  Tab 4: Log Audit</button>
+                <button onclick="switchTab('navTabUsers')" id="navTabUsers" class="hidden px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  👥  Tab 5: Kelola Akun</button>
+                <button onclick="keluarSistem()" class="bg-red-500 text-white font-bold px-3 py-2 rounded-xl ml-1">  🔒  Keluar</button>
             </div>
         </div>
-
+        
+        <!-- STATISTIK UTAMA -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center mb-4">
             <div class="bg-blue-50 rounded-xl p-2.5"><p class="text-[9px] font-bold text-blue-600">TOTAL PAKET</p><p id="statTotal" class="text-lg font-black text-blue-950">0</p></div>
             <div class="bg-amber-50 rounded-xl p-2.5"><p class="text-[9px] font-bold text-amber-600">BELUM DIAMBIL</p><p id="statBelum" class="text-lg font-black text-amber-950">0</p></div>
             <div class="bg-emerald-50 rounded-xl p-2.5"><p class="text-[9px] font-bold text-emerald-600">MASUK HARI INI</p><p id="statTotalMasuk" class="text-lg font-black text-emerald-950">0</p></div>
             <div class="bg-purple-50 rounded-xl p-2.5"><p class="text-[9px] font-bold text-purple-600">SUDAH DIAMBIL</p><p id="statSudahAmbil" class="text-lg font-black text-purple-950">0</p></div>
         </div>
-
+        
+        <!-- TAB 1: INPUT PAKET SANTRI -->
         <div id="kontenTabInput" class="space-y-4 flex-grow flex flex-col overflow-hidden">
             <div id="boxFormInputBatas" class="bg-slate-50 p-4 rounded-2xl border">
                 <form id="formPaket" onsubmit="simpanPaketBaru(event)" class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
@@ -133,6 +138,7 @@
             </div>
         </div>
 
+        <!-- TAB 1.5: INPUT PAKET GURU -->
         <div id="kontenTabInputGuru" class="hidden space-y-4 flex-grow flex flex-col overflow-hidden">
             <div class="bg-slate-50 p-4 rounded-2xl border relative">
                 <form id="formPaketGuru" onsubmit="simpanPaketGuruBaru(event)" class="grid grid-cols-2 md:grid-cols-5 gap-2 text-xs">
@@ -174,15 +180,16 @@
             </div>
         </div>
 
+        <!-- TAB 2: PENGAMBILAN SANTRI -->
         <div id="kontenTabAmbil" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden">
             <div class="flex flex-wrap justify-between items-center gap-2 bg-slate-50 p-3 rounded-xl border">
-                <div class="flex flex-wrap items-center gap-3 text-xs">
-                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">   📅   Tanggal:</label> <input type="date" id="filterTanggalInput" onchange="jalankanFilterDashboardAmbil()" class="p-1.5 border rounded-lg bg-white font-medium"> </div>
-                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">   📌   Status:</label> <select id="filterStatusInput" onchange="jalankanFilterDashboardAmbil()" class="p-1.5 border rounded-lg bg-white font-bold text-slate-700 focus:outline-none"> <option value="Semua">Semua Status</option> <option value="Belum Diambil">Belum Diambil</option> <option value="Sudah Diambil">Sudah Diambil</option> </select> </div>
-                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">   🔍   Cari:</label> <input type="text" id="cariDashboardAmbil" placeholder="Ketik nama / stambuk..." oninput="jalankanFilterDashboardAmbil()" class="p-1.5 border-2 border-indigo-400 rounded-lg bg-white font-bold w-48 placeholder-gray-400 focus:outline-none focus:border-indigo-600"> </div>
+                <div class="flex flex-wrap items-center gap-3 text-xs"> 
+                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  📅  Tanggal:</label> <input type="date" id="filterTanggalInput" onchange="jalankanFilterDashboardAmbil()" class="p-1.5 border rounded-lg bg-white font-medium"> </div>
+                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  📌  Status:</label> <select id="filterStatusInput" onchange="jalankanFilterDashboardAmbil()" class="p-1.5 border rounded-lg bg-white font-bold text-slate-700 focus:outline-none"> <option value="Semua">Semua Status</option> <option value="Belum Diambil">Belum Diambil</option> <option value="Sudah Diambil">Sudah Diambil</option> </select> </div>
+                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  🔍  Cari:</label> <input type="text" id="cariDashboardAmbil" placeholder="Ketik nama / stambuk..." oninput="jalankanFilterDashboardAmbil()" class="p-1.5 border-2 border-indigo-400 rounded-lg bg-white font-bold w-48 placeholder-gray-400 focus:outline-none focus:border-indigo-600"> </div>
                     <button onclick="resetSemuaFilterAmbil()" class="bg-gray-500 text-white px-2.5 py-1.5 rounded-lg font-bold">Reset Filter</button>
                 </div>
-                <button onclick="eksporKeExcel('siswa')" class="bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-lg font-bold">   📥   Ekspor Paket Santri ke Excel (.xlsx)</button>
+                <button onclick="eksporKeExcel('siswa')" class="bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-lg font-bold">  📥  Ekspor Paket Santri ke Excel (.xlsx)</button>
             </div>
             <div class="overflow-auto border rounded-xl flex-grow">
                 <table class="w-full text-left text-[11px] border-collapse min-w-[2100px] table-fixed">
@@ -210,15 +217,16 @@
             </div>
         </div>
 
+        <!-- TAB 2.5: PENGAMBILAN GURU -->
         <div id="kontenTabAmbilGuru" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden">
             <div class="flex flex-wrap justify-between items-center gap-2 bg-slate-50 p-3 rounded-xl border text-xs">
                 <div class="flex flex-wrap items-center gap-3">
-                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">   📅   Tanggal:</label> <input type="date" id="filterTanggalGuru" onchange="renderTabelAmbilGuru()" class="p-1.5 border rounded-lg bg-white font-medium"> </div>
-                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">   📌   Status:</label> <select id="filterStatusGuru" onchange="renderTabelAmbilGuru()" class="p-1.5 border rounded-lg bg-white font-bold text-purple-800 focus:outline-none"> <option value="Semua">Semua Status</option> <option value="Belum Diambil">Belum Diambil</option> <option value="Sudah Diambil">Sudah Diambil</option> </select> </div>
-                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">   🔍   Cari:</label> <input type="text" id="cariAmbilGuruInput" placeholder="Ketik nama guru..." oninput="renderTabelAmbilGuru()" class="p-1.5 border-2 border-purple-400 rounded-lg bg-white font-bold w-48 placeholder-gray-400 focus:outline-none"> </div>
+                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  📅  Tanggal:</label> <input type="date" id="filterTanggalGuru" onchange="renderTabelAmbilGuru()" class="p-1.5 border rounded-lg bg-white font-medium"> </div>
+                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  📌  Status:</label> <select id="filterStatusGuru" onchange="renderTabelAmbilGuru()" class="p-1.5 border rounded-lg bg-white font-bold text-purple-800 focus:outline-none"> <option value="Semua">Semua Status</option> <option value="Belum Diambil">Belum Diambil</option> <option value="Sudah Diambil">Sudah Diambil</option> </select> </div>
+                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  🔍  Cari:</label> <input type="text" id="cariAmbilGuruInput" placeholder="Ketik nama guru..." oninput="renderTabelAmbilGuru()" class="p-1.5 border-2 border-purple-400 rounded-lg bg-white font-bold w-48 placeholder-gray-400 focus:outline-none"> </div>
                     <button onclick="resetFilterAmbilGuru()" class="bg-gray-500 text-white px-2.5 py-1.5 rounded-lg font-bold">Reset</button>
                 </div>
-                <button onclick="eksporKeExcel('guru')" class="bg-purple-700 text-white text-xs px-3 py-1.5 rounded-lg font-bold">   📥   Ekspor Paket Guru ke Excel (.xlsx)</button>
+                <button onclick="eksporKeExcel('guru')" class="bg-purple-700 text-white text-xs px-3 py-1.5 rounded-lg font-bold">  📥  Ekspor Paket Guru ke Excel (.xlsx)</button>
             </div>
             <div class="overflow-auto border rounded-xl flex-grow">
                 <table class="w-full text-left text-[11px] border min-w-[1500px] table-fixed">
@@ -242,52 +250,30 @@
             </div>
         </div>
 
-        <div id="kontenTabPesanWali" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden">
-            <div class="bg-slate-50 p-3 rounded-xl border flex justify-between items-center text-xs">
-                <span class="font-bold text-slate-700">💬 DATA PESAN WALI / HUBUNGI PETUGAS (BELUM PROSES)</span>
-                <button onclick="muatPesanHubungiPetugas()" class="bg-indigo-600 text-white font-bold px-3 py-1.5 rounded-lg">🔄 Segarkan Data</button>
-            </div>
-            <div class="overflow-auto border rounded-xl flex-grow">
-                <table class="w-full text-left text-[11px] border min-w-[1200px] table-fixed">
-                    <thead class="bg-indigo-900 text-white sticky top-0">
-                        <tr>
-                            <th class="p-2 w-[100px]">Stambuk</th>
-                            <th class="p-2 w-[150px]">Nama Santri</th>
-                            <th class="p-2 w-[80px]">Kelas</th>
-                            <th class="p-2 w-[100px]">Rayon</th>
-                            <th class="p-2 w-[120px]">Wali (Pengirim)</th>
-                            <th class="p-2 w-[250px]">Pesan / Instruksi</th>
-                            <th class="p-2 w-[130px]">Waktu Kirim</th>
-                            <th class="p-2 w-[100px]">Status</th>
-                            <th class="p-2 w-[180px] text-center">Tindakan</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabelBodyPesanWali" class="divide-y"></tbody>
-                </table>
-            </div>
-        </div>
-
+        <!-- TAB 3: ANALISIS GRAFIK -->
         <div id="kontenTabAnalisis" class="hidden space-y-4 flex-grow flex flex-col overflow-hidden">
             <div class="bg-slate-50 p-3 rounded-xl border flex flex-wrap justify-between items-center gap-2 text-xs">
-                <h3 class="font-bold text-gray-700">  📊   Grafik Analisis Paket Real-Time (Siswa vs Guru)</h3>
-                <button onclick="eksporGrafikKeGambar()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-lg">  📸  Ekspor Grafik ke Gambar (.png)</button>
+                <h3 class="font-bold text-gray-700"> 📊  Grafik Analisis Paket Real-Time (Siswa vs Guru)</h3>
+                <button onclick="eksporGrafikKeGambar()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-lg"> 📸 Ekspor Grafik ke Gambar (.png)</button>
             </div>
             <div class="flex-grow p-4 bg-slate-50 border rounded-xl flex items-center justify-center relative">
                 <canvas id="grafikLogistikUtama" class="max-w-full max-h-[320px]"></canvas>
             </div>
         </div>
 
+        <!-- TAB 4: LOG AUDIT SYSTEM -->
         <div id="kontenTabAudit" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden">
             <div class="flex justify-between items-center bg-slate-50 p-3 rounded-xl border text-xs">
-                <span class="font-bold text-slate-700">   📜   LOG RIWAYAT AKTIVITAS AUDIT SISTEM (REAL-TIME)</span>
+                <span class="font-bold text-slate-700">  📜  LOG RIWAYAT AKTIVITAS AUDIT SISTEM (REAL-TIME)</span>
                 <button onclick="bersihkanLogAuditLocal()" class="bg-red-100 border border-red-300 text-red-700 font-bold px-2.5 py-1 rounded-md hover:bg-red-200">Clear Logs</button>
             </div>
             <div class="overflow-y-auto border rounded-xl flex-grow p-2 bg-slate-900 font-mono text-xs text-green-400 space-y-1" id="boxLogAuditSystem"></div>
         </div>
 
+        <!-- TAB 5: KELOLA AKUN -->
         <div id="kontenTabUsers" class="hidden space-y-4 flex-grow flex flex-col overflow-hidden">
             <div class="bg-purple-50 p-4 rounded-2xl border border-purple-200">
-                <h3 class="font-black text-xs text-purple-900 mb-2">   ➕   Tambah / Update Akun Petugas</h3>
+                <h3 class="font-black text-xs text-purple-900 mb-2">  ➕  Tambah / Update Akun Petugas</h3>
                 <form id="formUser" onsubmit="tambahUserPetugas(event)" class="grid grid-cols-1 sm:grid-cols-4 gap-2 text-xs">
                     <input type="text" id="newUsername" placeholder="Username Petugas" required class="p-2 border rounded-md">
                     <input type="text" id="newPassword" placeholder="Password Baru" required class="p-2 border rounded-md">
@@ -308,10 +294,11 @@
         </div>
     </div>
 
+    <!-- MODAL CTRL+F SANTRI -->
     <div id="modalCtrlFSantri" class="fixed inset-0 bg-black/70 z-50 flex justify-center items-center hidden no-print p-4">
         <div class="bg-slate-900 border border-slate-700 w-full max-w-md p-5 rounded-2xl flex flex-col text-white shadow-2xl">
             <div class="flex justify-between items-center border-b border-slate-700 pb-2.5 mb-4">
-                <h3 class="font-black text-xs text-blue-400">  🔍   CARI DATA SANTRI (TANPA STAMBUK)</h3>
+                <h3 class="font-black text-xs text-blue-400"> 🔍  CARI DATA SANTRI (TANPA STAMBUK)</h3>
                 <button onclick="tutupCtrlFSantri()" class="text-xs bg-slate-800 text-slate-400 px-2 py-1 rounded">X</button>
             </div>
             <input type="text" id="inputFilterCtrlF" placeholder="Ketik nama lengkap santri..." oninput="filterListCtrlFSantri(this.value)" class="w-full p-2 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white focus:outline-none mb-3 font-medium">
@@ -319,6 +306,7 @@
         </div>
     </div>
 
+    <!-- MODAL AMBIL PAKET GURU -->
     <div id="modalAmbilPaketGuru" class="fixed inset-0 bg-black/70 z-50 flex justify-center items-center hidden no-print p-4">
         <div class="bg-white rounded-2xl p-6 w-full max-w-sm border shadow-2xl text-center text-gray-800 animate-fade-in">
             <div class="text-3xl mb-2"> 🎉 </div>
@@ -341,16 +329,18 @@
         </div>
     </div>
 
+    <!-- MODAL HISTORY PUBLIK -->
     <div id="modalHistoryPublik" class="fixed inset-0 bg-black/80 z-50 flex justify-center items-center hidden no-print p-4">
         <div class="bg-slate-900 border border-slate-700 w-full max-w-2xl p-6 rounded-2xl max-h-[80vh] flex flex-col text-white">
             <div class="flex justify-between items-center border-b border-slate-700 pb-3 mb-4">
-                <h3 class="font-black text-sm tracking-wide text-amber-400"> 📜 RIWAYAT PAKET YANG SUDAH DIAMBIL</h3>
+                <h3 class="font-black text-sm tracking-wide text-amber-400">  📜  RIWAYAT PAKET YANG SUDAH DIAMBIL</h3>
                 <button onclick="tutupModalHistoryPublik()" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded-lg">Tutup</button>
             </div>
             <div id="boxHistorySudahAmbil" class="space-y-2 overflow-y-auto flex-grow pr-1 text-xs"></div>
         </div>
     </div>
 
+    <!-- MODAL LOGIN ADMIN -->
     <div id="modalLoginAdmin" class="fixed inset-0 bg-black/70 z-50 flex justify-center items-center hidden no-print p-4">
         <div class="bg-white rounded-2xl p-6 w-full max-w-sm border shadow-2xl text-gray-800">
             <h3 class="font-black text-center text-sm text-slate-900 tracking-wide uppercase mb-4">Mulai Sesi Piket</h3>
@@ -365,12 +355,13 @@
                 </div>
                 <div class="flex gap-2 pt-2">
                     <button type="button" onclick="tutupModalLoginAdmin()" class="w-1/3 bg-gray-200 font-bold py-2.5 rounded-xl transition">Batal</button>
-                    <button type="submit" class="w-2/3 bg-indigo-600 hover:bg-indigo-700 text-white font-black py-2.5 rounded-xl transition tracking-wide shadow-md">MASUK ➔ </button>
+                    <button type="submit" class="w-2/3 bg-indigo-600 hover:bg-indigo-700 text-white font-black py-2.5 rounded-xl transition tracking-wide shadow-md">MASUK  ➔</button>
                 </div>
             </form>
         </div>
     </div>
 
+    <!-- CUSTOM ALERT MODAL -->
     <div id="customAlertModal" class="fixed inset-0 bg-black/80 z-[100] flex justify-center items-center hidden no-print p-4">
         <div class="bg-slate-900 border border-slate-700 p-6 rounded-2xl max-w-xs w-full text-center shadow-2xl">
             <p id="customAlertMessage" class="text-sm font-bold text-slate-100 whitespace-pre-line mb-5"></p>
@@ -378,6 +369,7 @@
         </div>
     </div>
 
+    <!-- Script Paket Terpadu -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script>
         const SUPABASE_URL = "https://eimdfqhkjfocelsqkxql.supabase.co";
@@ -387,7 +379,7 @@
         let listSeluruhMahasiswa = [];
         let databasePaket = [];
         let dataPaketTerfilter = [];
-        let listSeluruhGuruData = [];
+        let listSeluruhGuruData = []; 
         let userLoginAktif = null;
         let logAuditSystem = [];
         let elemenFokusTerakhir = null;
@@ -399,21 +391,21 @@
             document.getElementById('customAlertModal').classList.remove('hidden');
             setTimeout(() => { document.getElementById('customAlertBtn').focus(); }, 50);
         }
-
         function tutupAlertKustom() {
             document.getElementById('customAlertModal').classList.add('hidden');
             if (elemenFokusTerakhir) {
                 setTimeout(() => {
                     const el = document.getElementById(elemenFokusTerakhir);
-                    if (el) { el.focus(); if(el.select) el.select(); }
+                    if (el) {
+                        el.focus();
+                        if(el.select) el.select();
+                    }
                 }, 80);
             }
         }
-
         if(localStorage.getItem('logs_audit')) {
             try { logAuditSystem = JSON.parse(localStorage.getItem('logs_audit')); } catch(e) { logAuditSystem = []; }
         }
-
         function pindahInput(event, targetId) {
             if (event.key === 'Enter') {
                 event.preventDefault();
@@ -425,7 +417,6 @@
                 }
             }
         }
-
         function pindahInputGuruTab(event, targetId) {
             if (event.key === 'Enter') {
                 event.preventDefault();
@@ -437,797 +428,398 @@
                 }
             }
         }
-
         function pindahInputLogin(event, targetId) {
             if (event.key === 'Enter') {
                 event.preventDefault();
                 document.getElementById(targetId).focus();
             }
         }
-
-        function simpanLogAuditSystemLocal(pesanAksi) {
+        function dapatkanWaktuSekarang() {
             const tgl = new Date();
-            const formatWaktu = `[${tgl.toLocaleDateString('id-ID')} ${tgl.toLocaleTimeString('id-ID')}]`;
-            const operator = userLoginAktif ? userLoginAktif.username : "System";
-            const stringLog = `${formatWaktu} (${operator}): ${pesanAksi}`;
-            logAuditSystem.unshift(stringLog);
-            if(logAuditSystem.length > 200) logAuditSystem.pop();
+            return tgl.toLocaleDateString('id-ID', {day: '2-digit', month: '2-digit', year: 'numeric'}) + ' ' + tgl.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
+        }
+        function catatAuditLog(pesan) {
+            const waktu = dapatkanWaktuSekarang();
+            const namaOp = userLoginAktif ? (userLoginAktif.nama || userLoginAktif.username || 'Admin') : 'System';
+            const teksLog = `[${waktu}] - Operator: ${namaOp} -> ${pesan}`;
+            logAuditSystem.unshift(teksLog);
             localStorage.setItem('logs_audit', JSON.stringify(logAuditSystem));
             perbaruiTampilanAuditLog();
         }
-
         function perbaruiTampilanAuditLog() {
             const box = document.getElementById('boxLogAuditSystem');
-            if(!box) return;
-            box.innerHTML = logAuditSystem.map(log => `<div>${log}</div>`).join('');
+            if(box) {
+                box.innerHTML = logAuditSystem.length === 0 ?
+                `<div class="text-slate-500 text-center py-4">[Belum ada riwayat aktivitas]</div>` : logAuditSystem.map(log => `<div>${log}</div>`).join('');
+            }
         }
-
         function bersihkanLogAuditLocal() {
-            logAuditSystem = [];
-            localStorage.removeItem('logs_audit');
-            perbaruiTampilanAuditLog();
-            simpanLogAuditSystemLocal("Membersihkan data log lokal aplikasi.");
+            if(confirm("Hapus seluruh berkas log audit dari memori lokal?")) {
+                logAuditSystem = [];
+                localStorage.removeItem('logs_audit');
+                perbaruiTampilanAuditLog();
+            }
         }
 
-        window.addEventListener('DOMContentLoaded', async () => {
-            document.getElementById('landingPage').classList.remove('hidden');
-            perbaruiTampilanAuditLog();
-            await muatBasisDataMaster();
-        });
+        function pilihMenuAwal() { document.getElementById('landingPage').classList.add('hidden'); document.getElementById('portalPage').classList.remove('hidden'); }
+        function kembaliKeLanding() { document.getElementById('portalPage').classList.add('hidden'); document.getElementById('landingPage').classList.remove('hidden'); }
+        function bukaPortalPublik() { document.getElementById('portalPage').classList.add('hidden'); document.getElementById('portalPublik').classList.remove('hidden'); setTimeout(() => { document.getElementById('cariPublikInput').focus(); }, 100); }
+        function kembaliKePortal() { document.getElementById('portalPublik').classList.add('hidden'); document.getElementById('portalPage').classList.remove('hidden'); document.getElementById('cariPublikInput').value = ''; document.getElementById('boxHasilPublik').innerHTML = ''; document.getElementById('boxHasilPublik').classList.add('hidden'); document.getElementById('areaHistoryPublik').classList.add('hidden'); }
+        function bukaModalLoginAdmin() { document.getElementById('modalLoginAdmin').classList.remove('hidden'); document.getElementById('loginUsername').value = ''; document.getElementById('loginPassword').value = ''; setTimeout(() => { document.getElementById('loginUsername').focus(); }, 120); }
+        function tutupModalLoginAdmin() { document.getElementById('modalLoginAdmin').classList.add('hidden'); }
 
-        async function muatBasisDataMaster() {
+        async function prefetchDaftarSantriDanGuru() {
             try {
-                let { data: dSiswa, error: eSiswa } = await _supabase.from('mahasiswa').select('*');
-                if(!eSiswa && dSiswa) listSeluruhMahasiswa = dSiswa;
-                let { data: dGuru, error: eGuru } = await _supabase.from('guru').select('*');
-                if(!eGuru && dGuru) listSeluruhGuruData = dGuru;
-            } catch(err) {
-                console.error("Error loading master data:", err);
-            }
-        }
-
-        function pilihMenuAwal() {
-            document.getElementById('landingPage').classList.add('hidden');
-            document.getElementById('portalPage').classList.remove('hidden');
-        }
-
-        function kembaliKeLanding() {
-            document.getElementById('portalPage').classList.add('hidden');
-            document.getElementById('landingPage').classList.remove('hidden');
-        }
-
-        function bukaPortalPublik() {
-            document.getElementById('portalPage').classList.add('hidden');
-            document.getElementById('portalPublik').classList.remove('hidden');
-            document.getElementById('cariPublikInput').value = '';
-            document.getElementById('boxHasilPublik').innerHTML = '';
-            document.getElementById('boxHasilPublik').classList.add('hidden');
-            document.getElementById('areaHistoryPublik').classList.add('hidden');
-            setTimeout(() => { document.getElementById('cariPublikInput').focus(); }, 100);
-        }
-
-        function kembaliKePortal() {
-            document.getElementById('portalPublik').classList.add('hidden');
-            document.getElementById('portalPage').classList.remove('hidden');
-        }
-
-        function konfirmasiSelesaiCariPublik() {
-            tampilkanPesanError("Terima kasih telah menggunakan sistem pencarian mandiri.", 'cariPublikInput');
-            bukaPortalPublik();
-        }
-
-        async function lakukanPencarianPublik() {
-            const query = document.getElementById('cariPublikInput').value.trim().toLowerCase();
-            if(!query) {
-                tampilkanPesanError("Silakan masukkan kata kunci pencarian stambuk atau nama Anda!", 'cariPublikInput');
-                return;
-            }
-            try {
-                let { data: paketSiswa, error: eSiswa } = await _supabase.from('paket_logistik')
-                    .select('*')
-                    .or(`stambuk.ilike.%${query}%,nama.ilike.%${query}%`)
-                    .order('created_at', { ascending: false });
-
-                let { data: paketGuru, error: eGuru } = await _supabase.from('paket_guru')
-                    .select('*')
-                    .ilike('nama_guru', `%${query}%`)
-                    .order('created_at', { ascending: false });
-
-                renderHasilPencarianPublik(paketSiswa || [], paketGuru || [], query);
-            } catch(err) {
-                tampilkanPesanError("Gagal memuat data dari server Supabase.", 'cariPublikInput');
-            }
-        }
-
-        function renderHasilPencarianPublik(siswa, guru, queryKata) {
-            const box = document.getElementById('boxHasilPublik');
-            box.innerHTML = '';
-            box.classList.remove('hidden');
-            document.getElementById('areaHistoryPublik').classList.remove('hidden');
-
-            if(siswa.length === 0 && guru.length === 0) {
-                box.innerHTML = `<div class="p-4 bg-red-950/50 border border-red-700/50 rounded-2xl text-center font-bold text-red-300 text-xs">❌ Data paket dengan stambuk/nama "${queryKata}" tidak ditemukan. Silakan cek kembali atau hubungi petugas piket jika baru tiba.</div>`;
-                return;
-            }
-
-            siswa.forEach(pkt => {
-                const bgWarna = pkt.status === 'Sudah Diambil' ? 'bg-slate-800/60 border-slate-700' : 'bg-gradient-to-r from-blue-950/80 to-indigo-950/80 border-blue-500/50';
-                const labelStatus = pkt.status === 'Sudah Diambil' ? `<span class="bg-purple-900 text-purple-200 px-2 py-0.5 rounded text-[10px] font-bold">SUDAH DIAMBIL</span>` : `<span class="bg-amber-500 text-slate-950 px-2 py-0.5 rounded text-[10px] font-black animate-pulse">BELUM DIAMBIL (RAK: ${pkt.tempat})</span>`;
-                
-                let btnHubungi = '';
-                if(pkt.status !== 'Sudah Diambil') {
-                    btnHubungi = `<button onclick="bukaFormHubungiPetugas('${pkt.stambuk}', '${pkt.nama}', '${pkt.kelas}', '${pkt.rayon}')" class="mt-2 w-full bg-amber-500 hover:bg-amber-600 text-slate-950 text-[11px] font-black py-1.5 rounded-xl transition shadow">💬 Hubungi Petugas (Kirim Pesan Pengambilan)</button>`;
+                let seluruhSantri = [];
+                let barisMulai = 0;
+                const barisPerHalaman = 1000;
+                let statusSelesai = false;
+                while (!statusSelesai) {
+                    const { data, error } = await _supabase.from('mahasiswa').select('stambuk,nama,kelas,rayon,daerah,orangtua').range(barisMulai, barisMulai + barisPerHalaman - 1);
+                    if (error) throw error;
+                    if (data && data.length > 0) {
+                        seluruhSantri = seluruhSantri.concat(data);
+                        barisMulai += barisPerHalaman;
+                    } else {
+                        statusSelesai = true;
+                    }
                 }
+                listSeluruhMahasiswa = seluruhSantri;
+                
+                const res2 = await _supabase.from('guru').select('*');
+                if(!res2.error) {
+                    listSeluruhGuruData = res2.data || [];
+                }
+            } catch (err) {
+                console.error("Cache master gagal dimuat penuh:", err);
+            }
+        }
 
-                box.innerHTML += `
-                    <div class="p-4 rounded-2xl border ${bgWarna} text-xs space-y-1">
-                        <div class="flex justify-between font-bold text-blue-300"><span>📦 PAKET SANTRI</span> ${labelStatus}</div>
-                        <div class="grid grid-cols-2 gap-1 mt-1 font-medium">
-                            <div><span class="text-slate-400">Nama:</span> ${pkt.nama}</div>
-                            <div><span class="text-slate-400">Stambuk:</span> ${pkt.stambuk}</div>
-                            <div><span class="text-slate-400">Kelas/Rayon:</span> ${pkt.kelas} / ${pkt.rayon}</div>
-                            <div><span class="text-slate-400">Jenis/Kurir:</span> ${pkt.jenis_paket}</div>
-                        </div>
-                        ${btnHubungi}
+        function bukaCtrlFSantri() { document.getElementById('modalCtrlFSantri').classList.remove('hidden'); document.getElementById('inputFilterCtrlF').value = ''; filterListCtrlFSantri(''); setTimeout(() => { document.getElementById('inputFilterCtrlF').focus(); }, 120); }
+        function tutupCtrlFSantri() { document.getElementById('modalCtrlFSantri').classList.add('hidden'); }
+        function filterListCtrlFSantri(keyword) {
+            const kw = keyword.toLowerCase().trim();
+            const box = document.getElementById('boxListCtrlFSantri');
+            const hasil = listSeluruhMahasiswa.filter(s => (s.nama && s.nama.toLowerCase().includes(kw)) || (s.stambuk && s.stambuk.toLowerCase().includes(kw)) );
+            if(hasil.length === 0) {
+                box.innerHTML = `<div class="p-3 text-center text-xs text-slate-500">Santri tidak ditemukan</div>`;
+                return;
+            }
+            box.innerHTML = hasil.slice(0, 30).map(s => `
+                <div onclick="pilihSantriDariCtrlF('${s.stambuk}')" class="p-2 text-xs hover:bg-slate-800 cursor-pointer flex justify-between items-center transition">
+                    <span class="font-bold text-amber-400">${s.stambuk}</span>
+                    <span class="font-medium text-slate-200 text-right truncate w-[240px]">${s.nama} (${s.kelas})</span>
+                </div>
+            `).join('');
+        }
+        function pilihSantriDariCtrlF(stVal) { document.getElementById('stambuk').value = stVal; tutupCtrlFSantri(); cekStambukOtomatis(); setTimeout(() => { document.getElementById('jenis_paket').focus(); }, 150); }
+
+        async function cekStambukOtomatis() {
+            const stambukInput = document.getElementById('stambuk');
+            const stambukVal = stambukInput.value.trim();
+            if (!stambukVal) return;
+            try {
+                const { data, error } = await _supabase.from('mahasiswa').select('*').eq('stambuk', stambukVal).single();
+                if (error || !data) {
+                    tampilkanPesanError("Nomor stambuk tidak ditemukan di database online.", 'stambuk');
+                    stambukInput.value = '';
+                    document.getElementById('nama').value = '';
+                    document.getElementById('kelas').value = '';
+                    document.getElementById('rayon').value = '';
+                    document.getElementById('daerah').value = '';
+                    document.getElementById('orangtua').value = '';
+                } else {
+                    document.getElementById('nama').value = data.nama;
+                    document.getElementById('kelas').value = data.kelas;
+                    document.getElementById('rayon').value = data.rayon || '-';
+                    document.getElementById('daerah').value = data.daerah || '-';
+                    document.getElementById('orangtua').value = data.orangtua || '-';
+                }
+            } catch(err) {
+                tampilkanPesanError("Gagal memeriksa nomor stambuk.", 'stambuk');
+            }
+        }
+
+        function cariSugestiNamaGuru(keyword) {
+            const kw = keyword.toLowerCase().trim();
+            const dropdown = document.getElementById('dropdownSugestiGuru');
+            if (!kw) { dropdown.innerHTML = ''; dropdown.classList.add('hidden'); return; }
+
+            const hasilFilter = listSeluruhGuruData.filter(g => {
+                const namaGuru = g.nama || g.Nama || "";
+                return namaGuru.toLowerCase().includes(kw);
+            });
+
+            if (hasilFilter.length === 0) {
+                dropdown.innerHTML = `<div class="p-2 text-xs text-red-500 italic text-center font-bold">⚠️ Nama guru tidak terdaftar</div>`;
+                dropdown.classList.remove('hidden');
+                document.getElementById('kamarGuru').value = '';
+                document.getElementById('tahunGuru').value = '';
+                return;
+            }
+
+            dropdown.innerHTML = hasilFilter.slice(0, 10).map(g => {
+                const namaFinal = g.nama || g.Nama || "-";
+                const kamarFinal = g.kamar || g.Kamar || "-";
+                const tahunFinal = g.tahun || g.Tahun || "-";
+                
+                const namaEscaped = namaFinal.replace(/'/g, "\\'");
+                const kamarEscaped = kamarFinal.replace(/'/g, "\\'");
+                const tahunEscaped = String(tahunFinal).replace(/'/g, "\\'");
+
+                return `
+                    <div onclick="pilihGuruDariSugesti('${namaEscaped}', '${kamarEscaped}', '${tahunEscaped}')" 
+                         class="p-2 text-xs hover:bg-purple-100 cursor-pointer font-semibold border-b border-gray-100 text-gray-800 transition">
+                         💡 ${namaFinal} — <span class="text-purple-600 font-bold">${kamarFinal}</span> (${tahunFinal})
                     </div>
                 `;
-            });
-
-            guru.forEach(pkt => {
-                const bgWarna = pkt.status === 'Sudah Diambil' ? 'bg-slate-800/60 border-slate-700' : 'bg-gradient-to-r from-purple-950/80 to-slate-950/80 border-purple-500/50';
-                const labelStatus = pkt.status === 'Sudah Diambil' ? `<span class="bg-purple-900 text-purple-200 px-2 py-0.5 rounded text-[10px] font-bold">SUDAH DIAMBIL</span>` : `<span class="bg-emerald-500 text-slate-950 px-2 py-0.5 rounded text-[10px] font-black animate-pulse">BELUM DIAMBIL (RAK: ${pkt.tempat_guru})</span>`;
-                
-                box.innerHTML += `
-                    <div class="p-4 rounded-2xl border ${bgWarna} text-xs space-y-1">
-                        <div class="flex justify-between font-bold text-purple-300"><span>💼 PAKET GURU / ASATIDZ</span> ${labelStatus}</div>
-                        <div class="grid grid-cols-2 gap-1 mt-1 font-medium">
-                            <div><span class="text-slate-400">Nama Guru:</span> ${pkt.nama_guru}</div>
-                            <div><span class="text-slate-400">Kamar / Tahun:</span> ${pkt.kamar_guru} / ${pkt.tahun_guru}</div>
-                            <div><span class="text-slate-400">Jenis Paket:</span> ${pkt.jenis_paket_guru}</div>
-                            <div><span class="text-slate-400">Keterangan Ambil:</span> ${pkt.keterangan_ambil || '-'}</div>
-                        </div>
-                    </div>
-                `;
-            });
+            }).join('');
+            dropdown.classList.remove('hidden');
         }
 
-        function bukaFormHubungiPetugas(stambuk, nama, kelas, rayon) {
-            const msg = prompt(`Masukkan pesan/instruksi pengambilan dari Wali/Santri (Contoh: "Tolong antarkan ke kamar" atau "Nanti malam diambil"):`);
-            if (msg === null) return;
-            if (!msg.trim()) {
-                alert("Pesan tidak boleh kosong!");
-                return;
+        function pilihGuruDariSugesti(nama, kamar, tahun) {
+            document.getElementById('namaGuruInput').value = nama;
+            document.getElementById('kamarGuru').value = kamar;
+            document.getElementById('tahunGuru').value = tahun;
+            
+            const dropdown = document.getElementById('dropdownSugestiGuru');
+            dropdown.innerHTML = '';
+            dropdown.classList.add('hidden');
+            
+            setTimeout(() => {
+                document.getElementById('jenis_paket_guru').focus();
+            }, 50);
+        }
+
+        async function simpanPaketBaru(e) {
+            e.preventDefault();
+            if(!userLoginAktif) {
+                const dataLokal = localStorage.getItem('sesiPetugas');
+                if (dataLokal) { userLoginAktif = JSON.parse(dataLokal); } else { return; }
             }
-            kirimPesanKePetugasSupabase(stambuk, nama, kelas, rayon, msg.trim());
-        }
-
-        async function kirimPesanKePetugasSupabase(stambuk, nama, kelas, rayon, pesan) {
+            const namaPetugasAktif = userLoginAktif ? (userLoginAktif.nama || userLoginAktif.username) : 'Petugas';
+            const paket = {
+                stambuk: document.getElementById('stambuk').value.trim(),
+                nama: document.getElementById('nama').value,
+                kelas: document.getElementById('kelas').value,
+                rayon: document.getElementById('rayon').value,
+                daerah: document.getElementById('daerah').value,
+                orangtua: document.getElementById('orangtua').value,
+                jenis_paket: document.getElementById('jenis_paket').value,
+                tempat: document.getElementById('tempat').value.trim(),
+                status: 'Belum Diambil',
+                petugas_input: namaPetugasAktif,
+                waktu_masuk: dapatkanWaktuSekarang(),
+                waktu_keluar: '-',
+                keterangan: 'siswa'
+            };
             try {
-                const { error } = await _supabase.from('pesan_wali').insert([{
-                    stambuk: stambuk,
-                    nama: nama,
-                    kelas: kelas,
-                    rayon: rayon,
-                    pesan: pesan,
-                    status: 'Belum Proses'
-                }]);
-                if (error) throw error;
-                tampilkanPesanError("🎉 Pesan berhasil dikirim ke petugas piket! Silakan tunggu konfirmasi selanjutnya.", 'cariPublikInput');
-            } catch (err) {
-                alert("Gagal mengirim pesan: " + err.message);
+                const { error } = await _supabase.from('paket').insert([paket]);
+                if(error) throw error;
+                catatAuditLog(`Menginput paket baru untuk santri: ${paket.nama} (${paket.stambuk})`);
+                document.getElementById('formPaket').reset();
+                await muatDataKomplit();
+                tampilkanPesanError("Sukses mendaftarkan paket baru santri!", 'stambuk');
+            } catch(err) {
+                tampilkanPesanError("Gagal menyimpan paket ke Supabase.");
             }
         }
 
-        async function muatPesanHubungiPetugas() {
+        async function simpanPaketGuruBaru(e) {
+            e.preventDefault();
+            if(!userLoginAktif) return;
+            const namaPetugasAktif = userLoginAktif.nama || userLoginAktif.username;
+            const paketGuru = {
+                stambuk: '-',
+                nama: document.getElementById('namaGuruInput').value.trim(),
+                kelas: document.getElementById('kamarGuru').value,
+                rayon: document.getElementById('tahunGuru').value,
+                daerah: '-',
+                orangtua: '-',
+                jenis_paket: document.getElementById('jenis_paket_guru').value,
+                tempat: document.getElementById('tempat_guru').value.trim(),
+                status: 'Belum Diambil',
+                petugas_input: namaPetugasAktif,
+                waktu_masuk: dapatkanWaktuSekarang(),
+                waktu_keluar: '-',
+                keterangan: 'guru'
+            };
             try {
-                const { data, error } = await _supabase.from('pesan_wali')
-                    .select('*')
-                    .eq('status', 'Belum Proses')
-                    .order('created_at', { ascending: false });
-                if (error) throw error;
-                renderTabelPesanWali(data || []);
-            } catch (err) {
-                console.error("Gagal muat pesan wali:", err);
-            }
-        }
-
-        function renderTabelPesanWali(data) {
-            const tbody = document.getElementById('tabelBodyPesanWali');
-            tbody.innerHTML = '';
-            if (data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="9" class="p-4 text-center text-gray-400 italic">Tidak ada pesan instruksi dari wali santri saat ini.</td></tr>`;
-                return;
-            }
-            data.forEach(p => {
-                const tgl = new Date(p.created_at).toLocaleString('id-ID');
-                tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50 font-medium">
-                        <td class="p-2 font-bold text-blue-700">${p.stambuk}</td>
-                        <td class="p-2 font-semibold">${p.nama}</td>
-                        <td class="p-2">${p.kelas}</td>
-                        <td class="p-2">${p.rayon}</td>
-                        <td class="p-2 text-indigo-700 font-bold">Wali Santri</td>
-                        <td class="p-2 text-red-600 font-black">${p.pesan}</td>
-                        <td class="p-2 text-gray-500">${tgl}</td>
-                        <td class="p-2"><span class="bg-red-100 text-red-700 px-2 py-0.5 rounded font-bold">${p.status}</span></td>
-                        <td class="p-2 text-center">
-                            <button onclick="prosesSelesaiPesanWali('${p.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black px-3 py-1 rounded-lg text-[10px]">✔ Selesai / Proses</button>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
-
-        async function prosesSelesaiPesanWali(id) {
-            if (!confirm("Tandai instruksi wali ini sudah selesai diproses?")) return;
-            try {
-                const { error } = await _supabase.from('pesan_wali').update({ status: 'Selesai' }).eq('id', id);
-                if (error) throw error;
-                simpanLogAuditSystemLocal(`Memproses instruksi pesan wali ID: ${id}`);
-                await muatPesanHubungiPetugas();
-            } catch (err) {
-                alert("Gagal memproses pesan: " + err.message);
-            }
-        }
-
-        async function bukaModalHistoryPublik() {
-            const query = document.getElementById('cariPublikInput').value.trim().toLowerCase();
-            const boxHist = document.getElementById('boxHistorySudahAmbil');
-            boxHist.innerHTML = '<div class="text-center py-4 font-bold animate-pulse text-amber-400">🔍 Sedang melacak riwayat paket...</div>';
-            document.getElementById('modalHistoryPublik').classList.remove('hidden');
-
-            try {
-                let { data: sData } = await _supabase.from('paket_logistik')
-                    .select('*')
-                    .eq('status', 'Sudah Diambil')
-                    .or(`stambuk.ilike.%${query}%,nama.ilike.%${query}%`)
-                    .order('waktu_keluar', { ascending: false });
-
-                let { data: gData } = await _supabase.from('paket_guru')
-                    .select('*')
-                    .eq('status', 'Sudah Diambil')
-                    .ilike('nama_guru', `%${query}%`)
-                    .order('waktu_keluar', { ascending: false });
-
-                boxHist.innerHTML = '';
-                if((!sData || sData.length === 0) && (!gData || gData.length === 0)) {
-                    boxHist.innerHTML = `<div class="text-center py-6 text-gray-400 font-bold">❌ Tidak ada riwayat paket terambil untuk nama/stambuk "${query}".</div>`;
-                    return;
-                }
-
-                if(sData) {
-                    sData.forEach(pkt => {
-                        boxHist.innerHTML += `
-                            <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-0.5">
-                                <div class="flex justify-between font-bold text-blue-400"><span>📦 SANTRI: ${pkt.nama} (${pkt.stambuk})</span> <span class="text-purple-400">SUDAH DIAMBIL</span></div>
-                                <div class="text-[10px] text-slate-400">Kurir: ${pkt.jenis_paket} | Rak Asal: ${pkt.tempat} | Keterangan: ${pkt.keterangan_ambil || '-'}</div>
-                                <div class="text-[10px] text-slate-500 font-medium">Masuk: ${new Date(pkt.created_at).toLocaleString('id-ID')} | Diambil: ${new Date(pkt.waktu_keluar).toLocaleString('id-ID')} (Oleh: ${pkt.petugas_keluar || '-'})</div>
-                            </div>
-                        `;
-                    });
-                }
-                if(gData) {
-                    gData.forEach(pkt => {
-                        boxHist.innerHTML += `
-                            <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-0.5">
-                                <div class="flex justify-between font-bold text-purple-400"><span>💼 GURU: ${pkt.nama_guru}</span> <span class="text-purple-400">SUDAH DIAMBIL</span></div>
-                                <div class="text-[10px] text-slate-400">Kurir: ${pkt.jenis_paket_guru} | Rak Asal: ${pkt.tempat_guru} | Metode: ${pkt.keterangan_ambil || '-'}</div>
-                                <div class="text-[10px] text-slate-500 font-medium">Masuk: ${new Date(pkt.created_at).toLocaleString('id-ID')} | Diambil: ${new Date(pkt.waktu_keluar).toLocaleString('id-ID')}</div>
-                            </div>
-                        `;
-                    });
-                }
+                const { error } = await _supabase.from('paket').insert([paketGuru]);
+                if(error) throw error;
+                catatAuditLog(`Menginput paket baru khusus Guru: ${paketGuru.nama}`);
+                document.getElementById('formPaketGuru').reset();
+                await muatDataKomplit();
+                tampilkanPesanError("Sukses mendaftarkan paket guru baru!", 'namaGuruInput');
             } catch(e) {
-                boxHist.innerHTML = '<div class="text-center py-4 text-red-400">Gagal memuat histori data.</div>';
+                tampilkanPesanError("Gagal mendaftarkan paket guru ke Supabase.");
             }
-        }
-
-        function tutupModalHistoryPublik() {
-            document.getElementById('modalHistoryPublik').classList.add('hidden');
-        }
-
-        function bukaModalLoginAdmin() {
-            document.getElementById('loginUsername').value = '';
-            document.getElementById('loginPassword').value = '';
-            document.getElementById('modalLoginAdmin').classList.remove('hidden');
-            setTimeout(() => { document.getElementById('loginUsername').focus(); }, 150);
-        }
-
-        function tutupModalLoginAdmin() {
-            document.getElementById('modalLoginAdmin').classList.add('hidden');
         }
 
         async function prosesOtentikasiAdmin(e) {
             e.preventDefault();
             const u = document.getElementById('loginUsername').value.trim();
             const p = document.getElementById('loginPassword').value.trim();
-
-            if(u === 'superadmin' && p === 'admin123') {
-                sesiLoginBerhasil({ username: 'superadmin', role: 'superadmin' });
-                return;
-            }
-
             try {
-                let { data, error } = await _supabase.from('users')
-                    .select('*')
-                    .eq('username', u)
-                    .eq('password', p)
-                    .single();
-
-                if(error || !data) {
-                    tampilkanPesanError("Username atau password petugas piket salah! Hubungi Superadmin.", 'loginUsername');
-                    return;
-                }
-                sesiLoginBerhasil(data);
-            } catch(err) {
-                tampilkanPesanError("Terjadi kendala jaringan saat otentikasi admin.", 'loginUsername');
+                const { data, error } = await _supabase.from('users').select('*').eq('username', u).eq('password', p).single();
+                if(error || !data) { tampilkanPesanError("Kombinasi password / username salah.", 'loginUsername'); return; }
+                userLoginAktif = data;
+                localStorage.setItem('sesiPetugas', JSON.stringify(data));
+                jalankanInisialisasiDashboard();
+            } catch(e) {
+                tampilkanPesanError("Gagal terhubung ke autentikasi Supabase.", 'loginUsername');
             }
         }
 
-        function sesiLoginBerhasil(user) {
-            userLoginAktif = user;
+        function jalankanInisialisasiDashboard() {
+            if(!userLoginAktif) return;
+            document.getElementById('namaPetugasLabel').innerText = userLoginAktif.nama || userLoginAktif.username;
+            document.getElementById('roleLabel').innerText = userLoginAktif.role;
+            const btnUsersTab = document.getElementById('navTabUsers');
+            if(userLoginAktif.role === 'superadmin') btnUsersTab.classList.remove('hidden'); else btnUsersTab.classList.add('hidden');
             tutupModalLoginAdmin();
             document.getElementById('portalPage').classList.add('hidden');
+            document.getElementById('landingPage').classList.add('hidden');
             document.getElementById('mainDashboard').classList.remove('hidden');
-            
-            document.getElementById('namaPetugasLabel').innerText = user.username;
-            document.getElementById('roleLabel').innerText = user.role;
-
-            const tabUsersBtn = document.getElementById('navTabUsers');
-            if(user.role === 'superadmin') {
-                tabUsersBtn.classList.remove('hidden');
-            } else {
-                tabUsersBtn.classList.add('hidden');
-            }
-
-            simpanLogAuditSystemLocal(`Petugas berhasil login ke sistem.`);
+            catatAuditLog(`Berhasil login ke dalam sistem.`);
             switchTab('navTabInput');
-            memulaiSinkronisasiDashboardAplikasi();
+            prefetchDaftarSantriDanGuru();
+            muatDataKomplit();
+            if(userLoginAktif.role === 'superadmin') { muatDaftarPenggunaPetugas(); }
         }
-
-        function keluarSistem() {
-            simpanLogAuditSystemLocal(`Petugas log out dari sistem.`);
-            userLoginAktif = null;
-            document.getElementById('mainDashboard').classList.add('hidden');
-            document.getElementById('portalPage').classList.remove('hidden');
-        }
-
-        function switchTab(tabId) {
-            const semuatab = ['navTabInput', 'navTabInputGuru', 'navTabAmbil', 'navTabAmbilGuru', 'navTabPesanWali', 'navTabAnalisis', 'navTabAudit', 'navTabUsers'];
-            semuatab.forEach(t => {
-                const el = document.getElementById(t);
-                if(el) { el.className = "px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl"; }
-            });
-
-            const aktif = document.getElementById(tabId);
-            if(aktif) {
-                if(tabId.includes('Guru')) aktif.className = "px-3 py-2 bg-purple-700 text-white font-bold rounded-xl";
-                else if(tabId.includes('Pesan')) aktif.className = "px-3 py-2 bg-indigo-700 text-white font-bold rounded-xl";
-                else aktif.className = "px-3 py-2 bg-indigo-600 text-white font-bold rounded-xl";
-            }
-
-            document.getElementById('kontenTabInput').classList.add('hidden');
-            document.getElementById('kontenTabInputGuru').classList.add('hidden');
-            document.getElementById('kontenTabAmbil').classList.add('hidden');
-            document.getElementById('kontenTabAmbilGuru').classList.add('hidden');
-            document.getElementById('kontenTabPesanWali').classList.add('hidden');
-            document.getElementById('kontenTabAnalisis').classList.add('hidden');
-            document.getElementById('kontenTabAudit').classList.add('hidden');
-            document.getElementById('kontenTabUsers').classList.add('hidden');
-
-            if(tabId === 'navTabInput') { document.getElementById('kontenTabInput').classList.remove('hidden'); setTimeout(()=> { document.getElementById('stambuk').focus(); }, 50); }
-            if(tabId === 'navTabInputGuru') { document.getElementById('kontenTabInputGuru').classList.remove('hidden'); setTimeout(()=> { document.getElementById('namaGuruInput').focus(); }, 50); }
-            if(tabId === 'navTabAmbil') document.getElementById('kontenTabAmbil').classList.remove('hidden');
-            if(tabId === 'navTabAmbilGuru') { document.getElementById('kontenTabAmbilGuru').classList.remove('hidden'); renderTabelAmbilGuru(); }
-            if(tabId === 'navTabPesanWali') { document.getElementById('kontenTabPesanWali').classList.remove('hidden'); muatPesanHubungiPetugas(); }
-            if(tabId === 'navTabAnalisis') { document.getElementById('kontenTabAnalisis').classList.remove('hidden'); buatGrafikAnalisisStatistik(); }
-            if(tabId === 'navTabAudit') { document.getElementById('kontenTabAudit').classList.remove('hidden'); perbaruiTampilanAuditLog(); }
-            if(tabId === 'navTabUsers') { document.getElementById('kontenTabUsers').classList.remove('hidden'); memuatDaftarPenggunaPetugas(); }
-        }
-
-        async function memulaiSinkronisasiDashboardAplikasi() {
-            try {
-                let { data: sPaket } = await _supabase.from('paket_logistik').select('*').order('created_at', { ascending: false });
-                databasePaket = sPaket || [];
-
-                let { data: gPaket } = await _supabase.from('paket_guru').select('*').order('created_at', { ascending: false });
-                listSeluruhGuruPaketData = gPaket || [];
-
-                hitungUlangAngkaStatistikUtama();
-                renderTabelLogTerkiniSiswa();
-                renderTabelLogTerkiniGuru();
-                jalankanFilterDashboardAmbil();
-            } catch(e) {
-                console.error("Sinkronisasi gagal:", e);
-            }
-        }
-
-        function hitungUlangAngkaStatistikUtama() {
-            const totalSiswa = databasePaket.length;
-            const totalGuru = (window.listSeluruhGuruPaketData || []).length;
-            document.getElementById('statTotal').innerText = totalSiswa + totalGuru;
-
-            const belumSiswa = databasePaket.filter(p => p.status === 'Belum Diambil').length;
-            const belumGuru = (window.listSeluruhGuruPaketData || []).filter(p => p.status === 'Belum Diambil').length;
-            document.getElementById('statBelum').innerText = belumSiswa + belumGuru;
-
-            const hariIniStr = new Date().toLocaleDateString('en-CA');
-            const masukSiswaHariIni = databasePaket.filter(p => p.created_at && p.created_at.startsWith(hariIniStr)).length;
-            const masukGuruHariIni = (window.listSeluruhGuruPaketData || []).filter(p => p.created_at && p.created_at.startsWith(hariIniStr)).length;
-            document.getElementById('statTotalMasuk').innerText = masukSiswaHariIni + masukGuruHariIni;
-
-            const sudahSiswa = databasePaket.filter(p => p.status === 'Sudah Diambil').length;
-            const sudahGuru = (window.listSeluruhGuruPaketData || []).filter(p => p.status === 'Sudah Diambil').length;
-            document.getElementById('statSudahAmbil').innerText = sudahSiswa + sudahGuru;
-        }
-
-        function renderTabelLogTerkiniSiswa() {
-            const tbody = document.getElementById('tabelBodyLogTerkini');
-            tbody.innerHTML = '';
-            const dataLimit = databasePaket.slice(0, 15);
-            
-            if(dataLimit.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="11" class="p-2 text-center text-gray-400 italic">Belum ada data paket santri masuk hari ini.</td></tr>`;
-                return;
-            }
-
-            dataLimit.forEach(p => {
-                const labelStatus = p.status === 'Sudah Diambil' ? '<span class="text-purple-600 font-bold">Sudah Diambil</span>' : '<span class="text-amber-600 font-bold animate-pulse">Belum Diambil</span>';
-                tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50 border-b font-medium">
-                        <td class="p-2 font-bold text-blue-800">${p.stambuk}</td>
-                        <td class="p-2 font-semibold truncate">${p.nama}</td>
-                        <td class="p-2 text-center">${p.kelas}</td>
-                        <td class="p-2 truncate">${p.rayon}</td>
-                        <td class="p-2 truncate">${p.daerah}</td>
-                        <td class="p-2 truncate text-slate-500">${p.orangtua}</td>
-                        <td class="p-2 text-center font-bold">${p.jenis_paket}</td>
-                        <td class="p-2 text-center font-bold text-emerald-700 bg-emerald-50">${p.tempat}</td>
-                        <td class="p-2 truncate text-gray-400">${p.keterangan_ambil || '-'}</td>
-                        <td class="p-2 text-center">${labelStatus}</td>
-                        <td class="p-2 truncate font-bold text-slate-600">${p.petugas_input || 'System'}</td>
-                    </tr>
-                `;
-            });
-        }
-
-        function renderTabelLogTerkiniGuru() {
-            const tbody = document.getElementById('tabelBodyLogGuruTerkini');
-            tbody.innerHTML = '';
-            const dataLimit = (window.listSeluruhGuruPaketData || []).slice(0, 15);
-
-            if(dataLimit.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="9" class="p-2 text-center text-gray-400 italic">Belum ada data paket guru masuk hari ini.</td></tr>`;
-                return;
-            }
-
-            dataLimit.forEach(g => {
-                const wktInput = g.created_at ? new Date(g.created_at).toLocaleTimeString('id-ID') : '-';
-                const wktKeluar = g.waktu_keluar ? new Date(g.waktu_keluar).toLocaleTimeString('id-ID') : '-';
-                tbody.innerHTML += `
-                    <tr class="hover:bg-purple-50 border-b font-medium">
-                        <td class="p-2 font-bold text-purple-950">${g.nama_guru}</td>
-                        <td class="p-2 text-center">${g.kamar_guru}</td>
-                        <td class="p-2 text-center">${g.tahun_guru}</td>
-                        <td class="p-2 text-center font-bold">${g.jenis_paket_guru}</td>
-                        <td class="p-2 text-center font-bold text-purple-700 bg-purple-50">${g.tempat_guru}</td>
-                        <td class="p-2 text-center text-gray-500">${wktInput}</td>
-                        <td class="p-2 font-semibold text-slate-600">${g.petugas_input || 'System'}</td>
-                        <td class="p-2 text-center text-gray-500">${wktKeluar}</td>
-                        <td class="p-2 font-semibold text-slate-600">${g.petugas_keluar || '-'}</td>
-                    </tr>
-                `;
-            });
-        }
-
-        async function cekStambukOtomatis() {
-            const stb = document.getElementById('stambuk').value.trim();
-            if(!stb) return;
-            const mhs = listSeluruhMahasiswa.find(m => m.stambuk === stb);
-            if(mhs) {
-                document.getElementById('nama').value = mhs.nama;
-                document.getElementById('kelas').value = mhs.kelas;
-                document.getElementById('rayon').value = mhs.rayon;
-                document.getElementById('daerah').value = mhs.daerah;
-                document.getElementById('orangtua').value = mhs.orangtua;
-            } else {
-                tampilkanPesanError(`Stambuk "${stb}" tidak ditemukan di database master siswa! Silakan gunakan fitur Klik 2x untuk mencari nama manual jika lupa stambuk.`, 'stambuk');
-                document.getElementById('stambuk').value = '';
-                document.getElementById('nama').value = '';
-                document.getElementById('kelas').value = '';
-                document.getElementById('rayon').value = '';
-                document.getElementById('daerah').value = '';
-                document.getElementById('orangtua').value = '';
-            }
-        }
-
-        async function simpanPaketBaru(e) {
-            e.preventDefault();
-            const stb = document.getElementById('stambuk').value.trim();
-            const nm = document.getElementById('nama').value.trim();
-            const kl = document.getElementById('kelas').value.trim();
-            const ry = document.getElementById('rayon').value.trim();
-            const dr = document.getElementById('daerah').value.trim();
-            const ortu = document.getElementById('orangtua').value.trim();
-            const jns = document.getElementById('jenis_paket').value;
-            const rak = document.getElementById('tempat').value.trim();
-
-            if(!stb || !nm || !jns || !rak) {
-                tampilkanPesanError("Data input form paket santri belum lengkap!", 'stambuk');
-                return;
-            }
-
-            try {
-                const operator = userLoginAktif ? userLoginAktif.username : "Piket";
-                const { data, error } = await _supabase.from('paket_logistik').insert([{
-                    stambuk: stb, nama: nm, kelas: kl, rayon: ry, daerah: dr, orangtua: ortu,
-                    jenis_paket: jns, tempat: rak, status: 'Belum Diambil', petugas_input: operator
-                }]).select();
-
-                if(error) throw error;
-                
-                simpanLogAuditSystemLocal(`Mendaftarkan paket baru untuk santri bernama ${nm} (${stb}) di Rak ${rak}.`);
-                
-                if(data && data[0]) {
-                    prosesCetakStrukThermalOtomatis(data[0]);
-                }
-
-                document.getElementById('formPaket').reset();
-                await memulaiSinkronisasiDashboardAplikasi();
-                tampilkanPesanError(`🎉 Sukses! Paket ${nm} berhasil terdaftar dan struk siap dicetak.`, 'stambuk');
-            } catch(err) {
-                tampilkanPesanError("Gagal menyimpan data paket ke server Supabase.", 'stambuk');
-            }
-        }
-
-        function prosesCetakStrukThermalOtomatis(p) {
-            const area = document.getElementById('areaCetakStruk');
-            const waktuStr = new Date(p.created_at).toLocaleString('id-ID');
-            area.innerHTML = `
-                <div style="text-align: center; border-bottom: 1px dashed black; padding-bottom: 5px; margin-bottom: 5px;">
-                    <strong style="font-size: 14px;">PASLOG BOX</strong><br>
-                    <span style="font-size: 10px;">Premium Logistics Pesantren</span>
-                </div>
-                <div style="font-size: 11px; space-y: 2px;">
-                    <b>Waktu:</b> ${waktuStr}<br>
-                    <b>Stambuk:</b> ${p.stambuk}<br>
-                    <b>Nama:</b> ${p.nama}<br>
-                    <b>Kelas:</b> ${p.kelas}<br>
-                    <b>Rayon:</b> ${p.rayon}<br>
-                    <b>Kurir/Jenis:</b> ${p.jenis_paket}<br>
-                    <div style="text-align:center; margin-top:8px; padding:4px; border:2px solid black; font-size:16px; font-weight:black;">
-                        RAK ASAL: ${p.tempat}
-                    </div>
-                </div>
-                <div style="text-align: center; border-top: 1px dashed black; margin-top: 8px; padding-top: 4px; font-size: 9px;">
-                    Simpan struk ini sebagai bukti pengambilan valid.
-                </div>
-            `;
-            window.print();
-        }
-
-        function cariSugestiNamaGuru(val) {
-            const drop = document.getElementById('dropdownSugestiGuru');
-            drop.innerHTML = '';
-            if(!val.trim()) { drop.classList.add('hidden'); return; }
-            
-            const cocok = listSeluruhGuruData.filter(g => g.nama_guru && g.nama_guru.toLowerCase().includes(val.toLowerCase())).slice(0, 8);
-            if(cocok.length === 0) {
-                drop.innerHTML = `<div class="p-2 text-xs text-gray-400 italic">Nama asatidz/guru tidak terdaftar</div>`;
-                drop.classList.remove('hidden');
-                return;
-            }
-
-            cocok.forEach(g => {
-                drop.innerHTML += `
-                    <div onclick="pilihSugestiGuruOtomatis('${g.nama_guru}', '${g.kamar_guru}', '${g.tahun_guru}')" class="p-2 text-xs font-bold text-gray-800 hover:bg-purple-100 cursor-pointer border-b">
-                        👨‍🏫 ${g.nama_guru} (Kamar: ${g.kamar_guru || '-'})
-                    </div>
-                `;
-            });
-            drop.classList.remove('hidden');
-        }
-
-        function pilihSugestiGuruOtomatis(nama, kamar, tahun) {
-            document.getElementById('namaGuruInput').value = nama;
-            document.getElementById('kamarGuru').value = kamar || '-';
-            document.getElementById('tahunGuru').value = tahun || '-';
-            document.getElementById('dropdownSugestiGuru').classList.add('hidden');
-            setTimeout(() => { document.getElementById('jenis_paket_guru').focus(); }, 50);
-        }
-
-        async function simpanPaketGuruBaru(e) {
-            e.preventDefault();
-            const nm = document.getElementById('namaGuruInput').value.trim();
-            const km = document.getElementById('kamarGuru').value.trim();
-            const th = document.getElementById('tahunGuru').value.trim();
-            const jns = document.getElementById('jenis_paket_guru').value;
-            const rak = document.getElementById('tempat_guru').value.trim();
-
-            if(!nm || !jns || !rak) {
-                tampilkanPesanError("Mohon lengkapi formulir pendaftaran paket guru!", 'namaGuruInput');
-                return;
-            }
-
-            try {
-                const operator = userLoginAktif ? userLoginAktif.username : "Piket";
-                const { error } = await _supabase.from('paket_guru').insert([{
-                    nama_guru: nm, kamar_guru: km, tahun_guru: th, jenis_paket_guru: jns,
-                    tempat_guru: rak, status: 'Belum Diambil', petugas_input: operator
-                }]);
-
-                if(error) throw error;
-                simpanLogAuditSystemLocal(`Mendaftarkan paket guru/asatidz baru atas nama ${nm} di Rak ${rak}.`);
-                document.getElementById('formPaketGuru').reset();
-                await memulaiSinkronisasiDashboardAplikasi();
-                tampilkanPesanError(`🎉 Sukses mendaftarkan paket guru/asatidz atas nama: ${nm}.`, 'namaGuruInput');
-            } catch(err) {
-                tampilkanPesanError("Gagal mendaftarkan paket guru baru ke database Supabase.", 'namaGuruInput');
-            }
-        }
+        function keluarSistem() { localStorage.removeItem('sesiPetugas'); userLoginAktif = null; document.getElementById('mainDashboard').classList.add('hidden'); document.getElementById('portalPage').classList.remove('hidden'); }
 
         function jalankanFilterDashboardAmbil() {
             const tglVal = document.getElementById('filterTanggalInput').value;
-            const stVal = document.getElementById('filterStatusInput').value;
+            const statusVal = document.getElementById('filterStatusInput').value;
             const cariVal = document.getElementById('cariDashboardAmbil').value.trim().toLowerCase();
+            const databaseSantri = databasePaket.filter(p => p.keterangan !== 'guru');
 
-            let hasil = [...databasePaket];
-
-            if(tglVal) {
-                hasil = hasil.filter(p => p.created_at && p.created_at.startsWith(tglVal));
-            }
-            if(stVal !== 'Semua') {
-                hasil = hasil.filter(p => p.status === stVal);
-            }
-            if(cariVal) {
-                hasil = hasil.filter(p => (p.nama && p.nama.toLowerCase().includes(cariVal)) || (p.stambuk && p.stambuk.toLowerCase().includes(cariVal)));
-            }
-
-            dataPaketTerfilter = hasil;
-            renderTabelDashboardPengambilanSiswa();
-        }
-
-        function resetSemuaFilterAmbil() {
-            document.getElementById('filterTanggalInput').value = '';
-            document.getElementById('filterStatusInput').value = 'Semua';
-            document.getElementById('cariDashboardAmbil').value = '';
-            jalankanFilterDashboardAmbil();
-        }
-
-        function renderTabelDashboardPengambilanSiswa() {
-            const tbody = document.getElementById('tabelBodyPengambilan');
-            tbody.innerHTML = '';
-
-            if(dataPaketTerfilter.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="15" class="p-3 text-center text-gray-400 italic text-xs">Tidak ada data paket santri yang sesuai dengan filter pencarian.</td></tr>`;
-                return;
-            }
-
-            dataPaketTerfilter.forEach(p => {
-                const tglMsk = p.created_at ? new Date(p.created_at).toLocaleString('id-ID') : '-';
-                const tglKlr = p.waktu_keluar ? new Date(p.waktu_keluar).toLocaleString('id-ID') : '-';
-                
-                let barisAksi = '';
-                if(p.status === 'Belum Diambil') {
-                    if(userLoginAktif && (userLoginAktif.role === 'petugas_full' || userLoginAktif.role === 'superadmin')) {
-                        barisAksi = `
-                            <div class="flex items-center justify-center gap-1">
-                                <button onclick="eksekusiPengambilanPaketSiswa('${p.id}', 'Ambil sendiri')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black px-2 py-1 rounded text-[10px] shadow">Mandiri</button>
-                                <button onclick="eksekusiPengambilanPaketSiswa('${p.id}', 'Di antarkan')" class="bg-blue-600 hover:bg-blue-700 text-white font-black px-2 py-1 rounded text-[10px] shadow">Diantar</button>
-                                <button onclick="prosesAmbilkanSantriPihakKetiga('${p.id}')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-2 py-1 rounded text-[10px] shadow">Diwakilkan</button>
-                            </div>
-                        `;
-                    } else {
-                        barisAksi = `<span class="text-xs text-gray-400 italic font-bold">Akses level terbatas</span>`;
-                    }
-                } else {
-                    barisAksi = `<span class="text-purple-700 font-extrabold text-[11px]">Selesai (Metode: ${p.keterangan_ambil || '-'})</span>`;
-                }
-
-                const badgeStatus = p.status === 'Sudah Diambil' ? '<span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded font-bold">Sudah Diambil</span>' : '<span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded font-black animate-pulse">Belum Diambil</span>';
-
-                tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50 border-b font-medium text-gray-800">
-                        <td class="p-2 font-bold text-blue-800">${p.stambuk}</td>
-                        <td class="p-2 font-semibold truncate">${p.nama}</td>
-                        <td class="p-2 text-center">${p.kelas}</td>
-                        <td class="p-2 truncate">${p.rayon}</td>
-                        <td class="p-2 truncate">${p.daerah}</td>
-                        <td class="p-2 truncate text-slate-500">${p.orangtua}</td>
-                        <td class="p-2 text-center font-bold">${p.jenis_paket}</td>
-                        <td class="p-2 text-center font-black text-emerald-800 bg-emerald-50">${p.tempat}</td>
-                        <td class="p-2 truncate text-gray-500">${p.keterangan_ambil || '-'}</td>
-                        <td class="p-2 text-center font-bold">${badgeStatus}</td>
-                        <td class="p-2 text-gray-500 text-[10px]">${tglMsk}</td>
-                        <td class="p-2 font-bold text-slate-600 truncate">${p.petugas_input || 'System'}</td>
-                        <td class="p-2 text-gray-500 text-[10px]">${tglKlr}</td>
-                        <td class="p-2 font-bold text-slate-600 truncate">${p.petugas_keluar || '-'}</td>
-                        <td class="p-2">${barisAksi}</td>
-                    </tr>
-                `;
+            dataPaketTerfilter = databaseSantri.filter(p => {
+                let matchTgl = true, matchStatus = true, matchCari = true;
+                if (tglVal) matchTgl = p.waktu_masuk && p.waktu_masuk.includes(tglVal.split('-').reverse().join('/'));
+                if (statusVal !== 'Semua') matchStatus = p.status === statusVal;
+                if (cariVal) matchCari = (p.nama && p.nama.toLowerCase().includes(cariVal)) || (p.stambuk && p.stambuk.toLowerCase().includes(cariVal));
+                return matchTgl && matchStatus && matchCari;
             });
-        }
 
-        async function eksekusiPengambilanPaketSiswa(id, opsiMetode) {
-            try {
-                const operator = userLoginAktif ? userLoginAktif.username : "Piket";
-                const { error } = await _supabase.from('paket_logistik').update({
-                    status: 'Sudah Diambil',
-                    waktu_keluar: new Date().toISOString(),
-                    petugas_keluar: operator,
-                    keterangan_ambil: opsiMetode
-                }).eq('id', id);
-
-                if(error) throw error;
-                simpanLogAuditSystemLocal(`Memproses pengeluaran paket siswa ID: ${id} dengan metode ${opsiMetode}.`);
-                await memulaiSinkronisasiDashboardAplikasi();
-            } catch(e) {
-                tampilkanPesanError("Gagal memproses transaksi pengambilan paket siswa.");
+            const tbodyTerkini = document.getElementById('tabelBodyLogTerkini');
+            if(tbodyTerkini) {
+                tbodyTerkini.innerHTML = databaseSantri.slice(0, 50).map(p => `
+                    <tr class="border-b hover:bg-slate-50">
+                        <td class="p-2 font-mono font-bold">${p.stambuk}</td>
+                        <td class="p-2 font-semibold">${p.nama}</td>
+                        <td class="p-2">${p.kelas}</td>
+                        <td class="p-2">${p.rayon || '-'}</td>
+                        <td class="p-2">${p.daerah || '-'}</td>
+                        <td class="p-2">${p.orangtua || '-'}</td>
+                        <td class="p-2 font-bold text-indigo-600">${p.jenis_paket}</td>
+                        <td class="p-2 font-black text-amber-700">${p.tempat}</td>
+                        <td class="p-2 uppercase font-medium text-slate-500 text-[10px]"><span class="px-1.5 py-0.5 bg-slate-100 rounded border">${p.keterangan || 'siswa'}</span></td>
+                        <td class="p-2"><span class="px-2 py-0.5 rounded-full text-[10px] font-black ${p.status === 'Belum Diambil' ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-emerald-100 text-emerald-800 border border-emerald-300'}">${p.status}</span></td>
+                        <td class="p-2 text-slate-500 font-medium">${p.petugas_input || '-'}</td>
+                    </tr>
+                `).join('');
             }
-        }
 
-        function prosesAmbilkanSantriPihakKetiga(id) {
-            const namaWakil = prompt("Masukkan nama lengkap orang/santri yang mewakilkan pengambilan:");
-            if(namaWakil === null) return;
-            if(!namaWakil.trim()) {
-                tampilkanPesanError("Nama perwakilan wajib diisi!");
-                return;
+            const tbodyAmbil = document.getElementById('tabelBodyPengambilan');
+            if(tbodyAmbil) {
+                tbodyAmbil.innerHTML = dataPaketTerfilter.map(p => `
+                    <tr class="border-b text-slate-700 font-medium hover:bg-slate-50/80 transition">
+                        <td class="p-2 font-mono font-bold text-slate-900">${p.stambuk}</td>
+                        <td class="p-2 font-bold text-slate-900">${p.nama}</td>
+                        <td class="p-2">${p.kelas}</td>
+                        <td class="p-2">${p.rayon || '-'}</td>
+                        <td class="p-2">${p.daerah || '-'}</td>
+                        <td class="p-2 text-gray-500">${p.orangtua || '-'}</td>
+                        <td class="p-2 font-extrabold text-indigo-700">${p.jenis_paket}</td>
+                        <td class="p-2 font-black text-amber-800 text-sm">${p.tempat}</td>
+                        <td class="p-2 text-gray-400 font-bold uppercase text-[10px]">${p.keterangan || 'siswa'}</td>
+                        <td class="p-2"><span class="px-2 py-0.5 rounded-full font-black text-[10px] ${p.status === 'Belum Diambil' ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-emerald-100 text-emerald-800 border border-emerald-300'}">${p.status}</span></td>
+                        <td class="p-2 text-gray-500">${p.waktu_masuk || '-'}</td>
+                        <td class="p-2 text-gray-400">${p.petugas_input || '-'}</td>
+                        <td class="p-2 text-gray-500">${p.waktu_keluar || '-'}</td>
+                        <td class="p-2 text-gray-400">${p.petugas_keluar || '-'}</td>
+                        <td class="p-2 text-center flex items-center justify-center gap-1.5">
+                            ${p.status === 'Belum Diambil' ? 
+                            `<button onclick="prosesAmbilPaketLangsung('${p.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Set Diambil</button>` : 
+                            `<button onclick="batalAmbilPaket('${p.id}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Batal Ambil</button>` }
+                            <button onclick="editPosisiRakPaket('${p.id}', '${p.tempat}')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-2 py-0.5 rounded text-[10px]">Edit Rak</button>
+                            <button onclick="hapusPaketSistem('${p.id}', '${p.nama}')" class="bg-red-700 hover:bg-red-800 text-white font-black px-2 py-0.5 rounded text-[10px]">Hapus</button>
+                        </td>
+                    </tr>
+                `).join('');
             }
-            eksekusiPengambilanPaketSiswa(id, `Diambilkan oleh ${namaWakil.trim()}`);
+            perbaruiStatistikDashboard();
         }
 
         function renderTabelAmbilGuru() {
             const tbody = document.getElementById('tabelBodyAmbilGuru');
-            tbody.innerHTML = '';
+            if(!tbody) return;
             
             const tglVal = document.getElementById('filterTanggalGuru').value;
-            const stVal = document.getElementById('filterStatusGuru').value;
-            const cariVal = document.getElementById('cariAmbilGuruInput').value.trim().toLowerCase();
-
-            let dataGuru = [...(window.listSeluruhGuruPaketData || [])];
-
-            if(tglVal) dataGuru = dataGuru.filter(g => g.created_at && g.created_at.startsWith(tglVal));
-            if(stVal !== 'Semua') dataGuru = dataGuru.filter(g => g.status === stVal);
-            if(cariVal) dataGuru = dataGuru.filter(g => g.nama_guru && g.nama_guru.toLowerCase().includes(cariVal));
-
-            if(dataGuru.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="11" class="p-3 text-center text-gray-400 italic text-xs">Tidak ada data paket guru ditemukan.</td></tr>`;
-                return;
-            }
-
-            dataGuru.forEach(g => {
-                const tMsk = g.created_at ? new Date(g.created_at).toLocaleString('id-ID') : '-';
-                const tKlr = g.waktu_keluar ? new Date(g.waktu_keluar).toLocaleString('id-ID') : '-';
-                
-                let barisAksi = '';
-                if(g.status === 'Belum Diambil') {
-                    if(userLoginAktif && (userLoginAktif.role === 'petugas_full' || userLoginAktif.role === 'superadmin')) {
-                        barisAksi = `<button onclick="bukaModalProsesAmbilGuru('${g.id}')" class="w-full bg-purple-700 hover:bg-purple-800 text-white font-black px-3 py-1 rounded text-[11px] shadow-sm">Proses Pengambilan</button>`;
-                    } else {
-                        barisAksi = `<span class="text-xs text-gray-400 italic font-bold">Akses terbatas</span>`;
-                    }
-                } else {
-                    barisAksi = `<span class="text-purple-900 font-extrabold text-[11px]">Selesai (${g.keterangan_ambil || '-'})</span>`;
-                }
-
-                const badgeStatus = g.status === 'Sudah Diambil' ? '<span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded font-bold">Sudah Diambil</span>' : '<span class="bg-purple-100 text-purple-800 px-2 py-0.5 rounded font-black animate-pulse">Belum Diambil</span>';
-
-                tbody.innerHTML += `
-                    <tr class="hover:bg-purple-50 border-b font-medium text-gray-800">
-                        <td class="p-2 font-bold text-purple-950">${g.nama_guru}</td>
-                        <td class="p-2 text-center">${g.kamar_guru}</td>
-                        <td class="p-2 text-center">${g.tahun_guru}</td>
-                        <td class="p-2 text-center font-bold">${g.jenis_paket_guru}</td>
-                        <td class="p-2 text-center font-black text-purple-800 bg-purple-50">${g.tempat_guru}</td>
-                        <td class="p-2 text-center font-bold">${badgeStatus}</td>
-                        <td class="p-2 text-[10px] text-gray-500">${tMsk}</td>
-                        <td class="p-2 truncate text-slate-600 font-bold">${g.petugas_input || 'System'}</td>
-                        <td class="p-2 text-[10px] text-gray-500">${tKlr}</td>
-                        <td class="p-2 truncate text-slate-600 font-bold">${g.petugas_keluar || '-'}</td>
-                        <td class="p-2">${barisAksi}</td>
-                    </tr>
-                `;
+            const statusVal = document.getElementById('filterStatusGuru').value;
+            const keyword = document.getElementById('cariAmbilGuruInput').value.toLowerCase().trim();
+            
+            let dataGuru = databasePaket.filter(p => p.keterangan === 'guru');
+            
+            dataGuru = dataGuru.filter(g => {
+                let matchTgl = true, matchStatus = true, matchCari = true;
+                if (tglVal) matchTgl = g.waktu_masuk && g.waktu_masuk.includes(tglVal.split('-').reverse().join('/'));
+                if (statusVal !== 'Semua') matchStatus = g.status === statusVal;
+                if (keyword) matchCari = g.nama && g.nama.toLowerCase().includes(keyword);
+                return matchTgl && matchStatus && matchCari;
             });
+
+            tbody.innerHTML = dataGuru.map(g => `
+                <tr class="border-b text-slate-700 hover:bg-slate-50 transition">
+                    <td class="p-2 font-bold text-slate-900">${g.nama}</td>
+                    <td class="p-2 font-semibold text-purple-700">${g.kelas}</td>
+                    <td class="p-2 text-gray-500">${g.rayon || '-'}</td>
+                    <td class="p-2 font-extrabold text-indigo-600">${g.jenis_paket}</td>
+                    <td class="p-2 font-black text-amber-700">${g.tempat}</td>
+                    <td class="p-2"><span class="px-2 py-0.5 rounded-full font-black text-[10px] ${g.status === 'Belum Diambil' ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-purple-100 text-purple-800 border border-purple-300'}">${g.status}</span></td>
+                    <td class="p-2 text-gray-500">${g.waktu_masuk || '-'}</td>
+                    <td class="p-2 text-gray-400">${g.petugas_input || '-'}</td>
+                    <td class="p-2 text-gray-500">${g.waktu_keluar || '-'}</td>
+                    <td class="p-2 text-gray-400 truncate max-w-[120px]" title="${g.petugas_keluar || '-'}">${g.petugas_keluar || '-'}</td>
+                    <td class="p-2 text-center flex items-center justify-center gap-1">
+                        ${g.status === 'Belum Diambil' ? 
+                        `<button onclick="bukaModalProsesAmbilGuru('${g.id}')" class="bg-purple-700 hover:bg-purple-800 text-white font-bold px-2 py-0.5 rounded text-[10px]">Opsi Ambil</button>` : 
+                        `<button onclick="batalAmbilPaket('${g.id}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Batalkan</button>`}
+                        <button onclick="editPosisiRakPaket('${g.id}', '${g.tempat}')" class="bg-amber-500 text-slate-950 font-black px-2 py-0.5 rounded text-[10px]">Edit Rak</button>
+                        <button onclick="hapusPaketSistem('${g.id}', '${g.nama}')" class="bg-red-700 hover:bg-red-800 text-white font-black px-2 py-0.5 rounded text-[10px]">Hapus</button>
+                    </td>
+                </tr>
+            `).join('');
+            
+            const logGuruTerkini = document.getElementById('tabelBodyLogGuruTerkini');
+            if(logGuruTerkini) {
+                let dataGuruTerkini = databasePaket.filter(p => p.keterangan === 'guru');
+                logGuruTerkini.innerHTML = dataGuruTerkini.slice(0, 40).map(g => `
+                    <tr class="border-b hover:bg-slate-50 text-[11px]">
+                        <td class="p-2 font-bold">${g.nama}</td>
+                        <td class="p-2 text-purple-700 font-bold">${g.kelas}</td>
+                        <td class="p-2">${g.rayon || '-'}</td>
+                        <td class="p-2 font-semibold text-indigo-600">${g.jenis_paket}</td>
+                        <td class="p-2 font-black text-amber-700">${g.tempat}</td>
+                        <td class="p-2 text-gray-500">${g.waktu_masuk || '-'}</td>
+                        <td class="p-2 text-gray-400">${g.petugas_input || '-'}</td>
+                        <td class="p-2 text-gray-500">${g.waktu_keluar || '-'}</td>
+                        <td class="p-2 text-gray-400 truncate max-w-[100px]">${g.petugas_keluar || '-'}</td>
+                    </tr>
+                `).join('');
+            }
+            perbaruiStatistikDashboard();
+        }
+
+        function perbaruiStatistikDashboard() {
+            document.getElementById('statTotal').innerText = databasePaket.length;
+            document.getElementById('statBelum').innerText = databasePaket.filter(x => x.status === 'Belum Diambil').length;
+            document.getElementById('statSudahAmbil').innerText = databasePaket.filter(x => x.status === 'Sudah Diambil').length;
+            const tglHariIni = new Date().toLocaleDateString('id-ID', {day: '2-digit', month: '2-digit', year: 'numeric'});
+            const jumlahMasukHariIni = databasePaket.filter(p => p.waktu_masuk && p.waktu_masuk.includes(tglHariIni)).length;
+            document.getElementById('statTotalMasuk').innerText = jumlahMasukHariIni;
         }
 
         function resetFilterAmbilGuru() {
@@ -1237,225 +829,363 @@
             renderTabelAmbilGuru();
         }
 
-        function bukaModalProsesAmbilGuru(id) {
-            document.getElementById('idTargetAmbilGuru').value = id;
-            document.getElementById('selectJenisAmbilGuru').value = 'Ambil sendiri';
-            document.getElementById('boxInputTambahanGuru').classList.add('hidden');
-            document.getElementById('inputTambahanGuru').value = '';
-            document.getElementById('modalAmbilPaketGuru').classList.remove('hidden');
-        }
-
-        function tutupModalAmbilGuru() {
-            document.getElementById('modalAmbilPaketGuru').classList.add('hidden');
-        }
-
-        function handleDropdownMetodeGuru(val) {
-            const box = document.getElementById('boxInputTambahanGuru');
-            const lbl = document.getElementById('labelTambahanGuru');
-            const inp = document.getElementById('inputTambahanGuru');
-            inp.value = '';
-
-            if(val === 'Di antarkan') {
-                box.classList.remove('hidden');
-                lbl.innerText = "NAMA MAHASISWA / SANTRI YANG MENGANTARKAN:";
-                inp.placeholder = "Ketik nama santri pengantar...";
-            } else if(val === 'di ambilkan') {
-                box.classList.remove('hidden');
-                lbl.innerText = "NAMA MAHASISWA / UMMAT YANG MEWAKILI:";
-                inp.placeholder = "Ketik nama perwakilan guru...";
-            } else {
-                box.classList.add('hidden');
+        async function hapusPaketSistem(id, namaPemilik) {
+            if(!confirm(`Apakah Anda yakin ingin MENGHAPUS PERMANEN data paket milik [ ${namaPemilik} ] dari database cloud?`)) return;
+            try {
+                const { error } = await _supabase.from('paket').delete().eq('id', id);
+                if (error) throw error;
+                catatAuditLog(`Menghapus permanen paket ID ${id} milik ${namaPemilik}`);
+                await muatDataKomplit();
+                tampilkanPesanError(`Berhasil menghapus data paket milik ${namaPemilik}.`);
+            } catch(e) {
+                tampilkanPesanError("Gagal menghapus data paket dari Supabase.");
             }
+        }
+
+        function bukaModalProsesAmbilGuru(id) { document.getElementById('idTargetAmbilGuru').value = id; document.getElementById('selectJenisAmbilGuru').value = 'Ambil sendiri'; handleDropdownMetodeGuru('Ambil sendiri'); document.getElementById('modalAmbilPaketGuru').classList.remove('hidden'); }
+        function tutupModalAmbilGuru() { document.getElementById('modalAmbilPaketGuru').classList.add('hidden'); }
+        function handleDropdownMetodeGuru(v) {
+            const box = document.getElementById('boxInputTambahanGuru');
+            const label = document.getElementById('labelTambahanGuru');
+            const inp = document.getElementById('inputTambahanGuru');
+            if(v === 'Di antarkan') { box.classList.remove('hidden'); label.innerText = "Nama Pengantar / Utusan:"; inp.value = ''; inp.placeholder = "Ketik nama santri/petugas pengantar..."; }
+            else if(v === 'di ambilkan') { box.classList.remove('hidden'); label.innerText = "Nama Penerima Kuasa / Yang Mengambilkan:"; inp.value = ''; inp.placeholder = "Ketik nama ustadz lain / orang ketiga..."; }
+            else { box.classList.add('hidden'); inp.value = ''; }
         }
 
         async function simpanMetodeAmbilGuru() {
             const id = document.getElementById('idTargetAmbilGuru').value;
             const metode = document.getElementById('selectJenisAmbilGuru').value;
-            const tambahan = document.getElementById('inputTambahanGuru').value.trim();
-
-            let finalMetode = metode;
-            if(metode === 'Di antarkan') {
-                if(!tambahan) { alert("Nama pengantar harus diisi!"); return; }
-                finalMetode = `Diantarkan oleh ${tambahan}`;
-            } else if(metode === 'di ambilkan') {
-                if(!tambahan) { alert("Nama perwakilan harus diisi!"); return; }
-                finalMetode = `Diambilkan oleh ${tambahan}`;
-            }
-
+            const tambahanVal = document.getElementById('inputTambahanGuru').value.trim();
+            let ketFinalAmbil = metode;
+            if((metode === 'Di antarkan' || metode === 'di ambilkan') && !tambahanVal) { alert("Nama keterangan utusan wajib diisi!"); return; }
+            if((metode === 'Di antarkan' || metode === 'di ambilkan') && tambahanVal) { ketFinalAmbil = `${metode} (${tambahanVal})`; }
+            if(!userLoginAktif) return;
+            const namaPetugasSekarang = userLoginAktif.nama || userLoginAktif.username;
             try {
-                const operator = userLoginAktif ? userLoginAktif.username : "Piket";
-                const { error } = await _supabase.from('paket_guru').update({
-                    status: 'Sudah Diambil',
-                    waktu_keluar: new Date().toISOString(),
-                    petugas_keluar: operator,
-                    keterangan_ambil: finalMetode
-                }).eq('id', id);
-
-                if(error) throw error;
+                const { error } = await _supabase.from('paket').update({ status: 'Sudah Diambil', waktu_keluar: dapatkanWaktuSekarang(), petugas_keluar: `${namaPetugasSekarang} [Metode: ${metode}] (Oleh: ${tambahanVal || 'Sendiri'})` }).eq('id', id);
+                if (error) throw error;
+                catatAuditLog(`Paket Guru ID ${id} diambil dengan opsi: ${ketFinalAmbil}`);
                 tutupModalAmbilGuru();
-                simpanLogAuditSystemLocal(`Memproses pengeluaran paket guru ID: ${id} dengan metode: ${finalMetode}.`);
-                await memulaiSinkronisasiDashboardAplikasi();
+                await muatDataKomplit();
             } catch(e) {
-                alert("Gagal memproses pengambilan paket guru.");
+                tampilkanPesanError("Gagal memproses pengambilan paket guru.");
+            }
+        }
+
+        async function prosesAmbilPaketLangsung(id) {
+            if(!userLoginAktif) return;
+            try {
+                const namaPetugasSekarang = userLoginAktif.nama || userLoginAktif.username;
+                const { error } = await _supabase.from('paket').update({ status: 'Sudah Diambil', waktu_keluar: dapatkanWaktuSekarang(), petugas_keluar: namaPetugasSekarang }).eq('id', id);
+                if (error) throw error;
+                catatAuditLog(`Menandai paket ID ${id} sebagai sudah diambil.`);
+                await muatDataKomplit();
+            } catch(e) {
+                tampilkanPesanError("Gagal memperbarui status pengambilan ke Supabase.");
+            }
+        }
+        async function batalAmbilPaket(id) {
+            if(!confirm("Apakah Anda yakin ingin membatalkan pengambilan paket ini dan mengembalikannya ke rak?")) return;
+            try {
+                const { error } = await _supabase.from('paket').update({ status: 'Belum Diambil', waktu_keluar: '-', petugas_keluar: '-' }).eq('id', id);
+                if (error) throw error;
+                catatAuditLog(`Membatalkan status pengambilan untuk paket ID: ${id}`);
+                await muatDataKomplit();
+            } catch(e) {
+                tampilkanPesanError("Gagal membatalkan status ambil di database.");
+            }
+        }
+        async function editPosisiRakPaket(id, lokasiLama) {
+            const lokasiBaru = prompt(`Ubah posisi Rak untuk paket ini:\n(Posisi saat ini: ${lokasiLama})`, lokasiLama);
+            if(lokasiBaru === null) return;
+            const nilaiBersih = lokasiBaru.trim();
+            if(!nilaiBersih) { alert("Posisi lokasi rak baru tidak boleh dikosongkan!"); return; }
+            try {
+                const { error } = await _supabase.from('paket').update({ tempat: nilaiBersih }).eq('id', id);
+                if(error) throw error;
+                catatAuditLog(`Mengubah koordinat Rak paket ID ${id} dari [${lokasiLama}] menjadi [${nilaiBersih}]`);
+                await muatDataKomplit();
+            } catch(e) {
+                tampilkanPesanError("Gagal memperbarui data perubahan lokasi rak.");
+            }
+        }
+
+        async function muatDataKomplit() {
+            try {
+                const { data, error } = await _supabase.from('paket').select('*').order('id', { ascending: false });
+                if (error) throw error;
+                databasePaket = data || [];
+                jalankanFilterDashboardAmbil();
+                renderTabelAmbilGuru();
+                buatGrafikAnalisisStatistik();
+            } catch(err) {
+                console.error("Gagal menyingkronkan database paket:", err);
             }
         }
 
         function buatGrafikAnalisisStatistik() {
             const ctx = document.getElementById('grafikLogistikUtama');
             if(!ctx) return;
-
-            const kardusS = databasePaket.filter(p => p.jenis_paket === 'Kardus').length;
-            const bajuS = databasePaket.filter(p => p.jenis_paket === 'Baju').length;
-            const shopeeS = databasePaket.filter(p => p.jenis_paket === 'Shopee').length;
-            const lainS = databasePaket.filter(p => p.jenis_paket === 'Lainnya' || p.jenis_paket === 'Container').length;
-
-            const guruList = window.listSeluruhGuruPaketData || [];
-            const kardusG = guruList.filter(g => g.jenis_paket_guru === 'Kardus').length;
-            const bajuG = guruList.filter(g => g.jenis_paket_guru === 'Baju').length;
-            const shopeeG = guruList.filter(g => g.jenis_paket_guru === 'Shopee').length;
-            const lainG = guruList.filter(g => g.jenis_paket_guru === 'Lainnya' || g.jenis_paket_guru === 'Container').length;
-
+            const jSiswa = databasePaket.filter(x => x.keterangan !== 'guru').length;
+            const jGuru = databasePaket.filter(x => x.keterangan === 'guru').length;
+            const jBelum = databasePaket.filter(x => x.status === 'Belum Diambil').length;
+            const jSudah = databasePaket.filter(x => x.status === 'Sudah Diambil').length;
             if(objekGrafikLogistik) { objekGrafikLogistik.destroy(); }
-
             objekGrafikLogistik = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Kardus', 'Baju Paket', 'Shopee/Kurir', 'Container/Lainnya'],
-                    datasets: [
-                        { label: 'Paket Santri', data: [kardusS, bajuS, shopeeS, lainS], backgroundColor: 'rgba(79, 70, 229, 0.85)' },
-                        { label: 'Paket Guru / Asatidz', data: [kardusG, bajuG, shopeeG, lainG], backgroundColor: 'rgba(126, 34, 206, 0.85)' }
-                    ]
+                    labels: ['Paket Santri (Total)', 'Paket Guru (Total)', 'Status: Belum Diambil', 'Status: Sudah Diambil'],
+                    datasets: [{
+                        label: 'Kuantitas Paket',
+                        data: [jSiswa, jGuru, jBelum, jSudah],
+                        backgroundColor: [ 'rgba(79, 70, 229, 0.7)', 'rgba(147, 51, 234, 0.7)', 'rgba(245, 158, 11, 0.7)', 'rgba(239, 68, 68, 0.7)' ],
+                        borderColor: [ 'rgb(79, 70, 229)', 'rgb(147, 51, 234)', 'rgb(245, 158, 11)', 'rgb(239, 68, 68)' ],
+                        borderWidth: 1.5
+                    }]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { labels: { font: { weight: 'bold', size: 11 } } } },
-                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
             });
         }
 
         function eksporGrafikKeGambar() {
-            if(!objekGrafikLogistik) return;
-            const url = objekGrafikLogistik.toBase64Image();
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Grafik_Analisis_Paket_${new Date().toLocaleDateString('id-ID')}.png`;
-            a.click();
-        }
-
-        function eksporKeExcel(kategori) {
-            let dataUntukExcel = [];
-            
-            if(kategori === 'siswa') {
-                dataUntukExcel = databasePaket.map(p => ({
-                    'Stambuk': p.stambuk, 'Nama Santri': p.nama, 'Kelas': p.kelas, 'Rayon': p.rayon,
-                    'Daerah': p.daerah, 'Wali': p.orangtua, 'Jenis': p.jenis_paket, 'Lokasi Rak': p.tempat,
-                    'Status': p.status, 'Waktu Masuk': p.created_at, 'Petugas Input': p.petugas_input,
-                    'Waktu Keluar': p.waktu_keluar, 'Petugas Ambil': p.petugas_keluar, 'Metode': p.keterangan_ambil
-                }));
-            } else {
-                dataUntukExcel = (window.listSeluruhGuruPaketData || []).map(g => ({
-                    'Nama Guru': g.nama_guru, 'Kamar': g.kamar_guru, 'Tahun': g.tahun_guru,
-                    'Jenis': g.jenis_paket_guru, 'Lokasi Rak': g.tempat_guru, 'Status': g.status,
-                    'Waktu Masuk': g.created_at, 'Petugas Input': g.petugas_input,
-                    'Waktu Keluar': g.waktu_keluar, 'Petugas Keluar': g.petugas_keluar, 'Metode': g.keterangan_ambil
-                }));
-            }
-
-            const ws = XLSX.utils.json_to_sheet(dataUntukExcel);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Data Paket");
-            XLSX.writeFile(wb, `Laporan_Paket_${kategori}_${new Date().toLocaleDateString('id-ID')}.xlsx`);
-        }
-
-        function bukaCtrlFSantri() {
-            document.getElementById('inputFilterCtrlF').value = '';
-            document.getElementById('boxListCtrlFSantri').innerHTML = '';
-            document.getElementById('modalCtrlFSantri').classList.remove('hidden');
-            filterListCtrlFSantri('');
-            setTimeout(() => { document.getElementById('inputFilterCtrlF').focus(); }, 100);
-        }
-
-        function tutupCtrlFSantri() {
-            document.getElementById('modalCtrlFSantri').classList.add('hidden');
-        }
-
-        function filterListCtrlFSantri(val) {
-            const box = document.getElementById('boxListCtrlFSantri');
-            box.innerHTML = '';
-            const cocok = listSeluruhMahasiswa.filter(m => m.nama && m.nama.toLowerCase().includes(val.toLowerCase())).slice(0, 15);
-            
-            if(cocok.length === 0) {
-                box.innerHTML = `<div class="p-2 text-center text-xs text-gray-500 italic">Nama santri tidak terdaftar di master data.</div>`;
-                return;
-            }
-
-            cocok.forEach(m => {
-                box.innerHTML += `
-                    <div onclick="pilihSantriDariCtrlF('${m.stambuk}')" class="p-2 text-xs font-semibold cursor-pointer text-slate-200 hover:bg-blue-900 border-b border-slate-800 flex justify-between">
-                        <span>👤 ${m.nama} (${m.kelas})</span>
-                        <span class="text-blue-400 font-mono font-bold">${m.stambuk}</span>
-                    </div>
-                `;
-            });
-        }
-
-        function pilihSantriDariCtrlF(stb) {
-            document.getElementById('stambuk').value = stb;
-            tutupCtrlFSantri();
-            cekStambukOtomatis();
-        }
-
-        async function memuatDaftarPenggunaPetugas() {
+            const canvas = document.getElementById('grafikLogistikUtama');
+            if(!canvas) return;
             try {
-                const { data, error } = await _supabase.from('uesers').select('*');
-                if(error) throw error;
-                const tbody = document.getElementById('tabelBodyUsers');
-                tbody.innerHTML = '';
-                (data || []).forEach(u => {
-                    tbody.innerHTML += `
-                        <tr class="hover:bg-purple-50 text-xs font-semibold">
-                            <td class="p-2 text-purple-950 font-bold">${u.username}</td>
-                            <td class="p-2 uppercase text-gray-500">${u.role}</td>
-                            <td class="p-2 text-center">
-                                <button onclick="hapusAkunPetugasPiket('${u.id}', '${u.username}')" class="bg-red-100 text-red-700 font-bold px-2 py-0.5 rounded hover:bg-red-200">Hapus</button>
-                            </td>
-                        </tr>
-                    `;
-                });
+                const urlGambar = canvas.toDataURL("image/png");
+                const linkPemicu = document.createElement('a');
+                linkPemicu.download = 'Analisis_Grafik_Kuantitas_Paket.png';
+                linkPemicu.href = urlGambar;
+                linkPemicu.click();
+                catatAuditLog(`Berhasil mengekspor grafik analisis kuantitas paket ke gambar PNG.`);
             } catch(e) {
-                console.error("Gagal memuat users:", e);
+                tampilkanPesanError("Gagal mengonversi grafik menjadi berkas gambar.");
             }
+        }
+
+        function eksporKeExcel(tipe) {
+            let dataTarget = [];
+            let namaBerkas = "";
+            
+            if(tipe === 'siswa') {
+                dataTarget = dataPaketTerfilter.length > 0 ? dataPaketTerfilter : databasePaket.filter(p => p.keterangan !== 'guru');
+                namaBerkas = "Laporan_Arsip_Paket_Santri.xlsx";
+            } else if(tipe === 'guru') {
+                const tglVal = document.getElementById('filterTanggalGuru').value;
+                const statusVal = document.getElementById('filterStatusGuru').value;
+                const keyword = document.getElementById('cariAmbilGuruInput').value.toLowerCase().trim();
+                
+                dataTarget = databasePaket.filter(p => p.keterangan === 'guru');
+                dataTarget = dataTarget.filter(g => {
+                    let matchTgl = true, matchStatus = true, matchCari = true;
+                    if (tglVal) matchTgl = g.waktu_masuk && g.waktu_masuk.includes(tglVal.split('-').reverse().join('/'));
+                    if (statusVal !== 'Semua') matchStatus = g.status === statusVal;
+                    if (keyword) matchCari = g.nama && g.nama.toLowerCase().includes(keyword);
+                    return matchTgl && matchStatus && matchCari;
+                });
+                namaBerkas = "Laporan_Arsip_Paket_Guru.xlsx";
+            }
+
+            if (dataTarget.length === 0) { tampilkanPesanError("Tidak ada data paket untuk diekspor!"); return; }
+            try {
+                const dataSiapEkspor = dataTarget.map((p, index) => ({ 
+                    "No": index + 1, 
+                    "No Stambuk": p.stambuk || "-", 
+                    "Nama Pemilik": p.nama || "", 
+                    "Kelas / Kamar": p.kelas || "", 
+                    "Rayon / Tahun": p.rayon || "-", 
+                    "Daerah": p.daerah || "-", 
+                    "Jenis Paket": p.jenis_paket || "", 
+                    "Lokasi Rak": p.tempat || "", 
+                    "Tipe Pengguna": p.keterangan || "siswa", 
+                    "Status Paket": p.status || "", 
+                    "Waktu Tiba/Masuk": p.waktu_masuk || "", 
+                    "Petugas Input": p.petugas_input || "",
+                    "Waktu Keluar": p.waktu_keluar || "-",
+                    "Petugas Keluar / Pengambil": p.petugas_keluar || "-"
+                }));
+                const worksheet = XLSX.utils.json_to_sheet(dataSiapEkspor);
+                const workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, "Data Paket");
+                XLSX.writeFile(workbook, namaBerkas);
+                catatAuditLog(`Berhasil mengekspor ${dataSiapEkspor.length} data paket ke berkas Excel.`);
+            } catch (error) {
+                tampilkanPesanError("Gagal membuat dan mendownload berkas Excel.");
+            }
+        }
+        function resetSemuaFilterAmbil() { document.getElementById('filterTanggalInput').value = ''; document.getElementById('filterStatusInput').value = 'Semua'; document.getElementById('cariDashboardAmbil').value = ''; jalankanFilterDashboardAmbil(); }
+
+        async function muatDaftarPenggunaPetugas() {
+            const bodyUsers = document.getElementById('tabelBodyUsers');
+            if(!bodyUsers) return;
+            try {
+                const { data, error } = await _supabase.from('users').select('*');
+                if (error) throw error;
+                bodyUsers.innerHTML = data.map(u => `
+                    <tr class="border-b text-slate-700">
+                        <td class="p-2 font-bold">${u.username}</td>
+                        <td class="p-2 font-medium uppercase text-indigo-600">${u.role}</td>
+                        <td class="p-2 text-center"><button onclick="hapusAkunPetugas('${u.id}', '${u.username}')" class="bg-red-100 border border-red-300 text-red-700 px-2 py-0.5 rounded text-[11px] font-bold">Hapus</button></td>
+                    </tr>
+                `).join('');
+            } catch(e) { console.error(e); }
         }
 
         async function tambahUserPetugas(e) {
             e.preventDefault();
-            const u = document.getElementById('newUsername').value.trim();
-            const p = document.getElementById('newPassword').value.trim();
-            const r = document.getElementById('newRole').value;
-
+            const usernameInp = document.getElementById('newUsername').value.trim();
+            const passwordInp = document.getElementById('newPassword').value.trim();
+            const roleInp = document.getElementById('newRole').value;
             try {
-                const { error } = await _supabase.from('uesers').insert([{ username: u, password: p, role: r }]);
-                if(error) throw error;
+                const { error } = await _supabase.from('users').insert([{ username: usernameInp, password: passwordInp, role: roleInp, nama: usernameInp }]);
+                if (error) throw error;
+                catatAuditLog(`Membuat/memperbarui hak akses akun petugas baru: ${usernameInp}`);
                 document.getElementById('formUser').reset();
-                simpanLogAuditSystemLocal(`Menambahkan/memperbarui akun petugas piket bernama: ${u}`);
-                await memuatDaftarPenggunaPetugas();
-            } catch(err) {
-                alert("Gagal menambahkan akun petugas baru: " + err.message);
-            }
+                await muatDaftarPenggunaPetugas();
+                alert("Sukses menyimpan akun petugas!");
+            } catch(e) { alert("Gagal mendaftarkan akun baru."); }
         }
 
-        async function hapusAkunPetugasPiket(id, uname) {
-            if(!confirm(`Apakah Anda yakin ingin menghapus akun petugas "${uname}"?`)) return;
+        async function hapusAkunPetugas(id, username) {
+            if(username === userLoginAktif.username) { alert("Anda tidak diperbolehkan menghapus akun Anda sendiri yang sedang aktif!"); return; }
+            if(!confirm(`Hapus hak akses sistem untuk user petugas [ ${username} ]?`)) return;
             try {
-                const { error } = await _supabase.from('uesers').delete().eq('id', id);
-                if(error) throw error;
-                simpanLogAuditSystemLocal(`Menghapus akun petugas bernama: ${uname}`);
-                await memuatDaftarPenggunaPetugas();
-            } catch(e) {
-                alert("Gagal menghapus akun.");
+                const { error } = await _supabase.from('users').delete().eq('id', id);
+                if (error) throw error;
+                catatAuditLog(`Menghapus akun milik petugas: ${username}`);
+                await muatDaftarPenggunaPetugas();
+            } catch(e) { alert("Gagal menghapus data petugas."); }
+        }
+
+        async function lakukanPencarianPublik() {
+            const kw = document.getElementById('cariPublikInput').value.trim().toLowerCase();
+            const box = document.getElementById('boxHasilPublik');
+            if(!kw) { alert("Silakan masukkan kata kunci pelacakan terlebih dahulu!"); return; }
+            try {
+                const { data, error } = await _supabase.from('paket').select('*');
+                if (error) throw error;
+                
+                const hasilSesuaiNama = data.filter(p => (p.nama && p.nama.toLowerCase().includes(kw)) || (p.stambuk && p.stambuk.toLowerCase().includes(kw)) );
+                window.dataHistorySantriSaja = hasilSesuaiNama.filter(p => p.status === 'Sudah Diambil');
+                const belumAmbil = hasilSesuaiNama.filter(p => p.status === 'Belum Diambil');
+                
+                box.classList.remove('hidden');
+                document.getElementById('areaHistoryPublik').classList.remove('hidden');
+                
+                if (hasilSesuaiNama.length === 0) {
+                    box.innerHTML = `
+                        <div class="p-6 bg-red-500/10 border border-red-500/30 rounded-2xl text-center">
+                            <p class="font-black text-red-400 text-sm uppercase tracking-wide">📦 Paket Tidak Ada</p>
+                            <p class="text-[11px] text-slate-400 mt-1">Nama atau nomor stambuk tersebut tidak terdaftar memiliki paket di sistem.</p>
+                        </div>`;
+                    return;
+                }
+                
+                if (belumAmbil.length === 0 && window.dataHistorySantriSaja.length > 0) {
+                    box.innerHTML = `
+                        <div class="p-6 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-center">
+                            <p class="font-black text-emerald-400 text-sm uppercase tracking-wide">✅ Semua Paket Telah Diambil</p>
+                            <p class="text-[11px] text-slate-400 mt-1">Seluruh riwayat paket Anda sudah diserahterimakan. Silakan cek detail di tombol riwayat bawah.</p>
+                        </div>`;
+                    return;
+                }
+
+                box.innerHTML = belumAmbil.map(p => {
+                    const isSiswa = p.keterangan !== 'guru';
+                    if (isSiswa) {
+                        return `
+                            <div class="p-4 bg-gradient-to-r from-indigo-950 to-slate-900 border border-indigo-500/40 rounded-2xl shadow-xl flex justify-between items-center animate-fade-in">
+                                <div class="max-w-[75%]">
+                                    <p class="text-[10px] uppercase font-bold tracking-wider text-blue-400">PENGGUNA: ${p.keterangan || 'siswa'}</p>
+                                    <h4 class="font-black text-sm text-white mt-0.5 truncate">${p.nama}</h4>
+                                    <p class="text-[11px] text-slate-300 mt-1">Kelas: <span class="text-white font-bold">${p.kelas}</span> | Rayon: <span class="text-white font-bold">${p.rayon || '-'}</span></p>
+                                    <p class="text-[11px] text-slate-300">Jenis Paket: <span class="text-indigo-300 font-bold">${p.jenis_paket}</span></p>
+                                    <p class="text-[10px] text-slate-500 mt-1.5 font-medium">🕒 Waktu Tiba: ${p.waktu_masuk}</p>
+                                </div>
+                                <div class="text-center bg-indigo-900/60 border border-indigo-400 px-4 py-2.5 rounded-xl min-w-[80px]">
+                                    <p class="text-[9px] font-bold text-indigo-300 uppercase">KODE RAK</p>
+                                    <p class="text-lg font-black text-amber-400 tracking-tight">${p.tempat}</p>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        return `
+                            <div class="p-4 bg-gradient-to-r from-purple-950 to-slate-900 border border-purple-500/40 rounded-2xl shadow-xl flex justify-between items-center animate-fade-in">
+                                <div class="max-w-[75%]">
+                                    <p class="text-[10px] uppercase font-bold tracking-wider text-purple-400">PENGGUNA: ${p.keterangan || 'guru'}</p>
+                                    <h4 class="font-black text-sm text-white mt-0.5 truncate">${p.nama}</h4>
+                                    <p class="text-[11px] text-slate-300 mt-1">Kamar: <span class="text-white font-bold">${p.kelas}</span> | Tahun: <span class="text-white font-bold">${p.rayon || '-'}</span></p>
+                                    <p class="text-[11px] text-slate-300">Jenis Paket: <span class="text-purple-300 font-bold">${p.jenis_paket}</span></p>
+                                    <p class="text-[10px] text-slate-500 mt-1.5 font-medium">🕒 Waktu Tiba: ${p.waktu_masuk}</p>
+                                    ${p.status === 'Sudah Diambil' ? `<p class="text-[10px] text-amber-400 font-bold mt-0.5">📤 Diambil: ${p.waktu_keluar} (${p.petugas_keluar || '-'})</p>` : ''}
+                                </div>
+                                <div class="text-center bg-purple-900/60 border border-purple-400 px-4 py-2.5 rounded-xl min-w-[80px]">
+                                    <p class="text-[9px] font-bold text-purple-300 uppercase">KODE RAK</p>
+                                    <p class="text-lg font-black text-amber-400 tracking-tight">${p.tempat}</p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }).join('');
+            } catch(e) { alert("Koneksi gagal mengunduh data publik."); }
+        }
+
+        function konfirmasiSelesaiCariPublik() { kembaliKePortal(); }
+        function bukaModalHistoryPublik() {
+            document.getElementById('modalHistoryPublik').classList.remove('hidden');
+            const box = document.getElementById('boxHistorySudahAmbil');
+            if(window.dataHistorySantriSaja && window.dataHistorySantriSaja.length > 0) {
+                box.innerHTML = window.dataHistorySantriSaja.map(p => `
+                    <div class="p-3 bg-slate-800 border border-slate-700 rounded-xl text-xs">
+                        <p class="font-bold text-slate-200">${p.jenis_paket} - Rak [ ${p.tempat} ] (<span class="text-amber-400 uppercase font-black text-[10px]">${p.keterangan || 'siswa'}</span>)</p>
+                        <p class="text-slate-300 mt-0.5">Nama Pemilik: <span class="font-bold text-white">${p.nama}</span></p>
+                        <p class="text-[11px] text-slate-400 mt-0.5">Tiba: ${p.waktu_masuk} | Keluar: ${p.waktu_keluar}</p>
+                        <p class="text-[11px] text-indigo-300 font-medium">Keterangan Ambil: ${p.petugas_keluar || '-'}</p>
+                    </div>
+                `).join('');
+            } else {
+                box.innerHTML = `<p class="text-slate-500 text-center py-4">[Belum ada riwayat pengambilan paket]</p>`;
             }
+        }
+        function tutupModalHistoryPublik() { document.getElementById('modalHistoryPublik').classList.add('hidden'); }
+        
+        document.addEventListener('click', function(e){
+            const dropdown = document.getElementById('dropdownSugestiGuru');
+            if(dropdown && e.target.id !== 'namaGuruInput') { dropdown.classList.add('hidden'); }
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const cekSesiLokal = localStorage.getItem('sesiPetugas');
+            if (cekSesiLokal) {
+                userLoginAktif = JSON.parse(cekSesiLokal);
+                jalankanInisialisasiDashboard();
+            } else {
+                document.getElementById('landingPage').classList.remove('hidden');
+            }
+            perbaruiTampilanAuditLog();
+        });
+
+        function switchTab(tabId) {
+            ['navTabInput', 'navTabInputGuru', 'navTabAmbil', 'navTabAmbilGuru', 'navTabAnalisis', 'navTabAudit', 'navTabUsers'].forEach(t => {
+                const el = document.getElementById(t);
+                if(el) { el.classList.replace('bg-indigo-600', 'bg-gray-200'); el.classList.replace('text-white', 'text-gray-700'); }
+            });
+            const activeTab = document.getElementById(tabId);
+            if(activeTab) { activeTab.classList.replace('bg-gray-200', 'bg-indigo-600'); activeTab.classList.replace('text-gray-700', 'text-white'); }
+            document.getElementById('kontenTabInput').classList.add('hidden');
+            document.getElementById('kontenTabInputGuru').classList.add('hidden');
+            document.getElementById('kontenTabAmbil').classList.add('hidden');
+            document.getElementById('kontenTabAmbilGuru').classList.add('hidden');
+            document.getElementById('kontenTabAnalisis').classList.add('hidden');
+            document.getElementById('kontenTabAudit').classList.add('hidden');
+            document.getElementById('kontenTabUsers').classList.add('hidden');
+            if(tabId === 'navTabInput') document.getElementById('kontenTabInput').classList.remove('hidden');
+            if(tabId === 'navTabInputGuru') { document.getElementById('kontenTabInputGuru').classList.remove('hidden'); setTimeout(()=> { document.getElementById('namaGuruInput').focus(); }, 50); }
+            if(tabId === 'navTabAmbil') document.getElementById('kontenTabAmbil').classList.remove('hidden');
+            if(tabId === 'navTabAmbilGuru') { document.getElementById('kontenTabAmbilGuru').classList.remove('hidden'); renderTabelAmbilGuru(); }
+            if(tabId === 'navTabAnalisis') { document.getElementById('kontenTabAnalisis').classList.remove('hidden'); buatGrafikAnalisisStatistik(); }
+            if(tabId === 'navTabAudit') { document.getElementById('kontenTabAudit').classList.remove('hidden'); perbaruiTampilanAuditLog(); }
+            if(tabId === 'navTabUsers') document.getElementById('kontenTabUsers').classList.remove('hidden');
         }
     </script>
 </body>
