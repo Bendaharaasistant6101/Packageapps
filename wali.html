@@ -55,8 +55,7 @@
                 </div>
                 <div id="inputGuruGroup" class="relative hidden">
                     <label class="text-xs font-semibold text-slate-600 block mb-1">Nama Guru (Ketik & Pilih)</label>
-                    <input type="text" id="regNamaGuru" oninput="cariSugestiGuru(this.value)" placeholder="Ketik nama Anda..." autocomplete="off" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition font-bold text-slate-900">
-                    <div id="sugestiGuruBox" class="absolute left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-lg max-h-40 overflow-y-auto z-50 hidden"></div>
+                    <input type="text" id="regNamaGuru" placeholder="Ketik nama Anda..." autocomplete="off" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition font-bold text-slate-900">
                 </div>
                 <div>
                     <label class="text-xs font-semibold text-slate-600 block mb-1">Email Aktif</label>
@@ -94,6 +93,7 @@
         </header>
 
         <main class="w-full max-w-md mx-auto px-4 py-6 flex-grow flex flex-col gap-5">
+            <!-- KARTU INDENTITAS UTAMA -->
             <div class="bg-gradient-to-br from-indigo-900 to-indigo-950 p-5 rounded-2xl text-white shadow-xl shadow-indigo-950/10 relative overflow-hidden">
                 <div class="absolute -right-4 -bottom-4 text-7xl opacity-10 pointer-events-none">  🏢  </div>
                 <div class="flex justify-between items-start">
@@ -102,12 +102,12 @@
                         👥 Kelola Anak
                     </button>
                 </div>
-                <!-- Penggantian Nama Dinamis: Ayah / Bunda [Nama Anak] -->
+                <!-- Nama Dinamis: Ayah / Bunda [Nama Anak Aktif] -->
                 <h2 class="text-lg font-black mt-2 mb-0.5" id="dashNamaUser">Memuat nama...</h2>
                 <p class="text-xs text-indigo-200/90 font-medium" id="dashSubInfo">Memuat informasi stambuk/identitas...</p>
             </div>
 
-            <!-- TAB PILIHAN ANAK (Hanya muncul untuk wali jika anak > 1) -->
+            <!-- TAB PILIHAN ANAK -->
             <div id="wrapperTabAnak" class="flex gap-2 overflow-x-auto pb-1 scrollbar-none hidden">
                 <!-- Diisi dinamis oleh JS -->
             </div>
@@ -129,6 +129,7 @@
                 <button id="tabSudah" onclick="switchTabStatus('sudah')" class="py-2.5 rounded-lg text-slate-500 hover:text-slate-800 transition">📜 Riwayat Selesai</button>
             </div>
 
+            <!-- LIST PAKET -->
             <div class="flex flex-col gap-3">
                 <div class="flex justify-between items-center px-1">
                     <h3 class="text-xs font-extrabold text-slate-500 tracking-wider uppercase" id="listTitleText">Daftar Kiriman Paket</h3>
@@ -143,7 +144,7 @@
         </footer>
     </div>
 
-    <!-- MODAL KELOLA ANAK (KHUSUS WALI) -->
+    <!-- MODAL KELOLA ANAK -->
     <div id="modalKelolaAnak" class="fixed inset-0 bg-black/60 z-50 flex justify-center items-center p-4 hidden">
         <div class="bg-white p-6 rounded-3xl w-full max-w-sm border shadow-2xl flex flex-col gap-4">
             <div class="flex justify-between items-center">
@@ -183,8 +184,8 @@
 
         let SESSION_USER_DATA = null;
         let LIST_STAMBUK_WALI = []; 
-        let activeStambukSelected = ""; // Mengetahui stambuk anak mana yang sedang dipilih di tab
-        let activeTabStatus = "belum"; // 'belum' atau 'sudah'
+        let activeStambukSelected = ""; 
+        let activeTabStatus = "belum"; 
 
         window.addEventListener('DOMContentLoaded', async () => {
             const { data: { session } } = await _supabase.auth.getSession();
@@ -241,17 +242,7 @@
             muatDataPaketDashboard();
         }
 
-        // === NOTIFIKASI WA ===
-        function kirimNotifikasiGrup(namaPaket, tipe, tempat, stambuk) {
-            const pesan = `Halo ustadz/wali santri dari anak dengan stambuk *${stambuk}*.\n\n` +
-                          `Paket milik *${namaPaket}* (${tipe}) telah tiba di pos logistik pesantren.\n` +
-                          `📍 *Tempat Penyimpanan:* Rak ${tempat}\n\n` +
-                          `Mohon dapat segera diambil ke pos. Syukron!`;
-            const encodedText = encodeURIComponent(pesan);
-            window.open(`https://api.whatsapp.com/send?text=${encodedText}`, '_blank');
-        }
-
-        // === PROSES DAFTAR (WAJIB STAMBUK) ===
+        // === PROSES REGISTRASI ===
         async function prosesRegister() {
             const role = document.getElementById('regRole').value;
             const email = document.getElementById('regEmail').value.trim();
@@ -268,7 +259,7 @@
                 return;
             }
             if (role === 'guru' && !namaGuru) {
-                tampilkanAlertWali("Mohon pilih atau ketik nama lengkap Guru Anda.");
+                tampilkanAlertWali("Mohon isi nama lengkap Guru.");
                 return;
             }
             try {
@@ -363,7 +354,7 @@
             }
         }
 
-        // === MUAT STAMBUK RELASI & BUAT TAB ANAK ===
+        // === MUAT STAMBUK RELASI ===
         async function muatDaftarStambukRelasi() {
             try {
                 const { data: relasi, error } = await _supabase
@@ -375,7 +366,6 @@
                 LIST_STAMBUK_WALI = relasi.map(r => r.stambuk_anak);
                 
                 if (LIST_STAMBUK_WALI.length > 0) {
-                    // Set stambuk aktif pertama kali ke stambuk anak pertama
                     if (!activeStambukSelected || !LIST_STAMBUK_WALI.includes(activeStambukSelected)) {
                         activeStambukSelected = LIST_STAMBUK_WALI[0];
                     }
@@ -387,13 +377,13 @@
                     document.getElementById('dashSubInfo').innerText = "Tambahkan stambuk lewat menu Kelola Anak.";
                 }
                 
-                muatDataPaketDashboard();
+                await muatDataPaketDashboard();
             } catch (err) {
                 console.error(err);
             }
         }
 
-        // Pembuatan Tab Navigasi Anak yang dipantau
+        // BUAT NAVIGASI TAB ANAK DI ATAS
         function buatNavigasiTabAnak() {
             const container = document.getElementById('wrapperTabAnak');
             container.classList.remove('hidden');
@@ -418,14 +408,31 @@
             muatDataPaketDashboard();
         }
 
-        // === MUAT PAKET SESUAI ANAK AKTIF ===
+        // === MUAT DATA PAKET DASHBOARD & INFO LENGKAP ===
         async function muatDataPaketDashboard() {
             if (!SESSION_USER_DATA) return;
             const wrapperList = document.getElementById('wrapperListPaketDashboard');
             wrapperList.innerHTML = `<p class="text-xs text-center text-slate-400 font-medium py-6 animate-pulse">Sedang memetakan data paket...</p>`;
             try {
+                // 1. CARI NAMA ANAK UTK TAB AKTIF (Diambil dari SEMUA data paket stambuk ini agar nama ayah/bunda selalu sinkron biarpun tab diganti)
+                if (SESSION_USER_DATA.role === 'wali' && activeStambukSelected) {
+                    const { data: paketSiswa, error: errSiswa } = await _supabase
+                        .from('paket')
+                        .select('nama')
+                        .eq('stambuk', activeStambukSelected)
+                        .limit(1);
+                    
+                    if (!errSiswa && paketSiswa && paketSiswa.length > 0) {
+                        document.getElementById('dashNamaUser').innerText = "Ayah / Bunda " + paketSiswa[0].nama;
+                    } else {
+                        // Jika stambuk baru & belum ada data paket sama sekali
+                        document.getElementById('dashNamaUser').innerText = "Ayah / Bunda (Stambuk: " + activeStambukSelected + ")";
+                    }
+                    document.getElementById('dashSubInfo').innerText = "Memantau Stambuk: " + activeStambukSelected;
+                }
+
+                // 2. AMBIL DATA PAKET SESUAI STATUS TAB (BELUM/SUDAH DIAMBIL)
                 let query = _supabase.from('paket').select('*');
-                
                 if (SESSION_USER_DATA.role === 'wali') {
                     if (!activeStambukSelected) {
                         wrapperList.innerHTML = `
@@ -435,7 +442,6 @@
                         `;
                         return;
                     }
-                    // Hanya muat data milik anak yang sedang dipilih di tab
                     query = query.eq('stambuk', activeStambukSelected);
                 } else {
                     query = query.eq('nama', SESSION_USER_DATA.identitas_kunci);
@@ -444,23 +450,11 @@
                 const { data, error } = await query.order('id', { ascending: false });
                 if (error) throw error;
 
-                // Hitung Statistik khusus untuk anak/guru ini saja
+                // Hitung Statistik
                 const belumDiambilCount = data.filter(p => p.status === 'Belum Diambil').length;
                 const sudahDiambilCount = data.filter(p => p.status === 'Sudah Diambil').length;
                 document.getElementById('statBelumDiambil').innerText = belumDiambilCount;
                 document.getElementById('statSudahDiambil').innerText = sudahDiambilCount;
-
-                // Set Nama secara dinamis di Header "Ayah / Bunda [Nama Anak]"
-                if (SESSION_USER_DATA.role === 'wali') {
-                    // Cari apakah ada data nama anak dari paket yang ditarik
-                    const namaDitemukan = data.length > 0 ? data[0].nama : null;
-                    if (namaDitemukan) {
-                        document.getElementById('dashNamaUser').innerText = "Ayah / Bunda " + namaDitemukan;
-                    } else {
-                        document.getElementById('dashNamaUser').innerText = "Ayah / Bunda Wali Santri";
-                    }
-                    document.getElementById('dashSubInfo').innerText = "Memantau Stambuk: " + activeStambukSelected;
-                }
 
                 const filteredData = data.filter(p => activeTabStatus === "belum" ? p.status === 'Belum Diambil' : p.status === 'Sudah Diambil');
 
@@ -474,36 +468,37 @@
                     return;
                 }
 
+                // TAMPILKAN DAFTAR PAKET DENGAN INFORMASI LENGKAP KESELURUHAN DATA
                 wrapperList.innerHTML = filteredData.map(p => {
                     const isBelumDiambil = p.status === 'Belum Diambil';
                     return `
-                        <div class="bg-white p-4 rounded-2xl border ${isBelumDiambil ? 'border-amber-300' : 'border-slate-200'} flex flex-col gap-3">
+                        <div class="bg-white p-4 rounded-2xl border ${isBelumDiambil ? 'border-amber-300 shadow-sm' : 'border-slate-200'} flex flex-col gap-3">
                             <div class="flex justify-between items-start gap-2">
                                 <div>
-                                    <h4 class="font-extrabold text-sm text-slate-900 leading-snug">${p.nama}</h4>
-                                    <p class="text-[11px] text-slate-500 font-mono font-bold mt-0.5">Stambuk: ${p.stambuk} ${p.kelas ? '| Kelas: '+p.kelas : ''}</p>
+                                    <h4 class="font-extrabold text-sm text-slate-900 leading-snug">${p.nama || '-'}</h4>
+                                    <p class="text-[11px] text-slate-500 font-mono font-bold mt-0.5">Stambuk: ${p.stambuk || '-'} ${p.kelas ? '| Kelas: '+p.kelas : ''}</p>
                                 </div>
                                 <span class="text-[10px] font-black uppercase px-2.5 py-1 rounded-lg ${
                                     isBelumDiambil ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'
                                 }">${p.status}</span>
                             </div>
-                            <div class="bg-slate-50 p-3 rounded-xl text-[11px] space-y-1 border">
-                                <div class="flex justify-between"><span class="text-slate-400">Jenis:</span><span class="font-bold text-indigo-600">${p.jenis_paket}</span></div>
-                                <div class="flex justify-between"><span class="text-slate-400">Lokasi:</span><span class="font-extrabold text-slate-800">Rak ${p.tempat}</span></div>
-                            </div>
-                            <div class="text-[11px] flex justify-between items-center pt-1 border-t border-dashed">
-                                ${isBelumDiambil
-                                    ? `<span class="text-amber-600 font-bold">⚠️ Segera ambil</span>
-                                       <button onclick="kirimNotifikasiGrup('${p.nama}', '${p.jenis_paket}', '${p.tempat}', '${p.stambuk}')" class="bg-indigo-50 text-indigo-600 font-extrabold text-[10px] px-3 py-1.5 rounded-lg">Kirim WA 🔗</button>`
-                                    : `<span class="text-emerald-600 font-bold"> ✅ Ambil: ${p.waktu_keluar}</span>`
-                                }
+                            
+                            <!-- INFORMASI DETAIL DATA KESELURUHAN PAKET -->
+                            <div class="bg-slate-50 p-3.5 rounded-xl text-[11px] space-y-1.5 border border-slate-100">
+                                <div class="flex justify-between"><span class="text-slate-400">Jenis Paket:</span><span class="font-bold text-indigo-600">${p.jenis_paket || '-'}</span></div>
+                                <div class="flex justify-between"><span class="text-slate-400">Ekspedisi / Kurir:</span><span class="font-semibold text-slate-800">${p.ekspedisi || '-'}</span></div>
+                                <div class="flex justify-between"><span class="text-slate-400">Posisi Rak Penyimpanan:</span><span class="font-extrabold text-slate-900">Rak ${p.tempat || '-'}</span></div>
+                                <div class="flex justify-between border-t border-slate-200/60 pt-1.5"><span class="text-slate-400">Waktu Masuk Pos:</span><span class="text-slate-600 font-medium">${p.waktu_masuk || '-'}</span></div>
+                                ${!isBelumDiambil ? `
+                                <div class="flex justify-between border-t border-slate-200/60 pt-1.5"><span class="text-slate-400 text-emerald-600 font-semibold">Waktu Diserahkan:</span><span class="text-emerald-700 font-bold">${p.waktu_keluar || '-'}</span></div>
+                                ` : ''}
                             </div>
                         </div>
                     `;
                 }).join('');
             } catch (err) {
                 console.error(err);
-                tampilkanAlertWali("Gagal memuat paket.");
+                tampilkanAlertWali("Gagal memuat data paket.");
             }
         }
 
@@ -556,7 +551,6 @@
                 if (error) throw error;
                 document.getElementById('inputNewStambuk').value = '';
                 
-                // Pindahkan aktif pilihan tab ke anak yang baru didaftarkan
                 activeStambukSelected = inputVal; 
                 
                 await renderDaftarAnakModal();
@@ -575,7 +569,6 @@
                     .eq('id', idRelasi);
                 if (error) throw error;
                 
-                // Reset tab aktif jika stambuk yang dihapus kebetulan sedang dibuka
                 if (activeStambukSelected === stambukDihapus) {
                     activeStambukSelected = ""; 
                 }
