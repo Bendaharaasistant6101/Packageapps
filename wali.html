@@ -50,8 +50,8 @@
                     </select>
                 </div>
                 <div id="inputWaliGroup">
-                    <label class="text-xs font-semibold text-slate-600 block mb-1">Nomor Stambuk Anak (Pisahkan koma jika > 1 anak)</label>
-                    <input type="text" id="regStambuk" placeholder="Contoh: 2024001, 2024002" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition font-bold text-slate-900">
+                    <label class="text-xs font-semibold text-slate-600 block mb-1">Nomor Stambuk Anak Utama</label>
+                    <input type="text" id="regStambuk" placeholder="Contoh: 2024001" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition font-bold text-slate-900">
                 </div>
                 <div id="inputGuruGroup" class="relative hidden">
                     <label class="text-xs font-semibold text-slate-600 block mb-1">Nama Guru (Ketik & Pilih)</label>
@@ -74,6 +74,7 @@
         </div>
     </div>
 
+    <!-- DASHBOARD SCREEN -->
     <div id="screenDashboard" class="w-full flex flex-col justify-between flex-grow hidden">
         <header class="w-full bg-white border-b border-slate-200 px-4 py-4 sticky top-0 z-40 shadow-sm">
             <div class="max-w-md mx-auto flex items-center justify-between">
@@ -84,18 +85,24 @@
                     <div>
                         <h1 class="text-base font-extrabold tracking-tight text-slate-900" id="dashHeaderTitle">Portal Paket</h1>
                         <p class="text-[10px] text-emerald-600 font-bold flex items-center gap-1">
-                            <span class="h-1.5 w-1.5 bg-emerald-500 rounded-full inline-block animate-pulse"></span> Terautentikasi (Sesi Aktif)
+                            <span class="h-1.5 w-1.5 bg-emerald-500 rounded-full inline-block animate-pulse"></span> Terautentikasi
                         </p>
                     </div>
                 </div>
-                <button onclick="prosesLogout()" class="text-xs font-bold text-red-500 hover:bg-red-50 p-2 rounded-lg transition">Keluar  🚪 </button>
+                <button onclick="prosesLogout()" class="text-xs font-bold text-red-500 hover:bg-red-50 p-2 rounded-lg transition font-bold">Keluar 🚪</button>
             </div>
         </header>
 
         <main class="w-full max-w-md mx-auto px-4 py-6 flex-grow flex flex-col gap-6">
             <div class="bg-gradient-to-br from-indigo-900 to-indigo-950 p-5 rounded-2xl text-white shadow-xl shadow-indigo-950/10 relative overflow-hidden">
                 <div class="absolute -right-4 -bottom-4 text-7xl opacity-10 pointer-events-none">  🏢  </div>
-                <span class="text-[9px] bg-indigo-500/40 text-indigo-200 font-black tracking-widest uppercase px-2 py-0.5 rounded-md border border-indigo-400/30" id="dashBadgeRole">ROLE</span>
+                <div class="flex justify-between items-start">
+                    <span class="text-[9px] bg-indigo-500/40 text-indigo-200 font-black tracking-widest uppercase px-2 py-0.5 rounded-md border border-indigo-400/30" id="dashBadgeRole">ROLE</span>
+                    <!-- Tombol Kelola Anak (Hanya Muncul Jika Wali) -->
+                    <button id="btnKelolaAnak" onclick="bukaModalKelolaAnak()" class="text-[10px] bg-amber-500 hover:bg-amber-600 text-white font-extrabold px-3 py-1 rounded-lg transition hidden shadow-md">
+                        👥 Kelola Anak
+                    </button>
+                </div>
                 <h2 class="text-lg font-black mt-2 mb-0.5" id="dashNamaUser">Memuat nama...</h2>
                 <p class="text-xs text-indigo-200/90 font-medium" id="dashSubInfo">Memuat informasi stambuk/identitas...</p>
             </div>
@@ -111,7 +118,7 @@
                 </div>
             </div>
 
-            <!-- TAB NAVIGASI RIWAYAT DAN BELUM DIAMBIL -->
+            <!-- TAB NAVIGASI -->
             <div class="bg-slate-200/60 p-1 rounded-xl grid grid-cols-2 text-center text-xs font-bold">
                 <button id="tabBelum" onclick="switchTab('belum')" class="py-2.5 rounded-lg bg-white text-indigo-600 shadow-sm transition">📦 Belum Diambil</button>
                 <button id="tabSudah" onclick="switchTab('sudah')" class="py-2.5 rounded-lg text-slate-500 hover:text-slate-800 transition">📜 Riwayat Selesai</button>
@@ -131,6 +138,34 @@
         </footer>
     </div>
 
+    <!-- MODAL KELOLA ANAK (KHUSUS WALI) -->
+    <div id="modalKelolaAnak" class="fixed inset-0 bg-black/60 z-50 flex justify-center items-center p-4 hidden">
+        <div class="bg-white p-6 rounded-3xl w-full max-w-sm border shadow-2xl flex flex-col gap-4">
+            <div class="flex justify-between items-center">
+                <h3 class="text-base font-extrabold text-slate-900">👥 Kelola Stambuk Anak</h3>
+                <button onclick="tutupModalKelolaAnak()" class="text-slate-400 hover:text-slate-600 text-lg font-bold">✕</button>
+            </div>
+            
+            <!-- Form Tambah Anak -->
+            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-2">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wide">Hubungkan Stambuk Baru</p>
+                <div class="flex gap-2">
+                    <input type="text" id="inputNewStambuk" placeholder="Contoh: 2024002" class="flex-grow px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-indigo-500 font-bold">
+                    <button onclick="tambahAnakRelasi()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition">Tambah</button>
+                </div>
+            </div>
+
+            <!-- List Anak yang Sedang Dipantau -->
+            <div class="space-y-2">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wide">Stambuk yang Dipantau Saat Ini</p>
+                <div id="listAnakDipantau" class="max-h-48 overflow-y-auto space-y-1.5 pr-1">
+                    <!-- List terisi lewat JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFIKASI POPUP CUSTOM -->
     <div id="alertWaliModal" class="fixed inset-0 bg-black/60 z-50 flex justify-center items-center p-4 hidden">
         <div class="bg-white p-6 rounded-2xl w-full max-w-xs text-center border shadow-xl">
             <div class="text-amber-500 text-3xl mb-2">  ⚠️  </div>
@@ -141,13 +176,13 @@
     </div>
 
     <script>
-        // === KONFIGURASI LINK DATA SUPABASE ===
         const SUPABASE_URL = "https://eimdfqhkjfocelsqkxql.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpbWRmcWhramZvY2Vsc3FreHFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxNzUwODksImV4cCI6MjA5ODc1MTA4OX0.5s6W7G8rgfEg8ttiKes5FDAGRJeTWupJbW6enCWELaQ";
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let SESSION_USER_DATA = null;
-        let activeTab = "belum"; // Tab aktif bawaan: belum diambil
+        let LIST_STAMBUK_WALI = []; // Menyimpan array stambuk anak dari tabel relasi_wali_santri
+        let activeTab = "belum"; 
 
         window.addEventListener('DOMContentLoaded', async () => {
             const { data: { session } } = await _supabase.auth.getSession();
@@ -204,19 +239,16 @@
             muatDataPaketDashboard();
         }
 
-        // === NOTIFIKASI WHATSAPP / TELEGRAM ===
         function kirimNotifikasiGrup(namaPaket, tipe, tempat, stambuk) {
             const pesan = `Halo ustadz/wali santri dari anak dengan stambuk *${stambuk}*.\n\n` +
                           `Paket milik *${namaPaket}* (${tipe}) telah tiba di pos logistik pesantren.\n` +
                           `📍 *Tempat Penyimpanan:* Rak ${tempat}\n\n` +
                           `Mohon dapat segera diambil ke pos. Syukron!`;
-            
             const encodedText = encodeURIComponent(pesan);
-            // Link template kirim notifikasi via WhatsApp Web/App langsung ke penerima
             window.open(`https://api.whatsapp.com/send?text=${encodedText}`, '_blank');
         }
 
-        // === FUNGSI SUGESI GURU DARI DATABASE SUPABASE ===
+        // === FUNGSI SUGESI GURU ===
         async function cariSugestiGuru(keyword) {
             const box = document.getElementById('sugestiGuruBox');
             if (!keyword.trim()) {
@@ -244,8 +276,8 @@
                     box.classList.remove('hidden');
                 }
             } catch (err) {
-                console.error("DEBUG ERROR GURU:", err);
-                box.innerHTML = `<div class="px-4 py-2.5 text-[10px] text-red-500 font-medium text-left">Gagal memuat rekomendasi: ${err.message || 'Cek F12 Console'}</div>`;
+                console.error(err);
+                box.innerHTML = `<div class="px-4 py-2.5 text-[10px] text-red-500 font-medium text-left">Gagal memuat rekomendasi</div>`;
                 box.classList.remove('hidden');
             }
         }
@@ -255,6 +287,7 @@
             document.getElementById('sugestiGuruBox').classList.add('hidden');
         }
 
+        // === PROSES REGISTER (MEMBUAT AKUN + RELASI AWAL) ===
         async function prosesRegister() {
             const role = document.getElementById('regRole').value;
             const email = document.getElementById('regEmail').value.trim();
@@ -267,7 +300,7 @@
                 return;
             }
             if (role === 'wali' && !stambuk) {
-                tampilkanAlertWali("Mohon isi nomor stambuk anak Anda untuk validasi.");
+                tampilkanAlertWali("Mohon isi nomor stambuk anak pertama Anda.");
                 return;
             }
             if (role === 'guru' && !namaGuru) {
@@ -281,22 +314,29 @@
                 });
                 if (authError) throw authError;
                 if (authData.user) {
-                    // Membersihkan format stambuk (membuang spasi kosong)
-                    const cleanedStambuk = stambuk.split(',').map(s => s.trim()).join(',');
-                    
+                    // Simpan profil pengguna dasar
                     const { error: profileError } = await _supabase
                         .from('profil_pengguna')
                         .insert([{
                             id: authData.user.id,
                             role: role,
-                            identitas_kunci: role === 'wali' ? cleanedStambuk : namaGuru,
+                            identitas_kunci: role === 'wali' ? stambuk : namaGuru,
                             email: email
                         }]);
                     if (profileError) throw profileError;
+
+                    // KHUSUS WALI: Daftarkan stambuk utama ke tabel relasi_wali_santri
+                    if (role === 'wali') {
+                        const { error: relasiError } = await _supabase
+                            .from('relasi_wali_santri')
+                            .insert([{
+                                user_id: authData.user.id,
+                                stambuk_anak: stambuk
+                            }]);
+                        if (relasiError) throw relasiError;
+                    }
+
                     tampilkanAlertWali("Pendaftaran Akun Berhasil! Silakan masuk dengan akun baru Anda.");
-                    switchForm('login');
-                } else {
-                    tampilkanAlertWali("Pendaftaran berhasil, harap periksa kotak masuk email Anda untuk verifikasi.");
                     switchForm('login');
                 }
             } catch (err) {
@@ -338,24 +378,49 @@
                 SESSION_USER_DATA = profil;
                 document.getElementById('screenAuth').classList.add('hidden');
                 document.getElementById('screenDashboard').classList.remove('hidden');
+                
                 if (profil.role === 'wali') {
                     document.getElementById('dashBadgeRole').innerText = "Wali Santri";
                     document.getElementById('dashBadgeRole').className = "text-[9px] bg-amber-500/20 text-amber-300 font-black tracking-widest uppercase px-2 py-0.5 rounded-md border border-amber-400/30";
                     document.getElementById('dashNamaUser').innerText = "Ayah / Bunda Wali Santri";
-                    document.getElementById('dashSubInfo').innerText = "Memantau No. Stambuk Anak: " + profil.identitas_kunci;
+                    document.getElementById('btnKelolaAnak').classList.remove('hidden'); // Munculkan tombol Kelola Anak
+                    
+                    // Ambil daftar relasi stambuk anak wali tersebut
+                    await muatDaftarStambukRelasi();
                 } else {
                     document.getElementById('dashBadgeRole').innerText = "Guru / Ustadz";
                     document.getElementById('dashBadgeRole').className = "text-[9px] bg-emerald-500/20 text-emerald-300 font-black tracking-widest uppercase px-2 py-0.5 rounded-md border border-emerald-400/30";
                     document.getElementById('dashNamaUser').innerText = profil.identitas_kunci;
                     document.getElementById('dashSubInfo').innerText = "Akses Dashboard Logistik Internal Guru";
+                    document.getElementById('btnKelolaAnak').classList.add('hidden'); // Sembunyikan tombol Kelola Anak
+                    
+                    muatDataPaketDashboard();
                 }
-                muatDataPaketDashboard();
             } catch (err) {
                 console.error(err);
-                tampilkanAlertWali("Gagal memuat profil pengguna. Pastikan tabel 'profil_pengguna' sudah dibuat di Supabase.");
+                tampilkanAlertWali("Gagal memuat profil pengguna.");
             }
         }
 
+        // === LOAD STAMBUK DARI TABEL BARU ===
+        async function muatDaftarStambukRelasi() {
+            try {
+                const { data: relasi, error } = await _supabase
+                    .from('relasi_wali_santri')
+                    .select('stambuk_anak')
+                    .eq('user_id', SESSION_USER_DATA.id);
+                if (error) throw error;
+                
+                LIST_STAMBUK_WALI = relasi.map(r => r.stambuk_anak);
+                document.getElementById('dashSubInfo').innerText = "Memantau No. Stambuk Anak: " + (LIST_STAMBUK_WALI.join(', ') || 'Belum ada');
+                
+                muatDataPaketDashboard();
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        // === MUAT PAKET SESUAI DATA FILTER ===
         async function muatDataPaketDashboard() {
             if (!SESSION_USER_DATA) return;
             const wrapperList = document.getElementById('wrapperListPaketDashboard');
@@ -364,38 +429,39 @@
                 let query = _supabase.from('paket').select('*');
                 
                 if (SESSION_USER_DATA.role === 'wali') {
-                    // Memecah stambuk yang dipisahkan koma menjadi array
-                    const arrStambuk = SESSION_USER_DATA.identitas_kunci.split(',').map(s => s.trim());
-                    // Query menggunakan .in untuk menarik banyak stambuk sekaligus
-                    query = query.in('stambuk', arrStambuk);
+                    if (LIST_STAMBUK_WALI.length === 0) {
+                        wrapperList.innerHTML = `
+                            <div class="p-6 bg-white border border-dashed border-slate-300 rounded-2xl text-center">
+                                <p class="text-xs font-bold text-slate-700">Belum ada stambuk dipantau</p>
+                                <p class="text-[11px] text-slate-400 mt-1">Silakan klik tombol Kelola Anak untuk menghubungkan stambuk.</p>
+                            </div>
+                        `;
+                        document.getElementById('statBelumDiambil').innerText = 0;
+                        document.getElementById('statSudahDiambil').innerText = 0;
+                        return;
+                    }
+                    // Filter berdasarkan daftar stambuk dari tabel relasi
+                    query = query.in('stambuk', LIST_STAMBUK_WALI);
                 } else {
+                    // Filter berdasarkan nama guru
                     query = query.eq('nama', SESSION_USER_DATA.identitas_kunci);
                 }
 
                 const { data, error } = await query.order('id', { ascending: false });
                 if (error) throw error;
 
-                // Hitung total statistik real-time dari semua data ditarik
                 const belumDiambilCount = data.filter(p => p.status === 'Belum Diambil').length;
                 const sudahDiambilCount = data.filter(p => p.status === 'Sudah Diambil').length;
                 document.getElementById('statBelumDiambil').innerText = belumDiambilCount;
                 document.getElementById('statSudahDiambil').innerText = sudahDiambilCount;
 
-                // Memisahkan paket sesuai tab aktif (Belum Diambil / Sudah Diambil)
-                const filteredData = data.filter(p => {
-                    if (activeTab === "belum") {
-                        return p.status === 'Belum Diambil';
-                    } else {
-                        return p.status === 'Sudah Diambil';
-                    }
-                });
+                const filteredData = data.filter(p => activeTab === "belum" ? p.status === 'Belum Diambil' : p.status === 'Sudah Diambil');
 
                 if (!filteredData || filteredData.length === 0) {
                     wrapperList.innerHTML = `
                         <div class="p-6 bg-white border border-dashed border-slate-300 rounded-2xl text-center">
                             <p class="text-2xl mb-1"> 📦 </p>
                             <p class="text-xs font-bold text-slate-700">Tidak ada paket di tab ini</p>
-                            <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">Saat ini tidak ada kiriman logistik terdaftar untuk identitas Anda di menu ini.</p>
                         </div>
                     `;
                     return;
@@ -404,36 +470,25 @@
                 wrapperList.innerHTML = filteredData.map(p => {
                     const isBelumDiambil = p.status === 'Belum Diambil';
                     return `
-                        <div class="bg-white p-4 rounded-2xl border ${isBelumDiambil ? 'border-amber-300 shadow-sm' : 'border-slate-200'} flex flex-col gap-3">
+                        <div class="bg-white p-4 rounded-2xl border ${isBelumDiambil ? 'border-amber-300' : 'border-slate-200'} flex flex-col gap-3">
                             <div class="flex justify-between items-start gap-2">
                                 <div>
                                     <h4 class="font-extrabold text-sm text-slate-900 leading-snug">${p.nama}</h4>
-                                    <p class="text-[11px] text-slate-500 font-mono font-bold mt-0.5">ID Identitas: ${p.stambuk} ${p.kelas ? '| Kelas: '+p.kelas : ''}</p>
+                                    <p class="text-[11px] text-slate-500 font-mono font-bold mt-0.5">Stambuk: ${p.stambuk} ${p.kelas ? '| Kelas: '+p.kelas : ''}</p>
                                 </div>
-                                <span class="text-[10px] font-black uppercase px-2.5 py-1 rounded-lg tracking-wider shrink-0 ${
-                                    isBelumDiambil
-                                        ? 'bg-amber-100 text-amber-800 border border-amber-200'
-                                        : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
-                                }">
-                                    ${p.status}
-                                </span>
+                                <span class="text-[10px] font-black uppercase px-2.5 py-1 rounded-lg ${
+                                    isBelumDiambil ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'
+                                }">${p.status}</span>
                             </div>
-                            <div class="bg-slate-50 p-3 rounded-xl text-[11px] space-y-1 border border-slate-100">
-                                <div class="flex justify-between"><span class="text-slate-400">Jenis Kiriman:</span><span class="font-bold text-indigo-600">${p.jenis_paket}</span></div>
-                                <div class="flex justify-between"><span class="text-slate-400">Lokasi Penyimpanan:</span><span class="font-extrabold text-slate-800">${p.tempat}</span></div>
-                                <div class="flex justify-between"><span class="text-slate-400">Tanggal Masuk Pos:</span><span class="font-medium text-slate-700">${p.waktu_masuk || '-'}</span></div>
+                            <div class="bg-slate-50 p-3 rounded-xl text-[11px] space-y-1 border">
+                                <div class="flex justify-between"><span class="text-slate-400">Jenis:</span><span class="font-bold text-indigo-600">${p.jenis_paket}</span></div>
+                                <div class="flex justify-between"><span class="text-slate-400">Lokasi:</span><span class="font-extrabold text-slate-800">Rak ${p.tempat}</span></div>
                             </div>
-                            <div class="text-[11px] flex flex-col gap-2 pt-1 border-t border-dashed border-slate-100">
+                            <div class="text-[11px] flex justify-between items-center pt-1 border-t border-dashed">
                                 ${isBelumDiambil
-                                    ? `
-                                      <div class="flex justify-between items-center gap-2">
-                                          <span class="text-amber-600 font-bold">⚠️ Rak: ${p.tempat}</span>
-                                          <button onclick="kirimNotifikasiGrup('${p.nama}', '${p.jenis_paket}', '${p.tempat}', '${p.stambuk}')" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-600 font-extrabold text-[10px] px-3 py-1.5 rounded-lg transition">
-                                              Bagikan Info 🔗
-                                          </button>
-                                      </div>
-                                      `
-                                    : `<span class="text-emerald-600 font-bold"> ✅ Selesai diambil: <strong>${p.waktu_keluar}</strong></span>`
+                                    ? `<span class="text-amber-600 font-bold">⚠️ Segera ambil</span>
+                                       <button onclick="kirimNotifikasiGrup('${p.nama}', '${p.jenis_paket}', '${p.tempat}', '${p.stambuk}')" class="bg-indigo-50 text-indigo-600 font-extrabold text-[10px] px-3 py-1.5 rounded-lg">Kirim WA 🔗</button>`
+                                    : `<span class="text-emerald-600 font-bold"> ✅ Ambil: ${p.waktu_keluar}</span>`
                                 }
                             </div>
                         </div>
@@ -441,17 +496,86 @@
                 }).join('');
             } catch (err) {
                 console.error(err);
-                tampilkanAlertWali("Gagal memuat daftar kiriman paket.");
+                tampilkanAlertWali("Gagal memuat paket.");
+            }
+        }
+
+        // === DIALOG KELOLA ANAK ===
+        async function bukaModalKelolaAnak() {
+            document.getElementById('modalKelolaAnak').classList.remove('hidden');
+            renderDaftarAnakModal();
+        }
+
+        function tutupModalKelolaAnak() {
+            document.getElementById('modalKelolaAnak').classList.add('hidden');
+        }
+
+        async function renderDaftarAnakModal() {
+            const listContainer = document.getElementById('listAnakDipantau');
+            listContainer.innerHTML = `<p class="text-[11px] text-slate-400 text-center animate-pulse py-2">Memuat data...</p>`;
+            try {
+                const { data, error } = await _supabase
+                    .from('relasi_wali_santri')
+                    .select('*')
+                    .eq('user_id', SESSION_USER_DATA.id);
+                if (error) throw error;
+
+                if (data.length === 0) {
+                    listContainer.innerHTML = `<p class="text-[11px] text-slate-400 text-center py-2">Belum ada stambuk terhubung.</p>`;
+                    return;
+                }
+
+                listContainer.innerHTML = data.map(anak => `
+                    <div class="flex justify-between items-center bg-slate-50 px-3 py-2.5 rounded-xl border border-slate-100">
+                        <span class="text-xs font-bold text-slate-800">👶 Stambuk: ${anak.stambuk_anak}</span>
+                        <button onclick="hapusAnakRelasi('${anak.id}')" class="text-[10px] text-red-500 hover:bg-red-50 font-extrabold px-2 py-1 rounded-lg transition">Hapus</button>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function tambahAnakRelasi() {
+            const inputVal = document.getElementById('inputNewStambuk').value.trim();
+            if(!inputVal) return;
+            try {
+                const { error } = await _supabase
+                    .from('relasi_wali_santri')
+                    .insert([{
+                        user_id: SESSION_USER_DATA.id,
+                        stambuk_anak: inputVal
+                    }]);
+                if (error) throw error;
+                document.getElementById('inputNewStambuk').value = '';
+                await renderDaftarAnakModal();
+                await muatDaftarStambukRelasi(); // Perbarui list dashboard & refresh paket
+            } catch (err) {
+                tampilkanAlertWali("Gagal menambahkan: " + err.message);
+            }
+        }
+
+        async function hapusAnakRelasi(idRelasi) {
+            if(!confirm("Apakah Anda yakin ingin berhenti memantau stambuk ini?")) return;
+            try {
+                const { error } = await _supabase
+                    .from('relasi_wali_santri')
+                    .delete()
+                    .eq('id', idRelasi);
+                if (error) throw error;
+                await renderDaftarAnakModal();
+                await muatDaftarStambukRelasi(); // Perbarui list dashboard & refresh paket
+            } catch (err) {
+                tampilkanAlertWali("Gagal menghapus: " + err.message);
             }
         }
 
         async function prosesLogout() {
             await _supabase.auth.signOut();
             SESSION_USER_DATA = null;
+            LIST_STAMBUK_WALI = [];
             document.getElementById('screenDashboard').classList.add('hidden');
             document.getElementById('screenAuth').classList.remove('hidden');
-            document.getElementById('loginEmail').value = '';
-            document.getElementById('loginPassword').value = '';
         }
     </script>
 </body>
