@@ -50,8 +50,8 @@
                     </select>
                 </div>
                 <div id="inputWaliGroup">
-                    <label class="text-xs font-semibold text-slate-600 block mb-1">Nomor Stambuk Anak</label>
-                    <input type="text" id="regStambuk" placeholder="Contoh: 2024001" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition font-bold text-slate-900">
+                    <label class="text-xs font-semibold text-slate-600 block mb-1">Nomor Stambuk Anak (Pisahkan koma jika > 1 anak)</label>
+                    <input type="text" id="regStambuk" placeholder="Contoh: 2024001, 2024002" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition font-bold text-slate-900">
                 </div>
                 <div id="inputGuruGroup" class="relative hidden">
                     <label class="text-xs font-semibold text-slate-600 block mb-1">Nama Guru (Ketik & Pilih)</label>
@@ -111,9 +111,15 @@
                 </div>
             </div>
 
+            <!-- TAB NAVIGASI RIWAYAT DAN BELUM DIAMBIL -->
+            <div class="bg-slate-200/60 p-1 rounded-xl grid grid-cols-2 text-center text-xs font-bold">
+                <button id="tabBelum" onclick="switchTab('belum')" class="py-2.5 rounded-lg bg-white text-indigo-600 shadow-sm transition">📦 Belum Diambil</button>
+                <button id="tabSudah" onclick="switchTab('sudah')" class="py-2.5 rounded-lg text-slate-500 hover:text-slate-800 transition">📜 Riwayat Selesai</button>
+            </div>
+
             <div class="flex flex-col gap-3">
                 <div class="flex justify-between items-center px-1">
-                    <h3 class="text-xs font-extrabold text-slate-500 tracking-wider uppercase">Daftar Kiriman Paket</h3>
+                    <h3 class="text-xs font-extrabold text-slate-500 tracking-wider uppercase" id="listTitleText">Daftar Kiriman Paket</h3>
                     <button onclick="muatDataPaketDashboard()" class="text-xs font-bold text-indigo-600 hover:underline">Segarkan  🔄 </button>
                 </div>
                 <div id="wrapperListPaketDashboard" class="flex flex-col gap-3"></div>
@@ -141,6 +147,7 @@
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let SESSION_USER_DATA = null;
+        let activeTab = "belum"; // Tab aktif bawaan: belum diambil
 
         window.addEventListener('DOMContentLoaded', async () => {
             const { data: { session } } = await _supabase.auth.getSession();
@@ -179,7 +186,37 @@
             }
         }
 
-        // === FUNGSI SUGESI GURU DARI DATABASE SUPABASE (REAL-TIME) ===
+        function switchTab(tab) {
+            activeTab = tab;
+            const btnBelum = document.getElementById('tabBelum');
+            const btnSudah = document.getElementById('tabSudah');
+            const listTitle = document.getElementById('listTitleText');
+
+            if (tab === 'belum') {
+                btnBelum.className = "py-2.5 rounded-lg bg-white text-indigo-600 shadow-sm transition";
+                btnSudah.className = "py-2.5 rounded-lg text-slate-500 hover:text-slate-800 transition";
+                listTitle.innerText = "Daftar Kiriman Paket";
+            } else {
+                btnSudah.className = "py-2.5 rounded-lg bg-white text-emerald-600 shadow-sm transition";
+                btnBelum.className = "py-2.5 rounded-lg text-slate-500 hover:text-slate-800 transition";
+                listTitle.innerText = "Riwayat Paket Diambil";
+            }
+            muatDataPaketDashboard();
+        }
+
+        // === NOTIFIKASI WHATSAPP / TELEGRAM ===
+        function kirimNotifikasiGrup(namaPaket, tipe, tempat, stambuk) {
+            const pesan = `Halo ustadz/wali santri dari anak dengan stambuk *${stambuk}*.\n\n` +
+                          `Paket milik *${namaPaket}* (${tipe}) telah tiba di pos logistik pesantren.\n` +
+                          `📍 *Tempat Penyimpanan:* Rak ${tempat}\n\n` +
+                          `Mohon dapat segera diambil ke pos. Syukron!`;
+            
+            const encodedText = encodeURIComponent(pesan);
+            // Link template kirim notifikasi via WhatsApp Web/App langsung ke penerima
+            window.open(`https://api.whatsapp.com/send?text=${encodedText}`, '_blank');
+        }
+
+        // === FUNGSI SUGESI GURU DARI DATABASE SUPABASE ===
         async function cariSugestiGuru(keyword) {
             const box = document.getElementById('sugestiGuruBox');
             if (!keyword.trim()) {
@@ -189,8 +226,8 @@
             try {
                 const { data: hasilFilter, error } = await _supabase
                     .from('guru')
-                    .select('Nama')
-                    .ilike('Nama', `%${keyword}%`)
+                    .select('nama_guru')
+                    .ilike('nama_guru', `%${keyword}%`)
                     .limit(10);
 
                 if (error) throw error;
@@ -198,8 +235,8 @@
                 if (hasilFilter && hasilFilter.length > 0) {
                     box.classList.remove('hidden');
                     box.innerHTML = hasilFilter.map(g => `
-                        <div onclick="pilihGuru('${g.Nama}')" class="px-4 py-2.5 text-xs font-bold hover:bg-indigo-50 text-slate-700 cursor-pointer border-b border-slate-100 last:border-0 text-left">
-                            👨‍🏫 ${g.Nama}
+                        <div onclick="pilihGuru('${g.nama_guru}')" class="px-4 py-2.5 text-xs font-bold hover:bg-indigo-50 text-slate-700 cursor-pointer border-b border-slate-100 last:border-0 text-left">
+                            👨‍🏫 ${g.nama_guru}
                         </div>
                     `).join('');
                 } else {
@@ -207,8 +244,8 @@
                     box.classList.remove('hidden');
                 }
             } catch (err) {
-                console.error("Gagal mengambil master guru:", err);
-                box.innerHTML = `<div class="px-4 py-2.5 text-xs text-red-500 text-left">Gagal memuat rekomendasi...</div>`;
+                console.error("DEBUG ERROR GURU:", err);
+                box.innerHTML = `<div class="px-4 py-2.5 text-[10px] text-red-500 font-medium text-left">Gagal memuat rekomendasi: ${err.message || 'Cek F12 Console'}</div>`;
                 box.classList.remove('hidden');
             }
         }
@@ -244,19 +281,22 @@
                 });
                 if (authError) throw authError;
                 if (authData.user) {
+                    // Membersihkan format stambuk (membuang spasi kosong)
+                    const cleanedStambuk = stambuk.split(',').map(s => s.trim()).join(',');
+                    
                     const { error: profileError } = await _supabase
                         .from('profil_pengguna')
                         .insert([{
                             id: authData.user.id,
                             role: role,
-                            identitas_kunci: role === 'wali' ? stambuk : namaGuru,
+                            identitas_kunci: role === 'wali' ? cleanedStambuk : namaGuru,
                             email: email
                         }]);
                     if (profileError) throw profileError;
                     tampilkanAlertWali("Pendaftaran Akun Berhasil! Silakan masuk dengan akun baru Anda.");
                     switchForm('login');
                 } else {
-                    tampilkanAlertWali("Pendaftaran berhasil, harap periksa kotak masuk email Anda untuk verifikasi (jika diaktifkan) atau langsung coba masuk.");
+                    tampilkanAlertWali("Pendaftaran berhasil, harap periksa kotak masuk email Anda untuk verifikasi.");
                     switchForm('login');
                 }
             } catch (err) {
@@ -322,28 +362,46 @@
             wrapperList.innerHTML = `<p class="text-xs text-center text-slate-400 font-medium py-6 animate-pulse">Sedang memetakan data paket Anda...</p>`;
             try {
                 let query = _supabase.from('paket').select('*');
+                
                 if (SESSION_USER_DATA.role === 'wali') {
-                    query = query.eq('stambuk', SESSION_USER_DATA.identitas_kunci);
+                    // Memecah stambuk yang dipisahkan koma menjadi array
+                    const arrStambuk = SESSION_USER_DATA.identitas_kunci.split(',').map(s => s.trim());
+                    // Query menggunakan .in untuk menarik banyak stambuk sekaligus
+                    query = query.in('stambuk', arrStambuk);
                 } else {
                     query = query.eq('nama', SESSION_USER_DATA.identitas_kunci);
                 }
+
                 const { data, error } = await query.order('id', { ascending: false });
                 if (error) throw error;
+
+                // Hitung total statistik real-time dari semua data ditarik
                 const belumDiambilCount = data.filter(p => p.status === 'Belum Diambil').length;
                 const sudahDiambilCount = data.filter(p => p.status === 'Sudah Diambil').length;
                 document.getElementById('statBelumDiambil').innerText = belumDiambilCount;
                 document.getElementById('statSudahDiambil').innerText = sudahDiambilCount;
-                if (!data || data.length === 0) {
+
+                // Memisahkan paket sesuai tab aktif (Belum Diambil / Sudah Diambil)
+                const filteredData = data.filter(p => {
+                    if (activeTab === "belum") {
+                        return p.status === 'Belum Diambil';
+                    } else {
+                        return p.status === 'Sudah Diambil';
+                    }
+                });
+
+                if (!filteredData || filteredData.length === 0) {
                     wrapperList.innerHTML = `
                         <div class="p-6 bg-white border border-dashed border-slate-300 rounded-2xl text-center">
-                            <p class="text-2xl mb-1">  📦  </p>
-                            <p class="text-xs font-bold text-slate-700">Belum Ada Paket Untuk Anda</p>
-                            <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">Saat ini tidak ada kiriman paket logistik terdaftar yang ditujukan kepada identitas akun Anda.</p>
+                            <p class="text-2xl mb-1"> 📦 </p>
+                            <p class="text-xs font-bold text-slate-700">Tidak ada paket di tab ini</p>
+                            <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">Saat ini tidak ada kiriman logistik terdaftar untuk identitas Anda di menu ini.</p>
                         </div>
                     `;
                     return;
                 }
-                wrapperList.innerHTML = data.map(p => {
+
+                wrapperList.innerHTML = filteredData.map(p => {
                     const isBelumDiambil = p.status === 'Belum Diambil';
                     return `
                         <div class="bg-white p-4 rounded-2xl border ${isBelumDiambil ? 'border-amber-300 shadow-sm' : 'border-slate-200'} flex flex-col gap-3">
@@ -365,10 +423,17 @@
                                 <div class="flex justify-between"><span class="text-slate-400">Lokasi Penyimpanan:</span><span class="font-extrabold text-slate-800">${p.tempat}</span></div>
                                 <div class="flex justify-between"><span class="text-slate-400">Tanggal Masuk Pos:</span><span class="font-medium text-slate-700">${p.waktu_masuk || '-'}</span></div>
                             </div>
-                            <div class="text-[11px] flex items-center gap-1.5 pt-1 border-t border-dashed border-slate-100">
+                            <div class="text-[11px] flex flex-col gap-2 pt-1 border-t border-dashed border-slate-100">
                                 ${isBelumDiambil
-                                    ? `<span class="text-amber-600 font-bold">  ⚠️  Mohon segera diambil/diinfokan untuk diambil di Rak ${p.tempat}.</span>`
-                                    : `<span class="text-emerald-600 font-bold">  ✅  Paket sudah selesai diambil pada: <strong>${p.waktu_keluar}</strong></span>`
+                                    ? `
+                                      <div class="flex justify-between items-center gap-2">
+                                          <span class="text-amber-600 font-bold">⚠️ Rak: ${p.tempat}</span>
+                                          <button onclick="kirimNotifikasiGrup('${p.nama}', '${p.jenis_paket}', '${p.tempat}', '${p.stambuk}')" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-600 font-extrabold text-[10px] px-3 py-1.5 rounded-lg transition">
+                                              Bagikan Info 🔗
+                                          </button>
+                                      </div>
+                                      `
+                                    : `<span class="text-emerald-600 font-bold"> ✅ Selesai diambil: <strong>${p.waktu_keluar}</strong></span>`
                                 }
                             </div>
                         </div>
