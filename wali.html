@@ -224,7 +224,7 @@
             }
         }
 
-        // === PERBAIKAN UTAMA: TARGET PENCARIAN DIALIKAN KELUAR DARI MAHASISWA DAN MASUK KE TABEL GURU ===
+        // === PERBAIKAN: MENYESUAIKAN NAMA KOLOM DENGAN HURUF KAPITAL 'Nama' ===
         async function cariSugestiGuru(val) {
             const box = document.getElementById('sugestiGuruBox');
             if (!val || val.trim().length < 2) {
@@ -232,17 +232,17 @@
                 return;
             }
             try {
-                // Mencari langsung ke tabel 'guru' kolom 'nama'
+                // query menembak kolom 'Nama' (Huruf N kapital) di tabel 'guru'
                 const { data, error } = await _supabase
                     .from('guru')
-                    .select('nama')
-                    .ilike('nama', `%${val}%`)
+                    .select('Nama')
+                    .ilike('Nama', `%${val}%`)
                     .limit(10);
                 
                 if (error) throw error;
 
                 if (data && data.length > 0) {
-                    const listNamaUnik = [...new Set(data.map(item => item.nama))];
+                    const listNamaUnik = [...new Set(data.map(item => item.Nama))];
                     
                     box.innerHTML = listNamaUnik.map(nama => `
                         <div onclick="pilihSugestiGuru('${nama.replace(/'/g, "\\'")}')" class="px-4 py-2.5 text-xs font-bold text-slate-800 hover:bg-indigo-50 cursor-pointer border-b border-slate-100 last:border-0 transition">
@@ -614,7 +614,7 @@
         async function prosesLogout() {
             await _supabase.auth.signOut();
             SESSION_USER_DATA = null;
-            LIST_STAMBUK_WALI = [];
+            LIST_STAMUK_WALI = [];
             activeStambukSelected = "";
             document.getElementById('screenDashboard').classList.add('hidden');
             document.getElementById('screenAuth').classList.remove('hidden');
