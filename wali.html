@@ -234,9 +234,9 @@
             try {
                 // Mencari nama guru dari database paket yang mengandung teks ketikan (case-insensitive)
                 const { data, error } = await _supabase
-                    .from('paket')
-                    .select('nama')
-                    .ilike('nama', `%${val}%`);
+                    .from('guru')
+                    .select('Nama')
+                    .ilike('Nama', `%${val}%`);
                 
                 if (error) throw error;
 
