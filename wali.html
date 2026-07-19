@@ -53,9 +53,11 @@
                     <label class="text-xs font-semibold text-slate-600 block mb-1">Nomor Stambuk Anak Utama <span class="text-red-500">*</span></label>
                     <input type="text" id="regStambuk" placeholder="Contoh: 2024001" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition font-bold text-slate-900">
                 </div>
+                <!-- KEMBALIKAN GRUP INPUT GURU DENGAN BOX SUGESTI -->
                 <div id="inputGuruGroup" class="relative hidden">
-                    <label class="text-xs font-semibold text-slate-600 block mb-1">Nama Guru (Ketik & Pilih)</label>
-                    <input type="text" id="regNamaGuru" placeholder="Ketik nama Anda..." autocomplete="off" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition font-bold text-slate-900">
+                    <label class="text-xs font-semibold text-slate-600 block mb-1">Nama Guru (Ketik & Pilih) <span class="text-red-500">*</span></label>
+                    <input type="text" id="regNamaGuru" oninput="cariSugestiGuru(this.value)" placeholder="Ketik nama Anda..." autocomplete="off" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition font-bold text-slate-900">
+                    <div id="sugestiGuruBox" class="absolute left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-lg max-h-40 overflow-y-auto z-50 hidden"></div>
                 </div>
                 <div>
                     <label class="text-xs font-semibold text-slate-600 block mb-1">Email Aktif</label>
@@ -93,7 +95,6 @@
         </header>
 
         <main class="w-full max-w-md mx-auto px-4 py-6 flex-grow flex flex-col gap-5">
-            <!-- KARTU INDENTITAS UTAMA -->
             <div class="bg-gradient-to-br from-indigo-900 to-indigo-950 p-5 rounded-2xl text-white shadow-xl shadow-indigo-950/10 relative overflow-hidden">
                 <div class="absolute -right-4 -bottom-4 text-7xl opacity-10 pointer-events-none">  🏢  </div>
                 <div class="flex justify-between items-start">
@@ -102,7 +103,6 @@
                         👥 Kelola Anak
                     </button>
                 </div>
-                <!-- Nama Dinamis: Ayah / Bunda [Nama Anak Aktif] -->
                 <h2 class="text-lg font-black mt-2 mb-0.5" id="dashNamaUser">Memuat nama...</h2>
                 <p class="text-xs text-indigo-200/90 font-medium" id="dashSubInfo">Memuat informasi stambuk/identitas...</p>
             </div>
@@ -224,6 +224,46 @@
             }
         }
 
+        // === FUNGSI PENCARIAN SUGESTI NAMA GURU ===
+        async function cariSugestiGuru(val) {
+            const box = document.getElementById('sugestiGuruBox');
+            if (!val || val.trim().length < 2) {
+                box.classList.add('hidden');
+                return;
+            }
+            try {
+                // Mencari nama guru dari database paket yang mengandung teks ketikan (case-insensitive)
+                const { data, error } = await _supabase
+                    .from('paket')
+                    .select('nama')
+                    .ilike('nama', `%${val}%`);
+                
+                if (error) throw error;
+
+                if (data && data.length > 0) {
+                    // Lakukan filter unik agar nama tidak double/duplikat di dalam daftar sugesti
+                    const listNamaUnik = [...new Set(data.map(item => item.nama))];
+                    
+                    box.innerHTML = listNamaUnik.map(nama => `
+                        <div onclick="pilihSugestiGuru('${nama}')" class="px-4 py-2.5 text-xs font-bold text-slate-800 hover:bg-indigo-50 cursor-pointer border-b border-slate-100 last:border-0 transition">
+                            👤 ${nama}
+                        </div>
+                    `).join('');
+                    box.classList.remove('hidden');
+                } else {
+                    box.innerHTML = `<div class="px-4 py-2.5 text-xs text-slate-400 font-medium italic">Nama tidak ditemukan, tetap gunakan ketikan Anda</div>`;
+                    box.classList.remove('hidden');
+                }
+            } catch(e) {
+                console.error(e);
+            }
+        }
+
+        function pilihSugestiGuru(nama) {
+            document.getElementById('regNamaGuru').value = nama;
+            document.getElementById('sugestiGuruBox').classList.add('hidden');
+        }
+
         function switchTabStatus(tab) {
             activeTabStatus = tab;
             const btnBelum = document.getElementById('tabBelum');
@@ -259,7 +299,7 @@
                 return;
             }
             if (role === 'guru' && !namaGuru) {
-                tampilkanAlertWali("Mohon isi nama lengkap Guru.");
+                tampilkanAlertWali("Mohon isi atau pilih nama lengkap Guru.");
                 return;
             }
             try {
@@ -354,7 +394,6 @@
             }
         }
 
-        // === MUAT STAMBUK RELASI ===
         async function muatDaftarStambukRelasi() {
             try {
                 const { data: relasi, error } = await _supabase
@@ -383,7 +422,6 @@
             }
         }
 
-        // BUAT NAVIGASI TAB ANAK DI ATAS
         function buatNavigasiTabAnak() {
             const container = document.getElementById('wrapperTabAnak');
             container.classList.remove('hidden');
@@ -408,13 +446,11 @@
             muatDataPaketDashboard();
         }
 
-        // === MUAT DATA PAKET DASHBOARD & INFO LENGKAP ===
         async function muatDataPaketDashboard() {
             if (!SESSION_USER_DATA) return;
             const wrapperList = document.getElementById('wrapperListPaketDashboard');
             wrapperList.innerHTML = `<p class="text-xs text-center text-slate-400 font-medium py-6 animate-pulse">Sedang memetakan data paket...</p>`;
             try {
-                // 1. CARI NAMA ANAK UTK TAB AKTIF (Diambil dari SEMUA data paket stambuk ini agar nama ayah/bunda selalu sinkron biarpun tab diganti)
                 if (SESSION_USER_DATA.role === 'wali' && activeStambukSelected) {
                     const { data: paketSiswa, error: errSiswa } = await _supabase
                         .from('paket')
@@ -425,13 +461,11 @@
                     if (!errSiswa && paketSiswa && paketSiswa.length > 0) {
                         document.getElementById('dashNamaUser').innerText = "Ayah / Bunda " + paketSiswa[0].nama;
                     } else {
-                        // Jika stambuk baru & belum ada data paket sama sekali
                         document.getElementById('dashNamaUser').innerText = "Ayah / Bunda (Stambuk: " + activeStambukSelected + ")";
                     }
                     document.getElementById('dashSubInfo').innerText = "Memantau Stambuk: " + activeStambukSelected;
                 }
 
-                // 2. AMBIL DATA PAKET SESUAI STATUS TAB (BELUM/SUDAH DIAMBIL)
                 let query = _supabase.from('paket').select('*');
                 if (SESSION_USER_DATA.role === 'wali') {
                     if (!activeStambukSelected) {
@@ -450,7 +484,6 @@
                 const { data, error } = await query.order('id', { ascending: false });
                 if (error) throw error;
 
-                // Hitung Statistik
                 const belumDiambilCount = data.filter(p => p.status === 'Belum Diambil').length;
                 const sudahDiambilCount = data.filter(p => p.status === 'Sudah Diambil').length;
                 document.getElementById('statBelumDiambil').innerText = belumDiambilCount;
@@ -468,7 +501,6 @@
                     return;
                 }
 
-                // TAMPILKAN DAFTAR PAKET DENGAN INFORMASI LENGKAP KESELURUHAN DATA
                 wrapperList.innerHTML = filteredData.map(p => {
                     const isBelumDiambil = p.status === 'Belum Diambil';
                     return `
@@ -483,7 +515,6 @@
                                 }">${p.status}</span>
                             </div>
                             
-                            <!-- INFORMASI DETAIL DATA KESELURUHAN PAKET -->
                             <div class="bg-slate-50 p-3.5 rounded-xl text-[11px] space-y-1.5 border border-slate-100">
                                 <div class="flex justify-between"><span class="text-slate-400">Jenis Paket:</span><span class="font-bold text-indigo-600">${p.jenis_paket || '-'}</span></div>
                                 <div class="flex justify-between"><span class="text-slate-400">Ekspedisi / Kurir:</span><span class="font-semibold text-slate-800">${p.ekspedisi || '-'}</span></div>
