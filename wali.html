@@ -224,7 +224,7 @@
             }
         }
 
-        // === PERBAIKAN: MENYESUAIKAN NAMA KOLOM DENGAN HURUF KAPITAL 'Nama' ===
+        // === PENCARIAN SUGESTI NAMA GURU DI TABEL GURU ===
         async function cariSugestiGuru(val) {
             const box = document.getElementById('sugestiGuruBox');
             if (!val || val.trim().length < 2) {
@@ -232,7 +232,6 @@
                 return;
             }
             try {
-                // query menembak kolom 'Nama' (Huruf N kapital) di tabel 'guru'
                 const { data, error } = await _supabase
                     .from('guru')
                     .select('Nama')
@@ -446,12 +445,16 @@
             muatDataPaketDashboard();
         }
 
+        // === FUNGSI UTAMA DISPLAY DENGAN PERBAIKAN FORMAT UNTUK GURU ===
         async function muatDataPaketDashboard() {
             if (!SESSION_USER_DATA) return;
             const wrapperList = document.getElementById('wrapperListPaketDashboard');
             wrapperList.innerHTML = `<p class="text-xs text-center text-slate-400 font-medium py-6 animate-pulse">Sedang memetakan data paket...</p>`;
+            
+            const isGuru = SESSION_USER_DATA.role === 'guru';
+
             try {
-                if (SESSION_USER_DATA.role === 'wali' && activeStambukSelected) {
+                if (!isGuru && activeStambukSelected) {
                     const { data: paketSiswa, error: errSiswa } = await _supabase
                         .from('paket')
                         .select('nama')
@@ -467,7 +470,7 @@
                 }
 
                 let query = _supabase.from('paket').select('*');
-                if (SESSION_USER_DATA.role === 'wali') {
+                if (!isGuru) {
                     if (!activeStambukSelected) {
                         wrapperList.innerHTML = `
                             <div class="p-6 bg-white border border-dashed border-slate-300 rounded-2xl text-center">
@@ -503,12 +506,25 @@
 
                 wrapperList.innerHTML = filteredData.map(p => {
                     const isBelumDiambil = p.status === 'Belum Diambil';
+                    
+                    // Pengondisian identitas sub-header (Guru: Tahun & Kamar, Wali: Stambuk & Kelas)
+                    const subIdentitas = isGuru 
+                        ? `Tahun: ${p.tahun || p.Tahun || '-'} | Kamar: ${p.kamar || p.Kamar || '-'}` 
+                        : `Stambuk: ${p.stambuk || '-'} ${p.kelas ? '| Kelas: '+p.kelas : ''}`;
+
+                    // Petugas Input / Penyerah Data
+                    const petugasMasuk = p.petugas_masuk || p.petugas || '-';
+                    const petugasKeluar = p.petugas_keluar || p.petugas || '-';
+
+                    // Opsional Opsi Pengambilan Paket Guru
+                    const opsiPengambilan = p.opsi_pengambilan || p.keterangan_ambil || p.status_pengambilan || null;
+
                     return `
                         <div class="bg-white p-4 rounded-2xl border ${isBelumDiambil ? 'border-amber-300 shadow-sm' : 'border-slate-200'} flex flex-col gap-3">
                             <div class="flex justify-between items-start gap-2">
                                 <div>
                                     <h4 class="font-extrabold text-sm text-slate-900 leading-snug">${p.nama || '-'}</h4>
-                                    <p class="text-[11px] text-slate-500 font-mono font-bold mt-0.5">Stambuk: ${p.stambuk || '-'} ${p.kelas ? '| Kelas: '+p.kelas : ''}</p>
+                                    <p class="text-[11px] text-slate-500 font-mono font-bold mt-0.5">${subIdentitas}</p>
                                 </div>
                                 <span class="text-[10px] font-black uppercase px-2.5 py-1 rounded-lg ${
                                     isBelumDiambil ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'
@@ -517,11 +533,22 @@
                             
                             <div class="bg-slate-50 p-3.5 rounded-xl text-[11px] space-y-1.5 border border-slate-100">
                                 <div class="flex justify-between"><span class="text-slate-400">Jenis Paket:</span><span class="font-bold text-indigo-600">${p.jenis_paket || '-'}</span></div>
-                                <div class="flex justify-between"><span class="text-slate-400">Ekspedisi / Kurir:</span><span class="font-semibold text-slate-800">${p.ekspedisi || '-'}</span></div>
                                 <div class="flex justify-between"><span class="text-slate-400">Posisi Rak Penyimpanan:</span><span class="font-extrabold text-slate-900">Rak ${p.tempat || '-'}</span></div>
-                                <div class="flex justify-between border-t border-slate-200/60 pt-1.5"><span class="text-slate-400">Waktu Masuk Pos:</span><span class="text-slate-600 font-medium">${p.waktu_masuk || '-'}</span></div>
+                                
+                                ${isGuru && opsiPengambilan ? `
+                                <div class="flex justify-between"><span class="text-slate-400">Status Opsi Pengambilan:</span><span class="font-bold text-amber-600">🛵 ${opsiPengambilan}</span></div>
+                                ` : ''}
+
+                                <div class="flex justify-between border-t border-slate-200/60 pt-1.5">
+                                    <span class="text-slate-400">Waktu Masuk Pos:</span>
+                                    <span class="text-slate-600 font-medium text-right">${p.waktu_masuk || '-'} <br><span class="text-[10px] text-slate-400 font-bold">(Petugas: ${petugasMasuk})</span></span>
+                                </div>
+                                
                                 ${!isBelumDiambil ? `
-                                <div class="flex justify-between border-t border-slate-200/60 pt-1.5"><span class="text-slate-400 text-emerald-600 font-semibold">Waktu Diserahkan:</span><span class="text-emerald-700 font-bold">${p.waktu_keluar || '-'}</span></div>
+                                <div class="flex justify-between border-t border-slate-200/60 pt-1.5">
+                                    <span class="text-slate-400 text-emerald-600 font-semibold">Waktu Diserahkan:</span>
+                                    <span class="text-emerald-700 font-bold text-right">${p.waktu_keluar || '-'} <br><span class="text-[10px] text-emerald-600/80 font-bold">(Petugas: ${petugasKeluar})</span></span>
+                                </div>
                                 ` : ''}
                             </div>
                         </div>
@@ -614,7 +641,7 @@
         async function prosesLogout() {
             await _supabase.auth.signOut();
             SESSION_USER_DATA = null;
-            LIST_STAMUK_WALI = [];
+            LIST_STAMBUK_WALI = [];
             activeStambukSelected = "";
             document.getElementById('screenDashboard').classList.add('hidden');
             document.getElementById('screenAuth').classList.remove('hidden');
