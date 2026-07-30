@@ -3,205 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Logistik Pesantren - Official Dashboard</title>
+    <title>Portal Wali Santri & Guru - Cek Logistik Paket</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
 </head>
-<body class="bg-slate-100 min-h-screen text-slate-800 flex flex-col justify-between antialiased">
+<body class="bg-gray-100 min-h-screen text-gray-800 flex flex-col justify-between">
 
-    <!-- SCREEN AUTHENTICATION -->
-    <div id="screenAuth" class="w-full max-w-md mx-auto my-auto px-4 py-8">
-        <div class="bg-white/80 backdrop-blur-xl p-7 rounded-3xl border border-slate-200/80 shadow-2xl shadow-indigo-900/5">
-            <div class="flex flex-col items-center text-center mb-8">
-                <div class="w-14 h-14 bg-gradient-to-tr from-indigo-600 to-indigo-500 rounded-2xl flex items-center justify-center text-3xl shadow-lg shadow-indigo-500/30 mb-3">
-                    📦
-                </div>
-                <h1 class="text-2xl font-black tracking-tight text-slate-900">Portal Logistik</h1>
-                <p class="text-xs font-semibold text-slate-400 mt-1">Layanan Paket Wali Santri & Dewan Guru</p>
-            </div>
+    <!-- SCREEN AUTHENTICATION (LOGIN / REGISTER) -->
+    <div id="screenAuth" class="w-full max-w-md mx-auto my-auto p-4">
+        <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-200">
+            <h1 class="text-xl font-bold text-center text-indigo-900 mb-1">Portal Logistik</h1>
+            <p class="text-xs text-center text-gray-500 mb-6">Layanan Cek Paket Wali Santri & Dewan Guru</p>
             
-            <!-- LOGIN FORM -->
+            <!-- FORM LOGIN -->
             <div id="formLogin" class="space-y-4">
-                <div class="border-b border-slate-100 pb-2">
-                    <h2 class="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Masuk ke Akun</h2>
+                <h2 class="text-sm font-bold text-gray-700 border-b pb-2">Masuk ke Akun</h2>
+                <div>
+                    <label class="text-xs font-semibold text-gray-600 block mb-1">Email</label>
+                    <input type="email" id="loginEmail" placeholder="masukkan email..." class="w-full px-3 py-2 bg-gray-50 border rounded-lg text-sm focus:outline-none focus:border-indigo-500">
                 </div>
                 <div>
-                    <label class="text-xs font-bold text-slate-600 block mb-1">Email</label>
-                    <input type="email" id="loginEmail" placeholder="nama@email.com" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition font-medium">
+                    <label class="text-xs font-semibold text-gray-600 block mb-1">Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" class="w-full px-3 py-2 bg-gray-50 border rounded-lg text-sm focus:outline-none focus:border-indigo-500">
                 </div>
-                <div>
-                    <label class="text-xs font-bold text-slate-600 block mb-1">Password</label>
-                    <input type="password" id="loginPassword" placeholder="••••••••" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition font-medium">
-                </div>
-                <button onclick="prosesLogin()" class="w-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-bold py-3.5 rounded-2xl text-sm shadow-xl shadow-indigo-600/20 transition-all duration-200">
-                    Masuk Dashboard
-                </button>
-                <div class="text-center pt-2">
-                    <p class="text-xs font-medium text-slate-500">Belum punya akun? <span onclick="switchForm('register')" class="text-indigo-600 font-bold cursor-pointer hover:underline">Daftar Sekarang</span></p>
-                </div>
+                <button onclick="prosesLogin()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-lg text-sm transition">Masuk Dashboard</button>
+                <p class="text-xs text-center text-gray-500 pt-2">Belum punya akun? <span onclick="switchForm('register')" class="text-indigo-600 font-bold cursor-pointer hover:underline">Daftar Akun</span></p>
             </div>
 
-            <!-- REGISTER FORM -->
+            <!-- FORM REGISTER -->
             <div id="formRegister" class="space-y-4 hidden">
-                <div class="border-b border-slate-100 pb-2">
-                    <h2 class="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Pendaftaran Akun Baru</h2>
-                </div>
+                <h2 class="text-sm font-bold text-gray-700 border-b pb-2">Pendaftaran Akun Baru</h2>
                 <div>
-                    <label class="text-xs font-bold text-slate-600 block mb-1.5">Pilih Kategori Pengguna</label>
-                    <select id="regRole" onchange="handleRoleChange()" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition">
-                        <option value="wali">👨‍👩‍👧‍👦 Wali Santri (Input Stambuk)</option>
-                        <option value="guru">👳‍♂️ Guru / Ustadz (Cari Nama)</option>
+                    <label class="text-xs font-semibold text-gray-600 block mb-1">Kategori Pengguna</label>
+                    <select id="regRole" onchange="handleRoleChange()" class="w-full px-3 py-2 bg-gray-50 border rounded-lg text-sm font-bold text-gray-700 focus:outline-none focus:border-indigo-500">
+                        <option value="wali">👨‍👩‍👧‍👦 Wali Santri (Berdasarkan Stambuk)</option>
+                        <option value="guru">👳‍♂️ Guru / Ustadz (Berdasarkan Nama)</option>
                     </select>
                 </div>
 
                 <div id="inputWaliGroup">
-                    <label class="text-xs font-bold text-slate-600 block mb-1">Nomor Stambuk Anak Utama <span class="text-red-500">*</span></label>
-                    <input type="text" id="regStambuk" placeholder="Contoh: 2024001" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition font-bold text-slate-900">
+                    <label class="text-xs font-semibold text-gray-600 block mb-1">Nomor Stambuk Anak Utama <span class="text-red-500">*</span></label>
+                    <input type="text" id="regStambuk" placeholder="Contoh: 2024001" class="w-full px-3 py-2 bg-gray-50 border rounded-lg text-sm focus:outline-none focus:border-indigo-500">
                 </div>
                 
                 <div id="inputGuruGroup" class="relative hidden">
-                    <label class="text-xs font-bold text-slate-600 block mb-1">Nama Guru (Ketik & Pilih) <span class="text-red-500">*</span></label>
-                    <input type="text" id="regNamaGuru" oninput="cariSugestiGuru(this.value)" placeholder="Ketik nama Anda..." autocomplete="off" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition font-bold text-slate-900">
-                    <div id="sugestiGuruBox" class="absolute left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-2xl max-h-48 overflow-y-auto z-50 hidden border border-slate-100"></div>
+                    <label class="text-xs font-semibold text-gray-600 block mb-1">Nama Guru (Ketik & Pilih) <span class="text-red-500">*</span></label>
+                    <input type="text" id="regNamaGuru" oninput="cariSugestiGuru(this.value)" placeholder="Ketik nama Anda..." autocomplete="off" class="w-full px-3 py-2 bg-gray-50 border rounded-lg text-sm focus:outline-none focus:border-indigo-500">
+                    <div id="sugestiGuruBox" class="absolute left-0 right-0 mt-1 bg-white border rounded-lg shadow-lg max-h-40 overflow-y-auto z-50 hidden"></div>
                 </div>
 
                 <div>
-                    <label class="text-xs font-bold text-slate-600 block mb-1">Email Aktif</label>
-                    <input type="email" id="regEmail" placeholder="nama@email.com" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition font-medium">
+                    <label class="text-xs font-semibold text-gray-600 block mb-1">Email Aktif</label>
+                    <input type="email" id="regEmail" placeholder="nama@email.com" class="w-full px-3 py-2 bg-gray-50 border rounded-lg text-sm focus:outline-none focus:border-indigo-500">
                 </div>
                 <div>
-                    <label class="text-xs font-bold text-slate-600 block mb-1">Password</label>
-                    <input type="password" id="regPassword" placeholder="Minimal 6 karakter" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition font-medium">
+                    <label class="text-xs font-semibold text-gray-600 block mb-1">Password</label>
+                    <input type="password" id="regPassword" placeholder="minimal 6 karakter" class="w-full px-3 py-2 bg-gray-50 border rounded-lg text-sm focus:outline-none focus:border-indigo-500">
                 </div>
-                <button onclick="prosesRegister()" class="w-full bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white font-bold py-3.5 rounded-2xl text-sm shadow-xl shadow-emerald-600/20 transition-all duration-200">
-                    Selesaikan Pendaftaran
-                </button>
-                <div class="text-center pt-2">
-                    <p class="text-xs font-medium text-slate-500">Sudah punya akun? <span onclick="switchForm('login')" class="text-indigo-600 font-bold cursor-pointer hover:underline">Masuk di sini</span></p>
-                </div>
+                <button onclick="prosesRegister()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 rounded-lg text-sm transition">Selesaikan Pendaftaran</button>
+                <p class="text-xs text-center text-gray-500 pt-2">Sudah punya akun? <span onclick="switchForm('login')" class="text-indigo-600 font-bold cursor-pointer hover:underline">Masuk di sini</span></p>
             </div>
         </div>
     </div>
 
-    <!-- DASHBOARD SCREEN -->
+    <!-- SCREEN DASHBOARD UTAMA -->
     <div id="screenDashboard" class="w-full flex flex-col justify-between flex-grow hidden">
-        <!-- HEADER APPS -->
-        <header class="w-full bg-white/80 backdrop-blur-md border-b border-slate-200/80 px-4 py-3.5 sticky top-0 z-40">
-            <div class="max-w-md mx-auto flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 bg-indigo-600 text-white rounded-xl flex items-center justify-center text-lg font-black shadow-md shadow-indigo-600/30">
-                        📦
-                    </div>
-                    <div>
-                        <h1 class="text-sm font-black tracking-tight text-slate-900" id="dashHeaderTitle">Logistik Pesantren</h1>
-                        <p class="text-[10px] text-emerald-600 font-bold flex items-center gap-1.5">
-                            <span class="h-2 w-2 bg-emerald-500 rounded-full animate-pulse"></span> Terautentikasi
-                        </p>
-                    </div>
+        <!-- HEADER -->
+        <header class="w-full bg-indigo-900 text-white p-4 shadow-md sticky top-0 z-40">
+            <div class="max-w-md mx-auto flex justify-between items-center">
+                <div>
+                    <h1 class="font-bold text-base" id="dashHeaderTitle">Logistik Pesantren</h1>
+                    <p class="text-[10px] text-indigo-200">Aplikasi Pemantauan Paket Real-Time</p>
                 </div>
-                <button onclick="prosesLogout()" class="text-xs font-bold text-slate-500 hover:text-red-500 hover:bg-red-50 px-3 py-1.5 rounded-xl transition">Keluar 🚪</button>
+                <button onclick="prosesLogout()" class="text-xs bg-indigo-800 hover:bg-red-600 px-3 py-1.5 rounded-lg transition font-semibold">Keluar 🚪</button>
             </div>
         </header>
 
         <!-- MAIN CONTENT -->
-        <main class="w-full max-w-md mx-auto px-4 py-5 flex-grow flex flex-col gap-4">
-            <!-- PROFILE CARD -->
-            <div class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 p-5 rounded-3xl text-white shadow-xl shadow-slate-900/10 relative overflow-hidden border border-slate-800">
-                <div class="absolute -right-6 -bottom-6 text-8xl opacity-5 pointer-events-none">🏢</div>
-                <div class="flex justify-between items-center mb-3">
-                    <span class="text-[10px] bg-white/10 backdrop-blur-md text-indigo-200 font-extrabold tracking-widest uppercase px-3 py-1 rounded-full border border-white/10" id="dashBadgeRole">ROLE</span>
-                    <button id="btnKelolaAnak" onclick="bukaModalKelolaAnak()" class="text-[10px] bg-amber-500 hover:bg-amber-600 active:scale-95 text-white font-extrabold px-3 py-1.5 rounded-xl transition shadow-md shadow-amber-500/20 hidden">
-                        👥 Kelola Anak
+        <main class="w-full max-w-md mx-auto p-4 flex-grow flex flex-col gap-4">
+            <!-- PROFILE USER CARD -->
+            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-[10px] bg-indigo-100 text-indigo-800 font-bold px-2.5 py-0.5 rounded-full" id="dashBadgeRole">ROLE</span>
+                    <button id="btnKelolaAnak" onclick="bukaModalKelolaAnak()" class="text-xs bg-amber-500 hover:bg-amber-600 text-white font-bold px-2.5 py-1 rounded-lg transition hidden">
+                        ➕ Kelola Anak
                     </button>
                 </div>
-                <h2 class="text-lg font-extrabold tracking-tight" id="dashNamaUser">Memuat nama...</h2>
-                <p class="text-xs text-slate-300 font-medium mt-0.5" id="dashSubInfo">Memuat informasi stambuk/identitas...</p>
+                <h2 class="text-base font-bold text-gray-800" id="dashNamaUser">Memuat nama...</h2>
+                <p class="text-xs text-gray-500" id="dashSubInfo">Memuat informasi stambuk/identitas...</p>
             </div>
 
-            <!-- TAB PILIHAN ANAK (WALI SANTRI ONLY) -->
-            <div id="wrapperTabAnak" class="flex gap-2 overflow-x-auto pb-1 no-scrollbar hidden">
+            <!-- TAB PILIHAN ANAK (KHUSUS WALI SANTRI) -->
+            <div id="wrapperTabAnak" class="flex gap-2 overflow-x-auto pb-1 hidden">
                 <!-- Diisi dinamis oleh JS -->
             </div>
 
-            <!-- STATISTIK RINGKAS -->
+            <!-- RINGKASAN STATISTIK -->
             <div class="grid grid-cols-2 gap-3">
-                <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-3">
-                    <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-lg font-bold">📦</div>
-                    <div>
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Belum Diambil</p>
-                        <p class="text-xl font-black text-slate-800" id="statBelumDiambil">0</p>
-                    </div>
+                <div class="bg-amber-50 border border-amber-200 p-3 rounded-xl text-center">
+                    <p class="text-[10px] font-bold text-amber-700 uppercase">Belum Diambil</p>
+                    <p class="text-xl font-black text-amber-900" id="statBelumDiambil">0</p>
                 </div>
-                <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-3">
-                    <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-lg font-bold">✅</div>
-                    <div>
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Sudah Diambil</p>
-                        <p class="text-xl font-black text-slate-800" id="statSudahDiambil">0</p>
-                    </div>
+                <div class="bg-green-50 border border-green-200 p-3 rounded-xl text-center">
+                    <p class="text-[10px] font-bold text-green-700 uppercase">Sudah Diambil</p>
+                    <p class="text-xl font-black text-green-900" id="statSudahDiambil">0</p>
                 </div>
             </div>
 
             <!-- TAB STATUS PAKET -->
-            <div class="bg-slate-200/70 p-1 rounded-2xl grid grid-cols-2 text-center text-xs font-bold">
-                <button id="tabBelum" onclick="switchTabStatus('belum')" class="py-2.5 rounded-xl bg-white text-indigo-600 shadow-sm transition-all duration-200">📦 Belum Diambil</button>
-                <button id="tabSudah" onclick="switchTabStatus('sudah')" class="py-2.5 rounded-xl text-slate-500 hover:text-slate-800 transition-all duration-200">📜 Riwayat Selesai</button>
+            <div class="bg-gray-200 p-1 rounded-xl grid grid-cols-2 text-center text-xs font-bold">
+                <button id="tabBelum" onclick="switchTabStatus('belum')" class="py-2 rounded-lg bg-white text-indigo-900 shadow-sm">📦 Belum Diambil</button>
+                <button id="tabSudah" onclick="switchTabStatus('sudah')" class="py-2 rounded-lg text-gray-600">📜 Riwayat Selesai</button>
             </div>
 
-            <!-- LIST PAKET -->
+            <!-- LIST DAFTAR PAKET -->
             <div class="flex flex-col gap-3">
-                <div class="flex justify-between items-center px-1">
-                    <h3 class="text-[11px] font-extrabold text-slate-400 tracking-wider uppercase" id="listTitleText">Daftar Kiriman Paket</h3>
-                    <button onclick="muatDataPaketDashboard()" class="text-xs font-bold text-indigo-600 hover:underline flex items-center gap-1">
-                        <span>Segarkan</span> 🔄
-                    </button>
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider" id="listTitleText">Daftar Kiriman Paket</h3>
+                    <button onclick="muatDataPaketDashboard()" class="text-xs text-indigo-600 font-bold hover:underline">Segarkan 🔄</button>
                 </div>
                 <div id="wrapperListPaketDashboard" class="flex flex-col gap-3"></div>
             </div>
         </main>
 
-        <footer class="w-full text-center py-4 text-[10px] text-slate-400 font-semibold border-t border-slate-200/80 bg-white">
+        <footer class="w-full text-center py-3 text-[10px] text-gray-400 border-t bg-white">
             &copy; 2026 Package Apps Pesantren. Terintegrasi Supabase Real-Time.
         </footer>
     </div>
 
     <!-- MODAL KELOLA ANAK -->
-    <div id="modalKelolaAnak" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex justify-center items-center p-4 hidden">
-        <div class="bg-white p-6 rounded-3xl w-full max-w-sm border shadow-2xl flex flex-col gap-4">
-            <div class="flex justify-between items-center">
-                <h3 class="text-sm font-extrabold text-slate-900">👥 Kelola Stambuk Anak</h3>
-                <button onclick="tutupModalKelolaAnak()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 font-bold transition">✕</button>
+    <div id="modalKelolaAnak" class="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-4 hidden">
+        <div class="bg-white p-5 rounded-2xl w-full max-w-sm border shadow-xl flex flex-col gap-4">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 class="text-sm font-bold text-gray-800">👥 Kelola Stambuk Anak</h3>
+                <button onclick="tutupModalKelolaAnak()" class="text-gray-400 font-bold hover:text-gray-600">✕</button>
             </div>
             
-            <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80 space-y-2">
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tambah Stambuk Anak</p>
+            <div class="space-y-2">
+                <p class="text-xs font-semibold text-gray-600">Tambah Stambuk Anak Lain</p>
                 <div class="flex gap-2">
-                    <input type="text" id="inputNewStambuk" placeholder="Contoh: 2024002" class="flex-grow px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-indigo-500 font-bold">
-                    <button onclick="tambahAnakRelasi()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-md shadow-indigo-600/10">Tambah</button>
+                    <input type="text" id="inputNewStambuk" placeholder="Contoh: 2024002" class="flex-grow px-3 py-1.5 bg-gray-50 border rounded-lg text-xs font-bold">
+                    <button onclick="tambahAnakRelasi()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg">Tambah</button>
                 </div>
             </div>
 
             <div class="space-y-2">
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Daftar Stambuk Terhubung</p>
-                <div id="listAnakDipantau" class="max-h-48 overflow-y-auto space-y-2 pr-1 no-scrollbar"></div>
+                <p class="text-xs font-semibold text-gray-600">Daftar Stambuk Terhubung</p>
+                <div id="listAnakDipantau" class="max-h-40 overflow-y-auto space-y-1.5 pr-1"></div>
             </div>
         </div>
     </div>
 
-    <!-- MODAL NOTIFIKASI -->
-    <div id="alertWaliModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex justify-center items-center p-4 hidden">
-        <div class="bg-white p-6 rounded-3xl w-full max-w-xs text-center border shadow-2xl">
-            <div class="w-12 h-12 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3">⚠️</div>
-            <h4 class="text-sm font-bold text-slate-900 mb-1">Pemberitahuan</h4>
-            <p id="alertWaliMessage" class="text-xs text-slate-500 leading-relaxed mb-4 font-medium"></p>
-            <button onclick="tutupAlertWali()" class="w-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold py-3 rounded-2xl transition">Tutup</button>
+    <!-- MODAL ALERT -->
+    <div id="alertWaliModal" class="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-4 hidden">
+        <div class="bg-white p-5 rounded-2xl w-full max-w-xs text-center border shadow-xl">
+            <div class="text-3xl mb-2">⚠️</div>
+            <h4 class="text-sm font-bold text-gray-800 mb-1">Pemberitahuan</h4>
+            <p id="alertWaliMessage" class="text-xs text-gray-600 leading-relaxed mb-4"></p>
+            <button onclick="tutupAlertWali()" class="w-full bg-indigo-900 text-white text-xs font-bold py-2 rounded-lg">Tutup</button>
         </div>
     </div>
 
@@ -252,7 +211,6 @@
             }
         }
 
-        // === PENCARIAN SUGESTI NAMA GURU ===
         async function cariSugestiGuru(val) {
             const box = document.getElementById('sugestiGuruBox');
             if (!val || val.trim().length < 2) {
@@ -270,15 +228,14 @@
 
                 if (data && data.length > 0) {
                     const listNamaUnik = [...new Set(data.map(item => item.Nama))];
-                    
                     box.innerHTML = listNamaUnik.map(nama => `
-                        <div onclick="pilihSugestiGuru('${nama.replace(/'/g, "\\'")}')" class="px-4 py-3 text-xs font-bold text-slate-800 hover:bg-indigo-50 cursor-pointer border-b border-slate-100 last:border-0 transition">
+                        <div onclick="pilihSugestiGuru('${nama.replace(/'/g, "\\'")}')" class="px-3 py-2 text-xs text-gray-700 hover:bg-indigo-50 cursor-pointer border-b last:border-0 font-medium">
                             👤 ${nama}
                         </div>
                     `).join('');
                     box.classList.remove('hidden');
                 } else {
-                    box.innerHTML = `<div class="px-4 py-3 text-xs text-slate-400 font-medium italic">Nama tidak ditemukan, tetap gunakan ketikan Anda</div>`;
+                    box.innerHTML = `<div class="px-3 py-2 text-xs text-gray-400 italic">Nama tidak ditemukan, tetap gunakan ketikan Anda</div>`;
                     box.classList.remove('hidden');
                 }
             } catch(e) {
@@ -298,18 +255,17 @@
             const listTitle = document.getElementById('listTitleText');
 
             if (tab === 'belum') {
-                btnBelum.className = "py-2.5 rounded-xl bg-white text-indigo-600 shadow-sm transition-all duration-200";
-                btnSudah.className = "py-2.5 rounded-xl text-slate-500 hover:text-slate-800 transition-all duration-200";
+                btnBelum.className = "py-2 rounded-lg bg-white text-indigo-900 shadow-sm";
+                btnSudah.className = "py-2 rounded-lg text-gray-600";
                 listTitle.innerText = "Daftar Kiriman Paket";
             } else {
-                btnSudah.className = "py-2.5 rounded-xl bg-white text-emerald-600 shadow-sm transition-all duration-200";
-                btnBelum.className = "py-2.5 rounded-xl text-slate-500 hover:text-slate-800 transition-all duration-200";
+                btnSudah.className = "py-2 rounded-lg bg-white text-green-700 shadow-sm";
+                btnBelum.className = "py-2 rounded-lg text-gray-600";
                 listTitle.innerText = "Riwayat Paket Diambil";
             }
             muatDataPaketDashboard();
         }
 
-        // === PROSES REGISTRASI ===
         async function prosesRegister() {
             const role = document.getElementById('regRole').value;
             const email = document.getElementById('regEmail').value.trim();
@@ -401,18 +357,16 @@
                 
                 if (profil.role === 'wali') {
                     document.getElementById('dashBadgeRole').innerText = "WALI SANTRI";
-                    document.getElementById('dashBadgeRole').className = "text-[9px] bg-amber-500/20 text-amber-300 font-extrabold tracking-widest uppercase px-3 py-1 rounded-full border border-amber-400/20";
+                    document.getElementById('dashBadgeRole').className = "text-[10px] bg-amber-100 text-amber-800 font-bold px-2.5 py-0.5 rounded-full";
                     document.getElementById('btnKelolaAnak').classList.remove('hidden'); 
-                    
                     await muatDaftarStambukRelasi();
                 } else {
                     document.getElementById('dashBadgeRole').innerText = "DEWAN GURU";
-                    document.getElementById('dashBadgeRole').className = "text-[9px] bg-emerald-500/20 text-emerald-300 font-extrabold tracking-widest uppercase px-3 py-1 rounded-full border border-emerald-400/20";
+                    document.getElementById('dashBadgeRole').className = "text-[10px] bg-green-100 text-green-800 font-bold px-2.5 py-0.5 rounded-full";
                     document.getElementById('dashNamaUser').innerText = profil.identitas_kunci;
                     document.getElementById('dashSubInfo').innerText = "Portal Logistik Guru Pesantren";
                     document.getElementById('btnKelolaAnak').classList.add('hidden'); 
                     document.getElementById('wrapperTabAnak').classList.add('hidden');
-                    
                     muatDataPaketDashboard();
                 }
             } catch (err) {
@@ -456,10 +410,10 @@
             container.innerHTML = LIST_STAMBUK_WALI.map(stambuk => {
                 const isSelected = stambuk === activeStambukSelected;
                 return `
-                    <button onclick="pilihAnakTab('${stambuk}')" class="px-4 py-2 text-xs font-extrabold rounded-2xl border transition-all duration-200 shrink-0 ${
+                    <button onclick="pilihAnakTab('${stambuk}')" class="px-3 py-1.5 text-xs font-bold rounded-lg border transition shrink-0 ${
                         isSelected 
-                            ? 'bg-indigo-600 text-white border-indigo-600 shadow-lg shadow-indigo-600/20' 
-                            : 'bg-white text-slate-600 border-slate-200/80 hover:bg-slate-50'
+                            ? 'bg-indigo-900 text-white border-indigo-900' 
+                            : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50'
                     }">
                         👶 Stambuk ${stambuk}
                     </button>
@@ -473,11 +427,11 @@
             muatDataPaketDashboard();
         }
 
-        // === FUNGSI LOGIKA MEMBACA DATA PAKET SESUAI PROFIL ===
+        // === MEMBACA DATA PAKET SESUAI PROFIL DENGAN PENANGANAN NAMA KOLOM MULTI-DATABASE ===
         async function muatDataPaketDashboard() {
             if (!SESSION_USER_DATA) return;
             const wrapperList = document.getElementById('wrapperListPaketDashboard');
-            wrapperList.innerHTML = `<p class="text-xs text-center text-slate-400 font-bold py-8 animate-pulse">Memuat data logistik...</p>`;
+            wrapperList.innerHTML = `<p class="text-xs text-center text-gray-400 py-4 font-medium">Memuat data logistik...</p>`;
             
             const isGuru = SESSION_USER_DATA.role === 'guru';
 
@@ -500,11 +454,7 @@
                 let query = _supabase.from('paket').select('*');
                 if (!isGuru) {
                     if (!activeStambukSelected) {
-                        wrapperList.innerHTML = `
-                            <div class="p-8 bg-white border border-dashed border-slate-200 rounded-3xl text-center">
-                                <p class="text-xs font-bold text-slate-400">Belum ada stambuk anak yang terhubung</p>
-                            </div>
-                        `;
+                        wrapperList.innerHTML = `<div class="p-6 bg-white rounded-xl text-center text-xs text-gray-400 border border-dashed">Belum ada stambuk anak yang terhubung</div>`;
                         return;
                     }
                     query = query.eq('stambuk', activeStambukSelected);
@@ -523,59 +473,51 @@
                 const filteredData = data.filter(p => activeTabStatus === "belum" ? p.status === 'Belum Diambil' : p.status === 'Sudah Diambil');
 
                 if (!filteredData || filteredData.length === 0) {
-                    wrapperList.innerHTML = `
-                        <div class="p-8 bg-white border border-dashed border-slate-200 rounded-3xl text-center">
-                            <div class="text-3xl mb-2">📦</div>
-                            <p class="text-xs font-bold text-slate-600">Tidak ada paket pada kategori ini</p>
-                        </div>
-                    `;
+                    wrapperList.innerHTML = `<div class="p-6 bg-white rounded-xl text-center text-xs text-gray-400 border border-dashed">Tidak ada data paket pada kategori ini</div>`;
                     return;
                 }
 
                 wrapperList.innerHTML = filteredData.map(p => {
                     const isBelumDiambil = p.status === 'Belum Diambil';
                     
-                    // Format identitas sub-header (Guru: Tahun & Kamar, Wali: Stambuk & Kelas)
+                    // PENANGANAN PENAMAAN KOLOM SUPABASE (Mencegah bernilai Kosong / Null)
                     const subIdentitas = isGuru 
                         ? `Tahun: ${p.tahun || p.Tahun || '-'} | Kamar: ${p.kamar || p.Kamar || '-'}` 
                         : `Stambuk: ${p.stambuk || '-'} ${p.kelas ? '| Kelas: '+p.kelas : ''}`;
 
-                    // Petugas Input & Penyerah Paket
                     const petugasMasuk = p.petugas_masuk || p.petugas_input || p.petugas || '-';
                     const petugasKeluar = p.petugas_keluar || p.petugas_penyerah || p.petugas || '-';
-
-                    // Opsional Pengambilan Khusus Guru
                     const opsiPengambilan = p.opsi_pengambilan || p.keterangan || p.status_pengambilan || null;
 
                     return `
-                        <div class="bg-white p-4.5 rounded-3xl border ${isBelumDiambil ? 'border-amber-200 shadow-md shadow-amber-500/5' : 'border-slate-200/80 shadow-sm'} flex flex-col gap-3">
-                            <div class="flex justify-between items-start gap-2">
+                        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col gap-2">
+                            <div class="flex justify-between items-start">
                                 <div>
-                                    <h4 class="font-black text-sm text-slate-900 leading-snug">${p.nama || '-'}</h4>
-                                    <p class="text-[11px] text-slate-500 font-bold mt-0.5">${subIdentitas}</p>
+                                    <h4 class="font-bold text-sm text-gray-800">${p.nama || '-'}</h4>
+                                    <p class="text-xs text-gray-500 font-medium">${subIdentitas}</p>
                                 </div>
-                                <span class="text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full ${
-                                    isBelumDiambil ? 'bg-amber-50 text-amber-600 border border-amber-200/60' : 'bg-emerald-50 text-emerald-600 border border-emerald-200/60'
+                                <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-md ${
+                                    isBelumDiambil ? 'bg-amber-100 text-amber-800' : 'bg-green-100 text-green-800'
                                 }">${p.status}</span>
                             </div>
                             
-                            <div class="bg-slate-50/80 p-3.5 rounded-2xl text-[11px] space-y-2 border border-slate-100">
-                                <div class="flex justify-between items-center"><span class="text-slate-400 font-medium">Jenis Paket</span><span class="font-extrabold text-indigo-600">${p.jenis_paket || '-'}</span></div>
-                                <div class="flex justify-between items-center"><span class="text-slate-400 font-medium">Posisi Rak Storage</span><span class="font-black text-slate-900 bg-white px-2 py-0.5 rounded-lg border border-slate-200/80">Rak ${p.tempat || '-'}</span></div>
+                            <div class="bg-gray-50 p-3 rounded-lg text-xs space-y-1.5 text-gray-600">
+                                <div class="flex justify-between"><span class="font-medium text-gray-500">Jenis Paket:</span><span class="font-bold text-indigo-900">${p.jenis_paket || '-'}</span></div>
+                                <div class="flex justify-between"><span class="font-medium text-gray-500">Posisi Rak:</span><span class="font-bold text-gray-800">Rak ${p.tempat || '-'}</span></div>
                                 
                                 ${isGuru && opsiPengambilan ? `
-                                <div class="flex justify-between items-center pt-1 border-t border-slate-200/50"><span class="text-slate-400 font-medium">Opsi Pengambilan</span><span class="font-bold text-amber-600">🛵 ${opsiPengambilan}</span></div>
+                                <div class="flex justify-between pt-1 border-t"><span class="font-medium text-gray-500">Opsi Pengambilan:</span><span class="font-bold text-amber-700">🛵 ${opsiPengambilan}</span></div>
                                 ` : ''}
 
-                                <div class="flex justify-between items-start pt-2 border-t border-slate-200/60">
-                                    <span class="text-slate-400 font-medium">Waktu Masuk</span>
-                                    <span class="text-slate-700 font-bold text-right">${p.waktu_masuk || '-'} <br><span class="text-[10px] text-slate-400 font-semibold">(Petugas: ${petugasMasuk})</span></span>
+                                <div class="flex justify-between pt-1 border-t">
+                                    <span class="font-medium text-gray-500">Waktu Masuk:</span>
+                                    <span class="font-semibold text-right">${p.waktu_masuk || '-'} <br><span class="text-[10px] text-gray-400">(Petugas: ${petugasMasuk})</span></span>
                                 </div>
                                 
                                 ${!isBelumDiambil ? `
-                                <div class="flex justify-between items-start pt-2 border-t border-slate-200/60">
-                                    <span class="text-emerald-600 font-semibold">Waktu Diserahkan</span>
-                                    <span class="text-emerald-700 font-bold text-right">${p.waktu_keluar || '-'} <br><span class="text-[10px] text-emerald-600/70 font-semibold">(Petugas: ${petugasKeluar})</span></span>
+                                <div class="flex justify-between pt-1 border-t">
+                                    <span class="font-medium text-green-600">Diserahkan:</span>
+                                    <span class="font-semibold text-green-700 text-right">${p.waktu_keluar || '-'} <br><span class="text-[10px] text-green-600/70">(Petugas: ${petugasKeluar})</span></span>
                                 </div>
                                 ` : ''}
                             </div>
@@ -588,7 +530,6 @@
             }
         }
 
-        // === DIALOG KELOLA ANAK ===
         async function bukaModalKelolaAnak() {
             document.getElementById('modalKelolaAnak').classList.remove('hidden');
             renderDaftarAnakModal();
@@ -600,7 +541,7 @@
 
         async function renderDaftarAnakModal() {
             const listContainer = document.getElementById('listAnakDipantau');
-            listContainer.innerHTML = `<p class="text-[11px] text-slate-400 text-center animate-pulse py-3 font-semibold">Memuat data...</p>`;
+            listContainer.innerHTML = `<p class="text-xs text-gray-400 text-center py-2">Memuat data...</p>`;
             try {
                 const { data, error } = await _supabase
                     .from('relasi_wali_santri')
@@ -609,14 +550,14 @@
                 if (error) throw error;
 
                 if (data.length === 0) {
-                    listContainer.innerHTML = `<p class="text-[11px] text-slate-400 text-center py-3 font-medium">Belum ada stambuk terhubung.</p>`;
+                    listContainer.innerHTML = `<p class="text-xs text-gray-400 text-center py-2">Belum ada stambuk terhubung.</p>`;
                     return;
                 }
 
                 listContainer.innerHTML = data.map(anak => `
-                    <div class="flex justify-between items-center bg-slate-50 px-3.5 py-2.5 rounded-2xl border border-slate-200/80">
-                        <span class="text-xs font-extrabold text-slate-800">👶 Stambuk: ${anak.stambuk_anak}</span>
-                        <button onclick="hapusAnakRelasi('${anak.id}', '${anak.stambuk_anak}')" class="text-[10px] text-red-500 hover:bg-red-50 font-black px-2.5 py-1 rounded-xl transition">Hapus</button>
+                    <div class="flex justify-between items-center bg-gray-50 p-2 rounded-lg border text-xs">
+                        <span class="font-bold text-gray-700">👶 Stambuk: ${anak.stambuk_anak}</span>
+                        <button onclick="hapusAnakRelasi('${anak.id}', '${anak.stambuk_anak}')" class="text-[10px] text-red-600 font-bold hover:underline">Hapus</button>
                     </div>
                 `).join('');
             } catch (err) {
@@ -638,7 +579,6 @@
                 document.getElementById('inputNewStambuk').value = '';
                 
                 activeStambukSelected = inputVal; 
-                
                 await renderDaftarAnakModal();
                 await muatDaftarStambukRelasi(); 
             } catch (err) {
