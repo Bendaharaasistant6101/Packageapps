@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Wali Santri & Guru - Cek Logistik Paket</title>
+    <title>Portal Logistik Pesantren</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-100 min-h-screen text-gray-800 flex flex-col justify-between">
+<body class="bg-gray-100 min-h-screen text-gray-800 flex flex-col justify-between font-sans">
 
     <!-- SCREEN AUTHENTICATION (LOGIN / REGISTER) -->
     <div id="screenAuth" class="w-full max-w-md mx-auto my-auto p-4">
@@ -67,91 +68,140 @@
     </div>
 
     <!-- SCREEN DASHBOARD UTAMA -->
-    <div id="screenDashboard" class="w-full flex flex-col justify-between flex-grow hidden">
-        <!-- HEADER -->
-        <header class="w-full bg-indigo-900 text-white p-4 shadow-md sticky top-0 z-40">
-            <div class="max-w-md mx-auto flex justify-between items-center">
-                <div>
-                    <h1 class="font-bold text-base" id="dashHeaderTitle">Logistik Pesantren</h1>
-                    <p class="text-[10px] text-indigo-200">Aplikasi Pemantauan Paket Real-Time</p>
-                </div>
-                <button onclick="prosesLogout()" class="text-xs bg-indigo-800 hover:bg-red-600 px-3 py-1.5 rounded-lg transition font-semibold">Keluar 🚪</button>
-            </div>
-        </header>
-
-        <!-- MAIN CONTENT -->
-        <main class="w-full max-w-md mx-auto p-4 flex-grow flex flex-col gap-4">
-            <!-- PROFILE USER CARD -->
-            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-[10px] bg-indigo-100 text-indigo-800 font-bold px-2.5 py-0.5 rounded-full" id="dashBadgeRole">ROLE</span>
-                    <button id="btnKelolaAnak" onclick="bukaModalKelolaAnak()" class="text-xs bg-amber-500 hover:bg-amber-600 text-white font-bold px-2.5 py-1 rounded-lg transition hidden">
-                        ➕ Kelola Anak
-                    </button>
-                </div>
-                <h2 class="text-base font-bold text-gray-800" id="dashNamaUser">Memuat nama...</h2>
-                <p class="text-xs text-gray-500" id="dashSubInfo">Memuat informasi stambuk/identitas...</p>
-            </div>
-
-            <!-- TAB PILIHAN ANAK (KHUSUS WALI SANTRI) -->
-            <div id="wrapperTabAnak" class="flex gap-2 overflow-x-auto pb-1 hidden">
-                <!-- Diisi dinamis oleh JS -->
-            </div>
-
-            <!-- RINGKASAN STATISTIK -->
-            <div class="grid grid-cols-2 gap-3">
-                <div class="bg-amber-50 border border-amber-200 p-3 rounded-xl text-center">
-                    <p class="text-[10px] font-bold text-amber-700 uppercase">Belum Diambil</p>
-                    <p class="text-xl font-black text-amber-900" id="statBelumDiambil">0</p>
-                </div>
-                <div class="bg-green-50 border border-green-200 p-3 rounded-xl text-center">
-                    <p class="text-[10px] font-bold text-green-700 uppercase">Sudah Diambil</p>
-                    <p class="text-xl font-black text-green-900" id="statSudahDiambil">0</p>
-                </div>
-            </div>
-
-            <!-- TAB STATUS PAKET -->
-            <div class="bg-gray-200 p-1 rounded-xl grid grid-cols-2 text-center text-xs font-bold">
-                <button id="tabBelum" onclick="switchTabStatus('belum')" class="py-2 rounded-lg bg-white text-indigo-900 shadow-sm">📦 Belum Diambil</button>
-                <button id="tabSudah" onclick="switchTabStatus('sudah')" class="py-2 rounded-lg text-gray-600">📜 Riwayat Selesai</button>
-            </div>
-
-            <!-- LIST DAFTAR PAKET -->
-            <div class="flex flex-col gap-3">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider" id="listTitleText">Daftar Kiriman Paket</h3>
-                    <button onclick="muatDataPaketDashboard()" class="text-xs text-indigo-600 font-bold hover:underline">Segarkan 🔄</button>
-                </div>
-                <div id="wrapperListPaketDashboard" class="flex flex-col gap-3"></div>
-            </div>
-        </main>
-
-        <footer class="w-full text-center py-3 text-[10px] text-gray-400 border-t bg-white">
-            &copy; 2026 Package Apps Pesantren. Terintegrasi Supabase Real-Time.
-        </footer>
-    </div>
-
-    <!-- MODAL KELOLA ANAK -->
-    <div id="modalKelolaAnak" class="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-4 hidden">
-        <div class="bg-white p-5 rounded-2xl w-full max-w-sm border shadow-xl flex flex-col gap-4">
-            <div class="flex justify-between items-center border-b pb-2">
-                <h3 class="text-sm font-bold text-gray-800">👥 Kelola Stambuk Anak</h3>
-                <button onclick="tutupModalKelolaAnak()" class="text-gray-400 font-bold hover:text-gray-600">✕</button>
-            </div>
+    <div id="screenDashboard" class="w-full max-w-md mx-auto flex flex-col min-h-screen bg-gray-50 shadow-xl hidden relative pb-20">
+        
+        <!-- WELCOME HEADER BANNER (FOTO GONTOR DARI ATAS) -->
+        <div class="relative h-44 bg-indigo-900 overflow-hidden shadow-md">
+            <!-- URL Foto Banner Pemandangan Gontor dari Atas -->
+            <img id="bgGontorBanner" src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80" alt="Pemandangan Pondok" class="w-full h-full object-cover opacity-45">
+            <div class="absolute inset-0 bg-gradient-to-t from-indigo-950 via-indigo-900/40 to-transparent"></div>
             
-            <div class="space-y-2">
-                <p class="text-xs font-semibold text-gray-600">Tambah Stambuk Anak Lain</p>
-                <div class="flex gap-2">
-                    <input type="text" id="inputNewStambuk" placeholder="Contoh: 2024002" class="flex-grow px-3 py-1.5 bg-gray-50 border rounded-lg text-xs font-bold">
-                    <button onclick="tambahAnakRelasi()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg">Tambah</button>
-                </div>
-            </div>
-
-            <div class="space-y-2">
-                <p class="text-xs font-semibold text-gray-600">Daftar Stambuk Terhubung</p>
-                <div id="listAnakDipantau" class="max-h-40 overflow-y-auto space-y-1.5 pr-1"></div>
+            <div class="absolute bottom-4 left-4 right-4 text-white">
+                <span id="welcomeBadgeRole" class="text-[9px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded bg-amber-500 text-slate-900 inline-block mb-1">WALI SANTRI</span>
+                <h1 id="welcomeGreeting" class="text-base font-bold leading-tight drop-shadow-md">Selamat Datang,</h1>
+                <p id="welcomeSubText" class="text-xs text-indigo-100 opacity-90 drop-shadow-sm mt-0.5">Layanan Pemantauan Paket Logistik Pesantren</p>
             </div>
         </div>
+
+        <!-- ISI KONTEN MENU UTAMA -->
+        <main class="p-4 flex-grow flex flex-col gap-4">
+
+            <!-- TAB MENU 1: PROFIL DETAIL -->
+            <div id="tabContentProfil" class="space-y-4">
+                <!-- PILIHAN TAB ANAK (KHUSUS WALI SANTRI DENGAN >1 ANAK) -->
+                <div id="wrapperTabAnak" class="flex gap-2 overflow-x-auto pb-1 hidden"></div>
+
+                <!-- CARD PROFIL LENGKAP -->
+                <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm relative overflow-hidden">
+                    <div class="flex items-center gap-3 border-b pb-3 mb-3">
+                        <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-900 font-bold text-lg border border-indigo-200 shrink-0">
+                            <i class="fa-solid fa-user-graduate" id="iconProfilHead"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-base font-bold text-gray-800" id="profNama">Memuat Data...</h2>
+                            <p class="text-xs text-indigo-600 font-semibold" id="profSubTitle">-</p>
+                        </div>
+                    </div>
+
+                    <!-- RINCIAN BIODATA -->
+                    <div id="profDetailBox" class="grid grid-cols-2 gap-3 text-xs">
+                        <div class="bg-gray-50 p-2.5 rounded-xl border">
+                            <p class="text-[10px] text-gray-400 font-semibold uppercase">Nomor Stambuk</p>
+                            <p class="font-bold text-gray-800 mt-0.5" id="profDetail1">-</p>
+                        </div>
+                        <div class="bg-gray-50 p-2.5 rounded-xl border">
+                            <p class="text-[10px] text-gray-400 font-semibold uppercase">Kelas / Status</p>
+                            <p class="font-bold text-gray-800 mt-0.5" id="profDetail2">-</p>
+                        </div>
+                        <div class="bg-gray-50 p-2.5 rounded-xl border">
+                            <p class="text-[10px] text-gray-400 font-semibold uppercase">Rayon / Kamar</p>
+                            <p class="font-bold text-gray-800 mt-0.5" id="profDetail3">-</p>
+                        </div>
+                        <div class="bg-gray-50 p-2.5 rounded-xl border">
+                            <p class="text-[10px] text-gray-400 font-semibold uppercase">Konsulat / Daerah</p>
+                            <p class="font-bold text-gray-800 mt-0.5" id="profDetail4">-</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB MENU 2: KELOLA PAKET -->
+            <div id="tabContentPaket" class="space-y-4 hidden">
+                <!-- RINGKASAN REKAP STATISTIK -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-amber-50 border border-amber-200 p-3 rounded-xl text-center">
+                        <p class="text-[10px] font-bold text-amber-700 uppercase">Belum Diambil</p>
+                        <p class="text-xl font-black text-amber-900" id="statBelumDiambil">0</p>
+                    </div>
+                    <div class="bg-green-50 border border-green-200 p-3 rounded-xl text-center">
+                        <p class="text-[10px] font-bold text-green-700 uppercase">Sudah Diambil</p>
+                        <p class="text-xl font-black text-green-900" id="statSudahDiambil">0</p>
+                    </div>
+                </div>
+
+                <!-- SUB-TAB STATUS PAKET -->
+                <div class="bg-gray-200 p-1 rounded-xl grid grid-cols-2 text-center text-xs font-bold">
+                    <button id="subTabBelum" onclick="switchTabStatusPaket('belum')" class="py-2 rounded-lg bg-white text-indigo-900 shadow-sm">📦 Belum Diambil</button>
+                    <button id="subTabSudah" onclick="switchTabStatusPaket('sudah')" class="py-2 rounded-lg text-gray-600">📜 Riwayat Selesai</button>
+                </div>
+
+                <!-- DAFTAR PAKET -->
+                <div class="flex flex-col gap-3">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider" id="listTitleText">Daftar Kiriman Paket</h3>
+                        <button onclick="muatDataPaketDashboard()" class="text-xs text-indigo-600 font-bold hover:underline">Segarkan 🔄</button>
+                    </div>
+                    <div id="wrapperListPaketDashboard" class="flex flex-col gap-3"></div>
+                </div>
+            </div>
+
+            <!-- TAB MENU 3: KELOLA AKUN -->
+            <div id="tabContentAkun" class="space-y-4 hidden">
+                <div class="bg-white p-4 rounded-2xl border border-gray-200 shadow-sm space-y-3">
+                    <h3 class="text-xs font-bold text-gray-400 uppercase">Informasi Akun</h3>
+                    <div class="flex justify-between text-xs border-b pb-2">
+                        <span class="text-gray-500">Email Akun</span>
+                        <span class="font-bold text-gray-800" id="akunEmail">-</span>
+                    </div>
+                    <div class="flex justify-between text-xs border-b pb-2">
+                        <span class="text-gray-500">Peran Pengguna</span>
+                        <span class="font-bold text-indigo-900 capitalize" id="akunRole">-</span>
+                    </div>
+                </div>
+
+                <!-- KHUSUS WALI: KELOLA ANAK -->
+                <div id="boxKelolaAnakWali" class="bg-white p-4 rounded-2xl border border-gray-200 shadow-sm space-y-3 hidden">
+                    <h3 class="text-xs font-bold text-gray-400 uppercase">Kelola Stambuk Anak Dipantau</h3>
+                    <div class="flex gap-2">
+                        <input type="text" id="inputNewStambuk" placeholder="Contoh: 2024002" class="flex-grow px-3 py-1.5 bg-gray-50 border rounded-lg text-xs font-bold">
+                        <button onclick="tambahAnakRelasi()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg">Tambah</button>
+                    </div>
+                    <div id="listAnakDipantau" class="max-h-40 overflow-y-auto space-y-1.5 pt-1"></div>
+                </div>
+
+                <!-- TOMBOL LOGOUT -->
+                <button onclick="prosesLogout()" class="w-full bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs py-3 rounded-xl border border-red-200 transition">
+                    🚪 Keluar dari Akun
+                </button>
+            </div>
+
+        </main>
+
+        <!-- BOTTOM NAVIGATION BAR (3 MENU UTAMA) -->
+        <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-gray-200 px-6 py-2 flex justify-around items-center z-50">
+            <button id="navBtnProfil" onclick="switchNavMenu('profil')" class="flex flex-col items-center text-indigo-600 font-bold transition">
+                <i class="fa-solid fa-address-card text-lg"></i>
+                <span class="text-[10px] mt-1">Profil</span>
+            </button>
+            <button id="navBtnPaket" onclick="switchNavMenu('paket')" class="flex flex-col items-center text-gray-400 hover:text-indigo-600 transition">
+                <i class="fa-solid fa-box-open text-lg"></i>
+                <span class="text-[10px] mt-1">Kelola Paket</span>
+            </button>
+            <button id="navBtnAkun" onclick="switchNavMenu('akun')" class="flex flex-col items-center text-gray-400 hover:text-indigo-600 transition">
+                <i class="fa-solid fa-user-gear text-lg"></i>
+                <span class="text-[10px] mt-1">Kelola Akun</span>
+            </button>
+        </nav>
     </div>
 
     <!-- MODAL ALERT -->
@@ -172,7 +222,8 @@
         let SESSION_USER_DATA = null;
         let LIST_STAMBUK_WALI = []; 
         let activeStambukSelected = ""; 
-        let activeTabStatus = "belum"; 
+        let activeTabStatusPaket = "belum"; 
+        let currentNavActive = "profil";
 
         window.addEventListener('DOMContentLoaded', async () => {
             const { data: { session } } = await _supabase.auth.getSession();
@@ -235,11 +286,11 @@
                     `).join('');
                     box.classList.remove('hidden');
                 } else {
-                    box.innerHTML = `<div class="px-3 py-2 text-xs text-gray-400 italic">Nama tidak ditemukan, tetap gunakan ketikan Anda</div>`;
+                    box.innerHTML = `<div class="px-3 py-2 text-xs text-gray-400 italic">Nama tidak ditemukan</div>`;
                     box.classList.remove('hidden');
                 }
             } catch(e) {
-                console.error("Gagal memuat data sugesti guru:", e);
+                console.error(e);
             }
         }
 
@@ -248,10 +299,34 @@
             document.getElementById('sugestiGuruBox').classList.add('hidden');
         }
 
-        function switchTabStatus(tab) {
-            activeTabStatus = tab;
-            const btnBelum = document.getElementById('tabBelum');
-            const btnSudah = document.getElementById('tabSudah');
+        // NAVIGASI BOTTOM BAR
+        function switchNavMenu(menu) {
+            currentNavActive = menu;
+            document.getElementById('tabContentProfil').classList.add('hidden');
+            document.getElementById('tabContentPaket').classList.add('hidden');
+            document.getElementById('tabContentAkun').classList.add('hidden');
+
+            document.getElementById('navBtnProfil').className = "flex flex-col items-center text-gray-400 hover:text-indigo-600 transition";
+            document.getElementById('navBtnPaket').className = "flex flex-col items-center text-gray-400 hover:text-indigo-600 transition";
+            document.getElementById('navBtnAkun').className = "flex flex-col items-center text-gray-400 hover:text-indigo-600 transition";
+
+            if (menu === 'profil') {
+                document.getElementById('tabContentProfil').classList.remove('hidden');
+                document.getElementById('navBtnProfil').className = "flex flex-col items-center text-indigo-600 font-bold transition";
+            } else if (menu === 'paket') {
+                document.getElementById('tabContentPaket').classList.remove('hidden');
+                document.getElementById('navBtnPaket').className = "flex flex-col items-center text-indigo-600 font-bold transition";
+                muatDataPaketDashboard();
+            } else if (menu === 'akun') {
+                document.getElementById('tabContentAkun').classList.remove('hidden');
+                document.getElementById('navBtnAkun').className = "flex flex-col items-center text-indigo-600 font-bold transition";
+            }
+        }
+
+        function switchTabStatusPaket(tab) {
+            activeTabStatusPaket = tab;
+            const btnBelum = document.getElementById('subTabBelum');
+            const btnSudah = document.getElementById('subTabSudah');
             const listTitle = document.getElementById('listTitleText');
 
             if (tab === 'belum') {
@@ -274,49 +349,40 @@
             const namaGuru = document.getElementById('regNamaGuru').value.trim();
 
             if (!email || !password) {
-                tampilkanAlertWali("Email dan Password tidak boleh kosong.");
+                tampilkanAlertWali("Email dan Password wajib diisi.");
                 return;
             }
             if (role === 'wali' && !stambuk) {
-                tampilkanAlertWali("Pendaftaran Gagal: Wali santri wajib memasukkan 1 nomor stambuk anak pertama.");
+                tampilkanAlertWali("Wali santri wajib memasukkan stambuk anak.");
                 return;
             }
             if (role === 'guru' && !namaGuru) {
-                tampilkanAlertWali("Mohon isi atau pilih nama lengkap Guru.");
+                tampilkanAlertWali("Pilih/isi nama lengkap Guru.");
                 return;
             }
             try {
-                const { data: authData, error: authError } = await _supabase.auth.signUp({
-                    email: email,
-                    password: password
-                });
+                const { data: authData, error: authError } = await _supabase.auth.signUp({ email, password });
                 if (authError) throw authError;
+
                 if (authData.user) {
-                    const { error: profileError } = await _supabase
-                        .from('profil_pengguna')
-                        .insert([{
-                            id: authData.user.id,
-                            role: role,
-                            identitas_kunci: role === 'wali' ? stambuk : namaGuru,
-                            email: email
-                        }]);
-                    if (profileError) throw profileError;
+                    await _supabase.from('profil_pengguna').insert([{
+                        id: authData.user.id,
+                        role: role,
+                        identitas_kunci: role === 'wali' ? stambuk : namaGuru,
+                        email: email
+                    }]);
 
                     if (role === 'wali') {
-                        const { error: relasiError } = await _supabase
-                            .from('relasi_wali_santri')
-                            .insert([{
-                                user_id: authData.user.id,
-                                stambuk_anak: stambuk
-                            }]);
-                        if (relasiError) throw relasiError;
+                        await _supabase.from('relasi_wali_santri').insert([{
+                            user_id: authData.user.id,
+                            stambuk_anak: stambuk
+                        }]);
                     }
 
-                    tampilkanAlertWali("Pendaftaran Akun Berhasil! Silakan masuk dengan akun baru Anda.");
+                    tampilkanAlertWali("Pendaftaran Akun Berhasil! Silakan masuk.");
                     switchForm('login');
                 }
             } catch (err) {
-                console.error(err);
                 tampilkanAlertWali("Gagal Mendaftar: " + err.message);
             }
         }
@@ -325,20 +391,16 @@
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
             if (!email || !password) {
-                tampilkanAlertWali("Mohon isi email dan password Anda.");
+                tampilkanAlertWali("Mohon isi email dan password.");
                 return;
             }
             try {
-                const { data, error } = await _supabase.auth.signInWithPassword({
-                    email: email,
-                    password: password
-                });
+                const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
                 if (error) throw error;
                 if (data.user) {
                     fetchProfilDanBukaDashboard(data.user);
                 }
             } catch (err) {
-                console.error(err);
                 tampilkanAlertWali("Gagal Masuk: Kredensial salah.");
             }
         }
@@ -352,25 +414,26 @@
                     .single();
                 if (error) throw error;
                 SESSION_USER_DATA = profil;
+
                 document.getElementById('screenAuth').classList.add('hidden');
                 document.getElementById('screenDashboard').classList.remove('hidden');
-                
+
+                document.getElementById('akunEmail').innerText = profil.email;
+                document.getElementById('akunRole').innerText = profil.role === 'wali' ? 'Wali Santri' : 'Dewan Guru';
+
                 if (profil.role === 'wali') {
-                    document.getElementById('dashBadgeRole').innerText = "WALI SANTRI";
-                    document.getElementById('dashBadgeRole').className = "text-[10px] bg-amber-100 text-amber-800 font-bold px-2.5 py-0.5 rounded-full";
-                    document.getElementById('btnKelolaAnak').classList.remove('hidden'); 
+                    document.getElementById('welcomeBadgeRole').innerText = "WALI SANTRI";
+                    document.getElementById('boxKelolaAnakWali').classList.remove('hidden');
                     await muatDaftarStambukRelasi();
                 } else {
-                    document.getElementById('dashBadgeRole').innerText = "DEWAN GURU";
-                    document.getElementById('dashBadgeRole').className = "text-[10px] bg-green-100 text-green-800 font-bold px-2.5 py-0.5 rounded-full";
-                    document.getElementById('dashNamaUser').innerText = profil.identitas_kunci;
-                    document.getElementById('dashSubInfo').innerText = "Portal Logistik Guru Pesantren";
-                    document.getElementById('btnKelolaAnak').classList.add('hidden'); 
-                    document.getElementById('wrapperTabAnak').classList.add('hidden');
-                    muatDataPaketDashboard();
+                    document.getElementById('welcomeBadgeRole').innerText = "DEWAN GURU";
+                    document.getElementById('welcomeGreeting').innerText = `Selamat Datang, ${profil.identitas_kunci}`;
+                    document.getElementById('boxKelolaAnakWali').classList.add('hidden');
+                    await muatDetailProfilGuru(profil.identitas_kunci);
                 }
+                
+                switchNavMenu('profil');
             } catch (err) {
-                console.error(err);
                 tampilkanAlertWali("Gagal memuat profil pengguna.");
             }
         }
@@ -384,20 +447,20 @@
                 if (error) throw error;
                 
                 LIST_STAMBUK_WALI = relasi.map(r => r.stambuk_anak);
-                
+                renderDaftarAnakModal();
+
                 if (LIST_STAMBUK_WALI.length > 0) {
                     if (!activeStambukSelected || !LIST_STAMBUK_WALI.includes(activeStambukSelected)) {
                         activeStambukSelected = LIST_STAMBUK_WALI[0];
                     }
                     buatNavigasiTabAnak();
+                    await muatDetailProfilSantri(activeStambukSelected);
                 } else {
                     activeStambukSelected = "";
                     document.getElementById('wrapperTabAnak').classList.add('hidden');
-                    document.getElementById('dashNamaUser').innerText = "Belum Ada Anak";
-                    document.getElementById('dashSubInfo').innerText = "Tambahkan stambuk lewat tombol Kelola Anak.";
+                    document.getElementById('profNama').innerText = "Belum Ada Anak";
+                    document.getElementById('profSubTitle').innerText = "Tambahkan stambuk di menu Kelola Akun.";
                 }
-                
-                await muatDataPaketDashboard();
             } catch (err) {
                 console.error(err);
             }
@@ -405,15 +468,16 @@
 
         function buatNavigasiTabAnak() {
             const container = document.getElementById('wrapperTabAnak');
+            if (LIST_STAMBUK_WALI.length <= 1) {
+                container.classList.add('hidden');
+                return;
+            }
             container.classList.remove('hidden');
-            
             container.innerHTML = LIST_STAMBUK_WALI.map(stambuk => {
                 const isSelected = stambuk === activeStambukSelected;
                 return `
                     <button onclick="pilihAnakTab('${stambuk}')" class="px-3 py-1.5 text-xs font-bold rounded-lg border transition shrink-0 ${
-                        isSelected 
-                            ? 'bg-indigo-900 text-white border-indigo-900' 
-                            : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50'
+                        isSelected ? 'bg-indigo-900 text-white border-indigo-900' : 'bg-white text-gray-600 border-gray-300'
                     }">
                         👶 Stambuk ${stambuk}
                     </button>
@@ -421,13 +485,73 @@
             }).join('');
         }
 
-        function pilihAnakTab(stambuk) {
+        async function pilihAnakTab(stambuk) {
             activeStambukSelected = stambuk;
             buatNavigasiTabAnak();
-            muatDataPaketDashboard();
+            await muatDetailProfilSantri(stambuk);
+            if (currentNavActive === 'paket') {
+                muatDataPaketDashboard();
+            }
         }
 
-        // === MEMBACA DATA PAKET SESUAI PROFIL DENGAN PENANGANAN NAMA KOLOM MULTI-DATABASE ===
+        // AMBIL PROFIL SANTRI DARI TABEL `mahasiswa` (Tanpa Kolom Orang Tua)
+        async function muatDetailProfilSantri(stambuk) {
+            try {
+                const { data, error } = await _supabase
+                    .from('mahasiswa')
+                    .select('*')
+                    .eq('stambuk', stambuk)
+                    .single();
+
+                if (data) {
+                    document.getElementById('welcomeGreeting').innerText = `Wali Santri dari ${data.nama}`;
+                    document.getElementById('profNama').innerText = data.nama;
+                    document.getElementById('profSubTitle').innerText = `Santri Aktif - Stambuk ${data.stambuk}`;
+                    
+                    document.getElementById('profDetail1').innerText = data.stambuk || '-';
+                    document.getElementById('profDetail2').innerText = data.kelas || '-';
+                    document.getElementById('profDetail3').innerText = data.rayon || '-';
+                    document.getElementById('profDetail4').innerText = data.daerah || '-';
+                } else {
+                    document.getElementById('welcomeGreeting').innerText = `Wali Santri (${stambuk})`;
+                    document.getElementById('profNama').innerText = `Stambuk: ${stambuk}`;
+                    document.getElementById('profSubTitle').innerText = "Data detail santri tidak ditemukan";
+                    
+                    document.getElementById('profDetail1').innerText = stambuk;
+                    document.getElementById('profDetail2').innerText = '-';
+                    document.getElementById('profDetail3').innerText = '-';
+                    document.getElementById('profDetail4').innerText = '-';
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        // AMBIL PROFIL GURU DARI TABEL `guru`
+        async function muatDetailProfilGuru(namaGuru) {
+            try {
+                const { data, error } = await _supabase
+                    .from('guru')
+                    .select('*')
+                    .eq('Nama', namaGuru)
+                    .single();
+
+                document.getElementById('profNama').innerText = namaGuru;
+                document.getElementById('profSubTitle').innerText = "Dewan Guru / Ustadz";
+                document.getElementById('iconProfilHead').className = "fa-solid fa-user-tie";
+
+                if (data) {
+                    document.getElementById('profDetail1').innerText = data.RNK ? `RNK: ${data.RNK}` : '-';
+                    document.getElementById('profDetail2').innerText = data.Tahun ? `Tahun ${data.Tahun}` : '-';
+                    document.getElementById('profDetail3').innerText = data.Kamar || '-';
+                    document.getElementById('profDetail4').innerText = 'Pondok Modern';
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        // BACA KELOLA PAKET
         async function muatDataPaketDashboard() {
             if (!SESSION_USER_DATA) return;
             const wrapperList = document.getElementById('wrapperListPaketDashboard');
@@ -436,25 +560,10 @@
             const isGuru = SESSION_USER_DATA.role === 'guru';
 
             try {
-                if (!isGuru && activeStambukSelected) {
-                    const { data: paketSiswa, error: errSiswa } = await _supabase
-                        .from('paket')
-                        .select('nama')
-                        .eq('stambuk', activeStambukSelected)
-                        .limit(1);
-                    
-                    if (!errSiswa && paketSiswa && paketSiswa.length > 0) {
-                        document.getElementById('dashNamaUser').innerText = "Ayah / Bunda " + paketSiswa[0].nama;
-                    } else {
-                        document.getElementById('dashNamaUser').innerText = "Wali Santri (Stambuk: " + activeStambukSelected + ")";
-                    }
-                    document.getElementById('dashSubInfo').innerText = "Memantau Paket Stambuk: " + activeStambukSelected;
-                }
-
                 let query = _supabase.from('paket').select('*');
                 if (!isGuru) {
                     if (!activeStambukSelected) {
-                        wrapperList.innerHTML = `<div class="p-6 bg-white rounded-xl text-center text-xs text-gray-400 border border-dashed">Belum ada stambuk anak yang terhubung</div>`;
+                        wrapperList.innerHTML = `<div class="p-6 bg-white rounded-xl text-center text-xs text-gray-400 border border-dashed">Belum ada stambuk anak terhubung</div>`;
                         return;
                     }
                     query = query.eq('stambuk', activeStambukSelected);
@@ -470,7 +579,7 @@
                 document.getElementById('statBelumDiambil').innerText = belumDiambilCount;
                 document.getElementById('statSudahDiambil').innerText = sudahDiambilCount;
 
-                const filteredData = data.filter(p => activeTabStatus === "belum" ? p.status === 'Belum Diambil' : p.status === 'Sudah Diambil');
+                const filteredData = data.filter(p => activeTabStatusPaket === "belum" ? p.status === 'Belum Diambil' : p.status === 'Sudah Diambil');
 
                 if (!filteredData || filteredData.length === 0) {
                     wrapperList.innerHTML = `<div class="p-6 bg-white rounded-xl text-center text-xs text-gray-400 border border-dashed">Tidak ada data paket pada kategori ini</div>`;
@@ -479,8 +588,6 @@
 
                 wrapperList.innerHTML = filteredData.map(p => {
                     const isBelumDiambil = p.status === 'Belum Diambil';
-                    
-                    // PENANGANAN PENAMAAN KOLOM SUPABASE (Mencegah bernilai Kosong / Null)
                     const subIdentitas = isGuru 
                         ? `Tahun: ${p.tahun || p.Tahun || '-'} | Kamar: ${p.kamar || p.Kamar || '-'}` 
                         : `Stambuk: ${p.stambuk || '-'} ${p.kelas ? '| Kelas: '+p.kelas : ''}`;
@@ -494,7 +601,7 @@
                             <div class="flex justify-between items-start">
                                 <div>
                                     <h4 class="font-bold text-sm text-gray-800">${p.nama || '-'}</h4>
-                                    <p class="text-xs text-gray-500 font-medium">${subIdentitas}</p>
+                                    <p class="text-[11px] text-gray-500 font-medium">${subIdentitas}</p>
                                 </div>
                                 <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-md ${
                                     isBelumDiambil ? 'bg-amber-100 text-amber-800' : 'bg-green-100 text-green-800'
@@ -526,22 +633,13 @@
                 }).join('');
             } catch (err) {
                 console.error(err);
-                tampilkanAlertWali("Gagal memuat data paket.");
             }
-        }
-
-        async function bukaModalKelolaAnak() {
-            document.getElementById('modalKelolaAnak').classList.remove('hidden');
-            renderDaftarAnakModal();
-        }
-
-        function tutupModalKelolaAnak() {
-            document.getElementById('modalKelolaAnak').classList.add('hidden');
         }
 
         async function renderDaftarAnakModal() {
             const listContainer = document.getElementById('listAnakDipantau');
-            listContainer.innerHTML = `<p class="text-xs text-gray-400 text-center py-2">Memuat data...</p>`;
+            if (!listContainer) return;
+
             try {
                 const { data, error } = await _supabase
                     .from('relasi_wali_santri')
@@ -579,15 +677,15 @@
                 document.getElementById('inputNewStambuk').value = '';
                 
                 activeStambukSelected = inputVal; 
-                await renderDaftarAnakModal();
                 await muatDaftarStambukRelasi(); 
+                tampilkanAlertWali(`Berhasil menambahkan stambuk ${inputVal}`);
             } catch (err) {
                 tampilkanAlertWali("Gagal menambahkan: " + err.message);
             }
         }
 
         async function hapusAnakRelasi(idRelasi, stambukDihapus) {
-            if(!confirm(`Apakah Anda yakin ingin berhenti memantau stambuk ${stambukDihapus}?`)) return;
+            if(!confirm(`Yakin ingin menghapus stambuk ${stambukDihapus}?`)) return;
             try {
                 const { error } = await _supabase
                     .from('relasi_wali_santri')
@@ -598,8 +696,6 @@
                 if (activeStambukSelected === stambukDihapus) {
                     activeStambukSelected = ""; 
                 }
-                
-                await renderDaftarAnakModal();
                 await muatDaftarStambukRelasi(); 
             } catch (err) {
                 tampilkanAlertWali("Gagal menghapus: " + err.message);
