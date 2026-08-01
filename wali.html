@@ -10,8 +10,22 @@
 </head>
 <body class="bg-gray-100 min-h-screen text-gray-800 font-sans flex justify-center items-center">
 
-    <!-- CONTAINER UTAMA MOCKUP APPS (Dibuat Max Mobile-Width) -->
+    <!-- CONTAINER UTAMA MOCKUP APPS -->
     <div class="w-full max-w-md bg-white min-h-screen shadow-2xl relative overflow-hidden flex flex-col">
+
+        <!-- ================= BANNER NOTIFIKASI PAKET REALTIME ================= -->
+        <div id="toastNotifikasiPaket" class="fixed top-4 right-4 left-4 max-w-sm mx-auto bg-indigo-900 text-white p-4 rounded-2xl shadow-2xl z-50 transform -translate-y-32 transition-transform duration-500 flex items-center justify-between border border-indigo-500">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center font-bold text-lg animate-bounce">
+                    📦
+                </div>
+                <div>
+                    <h5 class="text-xs font-extrabold text-amber-300 uppercase tracking-wider">Paket Baru Masuk!</h5>
+                    <p id="toastPaketText" class="text-xs text-gray-200">Ada paket baru telah tiba di tempat penyimpanan.</p>
+                </div>
+            </div>
+            <button onclick="tutupToast()" class="text-gray-400 hover:text-white text-sm pl-2">✕</button>
+        </div>
 
         <!-- ================= 1. SCREEN AUTHENTICATION ================= -->
         <div id="screenAuth" class="p-6 my-auto">
@@ -71,19 +85,19 @@
             </div>
         </div>
 
-        <!-- ================= 2. DASHBOARD APPS (SETELAH LOGIN) ================= -->
+        <!-- ================= 2. DASHBOARD APPS ================= -->
         <div id="screenDashboard" class="w-full h-full min-h-screen flex flex-col relative hidden">
 
-            <!-- TOMBOL TITIK TIGA (FLOATING IN LEFT CORNER) -->
+            <!-- TOMBOL TITIK TIGA DENGAN INDIKATOR BADGE NOTIFIKASI -->
             <button onclick="toggleSidebarMenu()" class="absolute top-4 left-4 z-40 bg-black/40 hover:bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md shadow-lg transition">
                 <i class="fa-solid fa-ellipsis-vertical text-lg"></i>
+                <span id="badgeNotifMenu" class="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full hidden">NEW</span>
             </button>
 
-            <!-- SIDEBAR NAVIGASI MENU (DRAWER KIRI) -->
+            <!-- SIDEBAR NAVIGASI MENU -->
             <div id="sidebarOverlay" onclick="toggleSidebarMenu()" class="fixed inset-0 bg-black/60 z-40 hidden transition-opacity"></div>
             <div id="sidebarMenu" class="fixed top-0 left-0 bottom-0 w-64 bg-slate-900 text-white z-50 transform -translate-x-full transition-transform duration-300 ease-in-out p-5 flex flex-col justify-between shadow-2xl">
                 <div>
-                    <!-- Header Sidebar -->
                     <div class="flex items-center gap-3 border-b border-slate-800 pb-4 mb-4">
                         <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center font-bold text-white">
                             <i class="fa-solid fa-user-circle text-xl"></i>
@@ -94,7 +108,6 @@
                         </div>
                     </div>
 
-                    <!-- List Pilihan Tab Navigasi -->
                     <nav class="space-y-2">
                         <button onclick="navigateTab('welcome')" id="sbBtnWelcome" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold bg-indigo-600 text-white transition">
                             <i class="fa-solid fa-house w-5"></i> Beranda (Welcome)
@@ -102,8 +115,9 @@
                         <button onclick="navigateTab('profil')" id="sbBtnProfil" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 transition">
                             <i class="fa-solid fa-id-card w-5"></i> Profil Detail
                         </button>
-                        <button onclick="navigateTab('paket')" id="sbBtnPaket" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 transition">
+                        <button onclick="navigateTab('paket')" id="sbBtnPaket" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 transition relative">
                             <i class="fa-solid fa-boxes-stacked w-5"></i> Kelola Paket
+                            <span id="badgeNotifPaketTab" class="ml-auto bg-amber-500 text-slate-900 text-[10px] font-extrabold px-1.5 py-0.2 rounded-full hidden">●</span>
                         </button>
                         <button onclick="navigateTab('akun')" id="sbBtnAkun" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 transition">
                             <i class="fa-solid fa-users-gear w-5"></i> Kelola & Pindah Akun
@@ -112,31 +126,25 @@
                 </div>
 
                 <div class="text-[10px] text-slate-500 text-center border-t border-slate-800 pt-3">
-                    Portal Logistik v2.0
+                    Portal Logistik v2.5 (Realtime Active)
                 </div>
             </div>
 
-            <!-- ================= KONTEN HALAMAN ================= -->
-
-            <!-- HALAMAN 1: WELCOME SCREEN (FULL PAGE) -->
+            <!-- HALAMAN 1: WELCOME SCREEN -->
             <div id="pageWelcome" class="relative min-h-screen flex flex-col justify-between p-6 bg-slate-900 text-white overflow-hidden">
-                <!-- Foto Banner Gontor dari Atas (Background Full Page) -->
                 <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80" alt="Gontor Overview" class="absolute inset-0 w-full h-full object-cover opacity-50 scale-105">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-black/30"></div>
 
-                <!-- Bagian Atas -->
                 <div class="relative z-10 pt-12">
                     <span id="welcBadgeRole" class="text-[10px] uppercase tracking-widest font-extrabold px-2.5 py-1 rounded bg-amber-500 text-slate-900">WALI SANTRI</span>
                 </div>
 
-                <!-- Bagian Tengah / Ucapan -->
                 <div class="relative z-10 my-auto space-y-3">
                     <p class="text-xs uppercase tracking-wider text-indigo-300 font-semibold">Selamat Datang di Portal Logistik</p>
-                    <h1 id="welcNameText" class="text-2xl font-black leading-tight text-white drop-shadow-md">AHMAD ZAKI</h1>
+                    <h1 id="welcNameText" class="text-2xl font-black leading-tight text-white drop-shadow-md">MEMUAT...</h1>
                     <p id="welcSubText" class="text-xs text-gray-300 leading-relaxed max-w-xs">Pantau keberadaan dan riwayat penerimaan paket secara langsung dan transparan.</p>
                 </div>
 
-                <!-- Bagian Bawah / Aksi -->
                 <div class="relative z-10 space-y-3 pb-6">
                     <button onclick="navigateTab('paket')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition">
                         <i class="fa-solid fa-box-open"></i> Lihat Kiriman Paket Sekarang
@@ -147,9 +155,13 @@
                 </div>
             </div>
 
-            <!-- HALAMAN 2: PROFIL (SUSUNAN VERTIKAL KE BAWAH) -->
-            <div id="pageProfil" class="p-6 pt-16 flex-grow space-y-5 bg-gray-50 hidden">
-                <div class="text-center border-b pb-4">
+            <!-- HALAMAN 2: PROFIL (EDIT DUA ARAH & NAMA ORANG TUA) -->
+            <div id="pageProfil" class="p-6 pt-16 pb-12 flex-grow space-y-5 bg-gray-50 hidden overflow-y-auto">
+                <div class="text-center border-b pb-4 relative">
+                    <button onclick="bukaModalEditProfil()" class="absolute top-0 right-0 bg-indigo-100 hover:bg-indigo-200 text-indigo-900 p-2 rounded-xl text-xs font-bold transition flex items-center gap-1">
+                        <i class="fa-solid fa-pen-to-square"></i> Edit
+                    </button>
+
                     <div class="w-16 h-16 bg-indigo-900 text-amber-400 rounded-full flex items-center justify-center mx-auto mb-2 text-2xl font-bold shadow-md">
                         <i class="fa-solid fa-user-graduate" id="iconProfilHead"></i>
                     </div>
@@ -157,16 +169,15 @@
                     <p class="text-xs text-indigo-600 font-medium" id="profSubTitle">-</p>
                 </div>
 
-                <!-- PILIHAN ANAK JIKA WALI MULTI-STAMBUK -->
                 <div id="wrapperTabAnak" class="flex gap-2 overflow-x-auto pb-1 hidden"></div>
 
-                <!-- LIST BIODATA RUNTUT VERTIKAL KE BAWAH -->
+                <!-- LIST BIODATA VERTIKAL BERUTUT KE BAWAH -->
                 <div class="space-y-3">
                     <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Biodata Lengkap</h3>
                     
                     <div class="bg-white p-3.5 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
                         <div>
-                            <p class="text-[10px] text-gray-400 font-semibold uppercase">1. Nomor Stambuk</p>
+                            <p class="text-[10px] text-gray-400 font-semibold uppercase">1. ID / Stambuk</p>
                             <p class="text-sm font-bold text-gray-800 mt-0.5" id="profDetail1">-</p>
                         </div>
                         <i class="fa-solid fa-id-badge text-gray-300 text-lg"></i>
@@ -180,9 +191,18 @@
                         <i class="fa-solid fa-user text-gray-300 text-lg"></i>
                     </div>
 
+                    <!-- POIN BARU: NAMA ORANG TUA / WALI -->
                     <div class="bg-white p-3.5 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
                         <div>
-                            <p class="text-[10px] text-gray-400 font-semibold uppercase">3. Kelas / Tingkat</p>
+                            <p class="text-[10px] text-gray-400 font-semibold uppercase">3. Nama Orang Tua / Wali</p>
+                            <p class="text-sm font-bold text-indigo-900 mt-0.5" id="profDetailOrangTua">-</p>
+                        </div>
+                        <i class="fa-solid fa-people-roof text-gray-300 text-lg"></i>
+                    </div>
+
+                    <div class="bg-white p-3.5 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-[10px] text-gray-400 font-semibold uppercase">4. Kelas / Jabatan</p>
                             <p class="text-sm font-bold text-gray-800 mt-0.5" id="profDetail2">-</p>
                         </div>
                         <i class="fa-solid fa-school text-gray-300 text-lg"></i>
@@ -190,7 +210,7 @@
 
                     <div class="bg-white p-3.5 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
                         <div>
-                            <p class="text-[10px] text-gray-400 font-semibold uppercase">4. Rayon / Asrama & Kamar</p>
+                            <p class="text-[10px] text-gray-400 font-semibold uppercase">5. Rayon / Asrama & Kamar</p>
                             <p class="text-sm font-bold text-gray-800 mt-0.5" id="profDetail3">-</p>
                         </div>
                         <i class="fa-solid fa-building text-gray-300 text-lg"></i>
@@ -198,10 +218,18 @@
 
                     <div class="bg-white p-3.5 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
                         <div>
-                            <p class="text-[10px] text-gray-400 font-semibold uppercase">5. Konsulat / Asal Daerah</p>
+                            <p class="text-[10px] text-gray-400 font-semibold uppercase">6. Konsulat / Asal Daerah</p>
                             <p class="text-sm font-bold text-gray-800 mt-0.5" id="profDetail4">-</p>
                         </div>
                         <i class="fa-solid fa-map-location-dot text-gray-300 text-lg"></i>
+                    </div>
+
+                    <div class="bg-white p-3.5 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-[10px] text-gray-400 font-semibold uppercase">7. Kontak / WhatsApp</p>
+                            <p class="text-sm font-bold text-gray-800 mt-0.5" id="profDetailHP">-</p>
+                        </div>
+                        <i class="fa-brands fa-whatsapp text-gray-300 text-lg"></i>
                     </div>
                 </div>
             </div>
@@ -213,35 +241,30 @@
                     <button onclick="muatDataPaketDashboard()" class="text-xs text-indigo-600 font-bold hover:underline">Segarkan 🔄</button>
                 </div>
 
-                <!-- SUB-TAB BELUM / SUDAH -->
                 <div class="bg-gray-200 p-1 rounded-xl grid grid-cols-2 text-center text-xs font-bold">
                     <button id="subTabBelum" onclick="switchTabStatusPaket('belum')" class="py-2.5 rounded-lg bg-white text-indigo-900 shadow-sm">📦 Belum Diambil</button>
                     <button id="subTabSudah" onclick="switchTabStatusPaket('sudah')" class="py-2.5 rounded-lg text-gray-600">📜 Riwayat Selesai</button>
                 </div>
 
-                <!-- DAFTAR PAKET -->
                 <div id="wrapperListPaketDashboard" class="space-y-3"></div>
             </div>
 
-            <!-- HALAMAN 4: KELOLA AKUN & PINDAH AKUN (MULTI-ACCOUNT) -->
+            <!-- HALAMAN 4: KELOLA AKUN -->
             <div id="pageAkun" class="p-6 pt-16 flex-grow space-y-5 bg-gray-50 hidden">
                 <div>
                     <h2 class="text-sm font-bold text-gray-800 uppercase tracking-wider">Kelola & Pindah Akun</h2>
                     <p class="text-xs text-gray-500">Pilih akun tersimpan di bawah ini untuk berpindah sesi secara langsung.</p>
                 </div>
 
-                <!-- LIST AKUN TERSIMPAN -->
                 <div class="space-y-2">
                     <label class="text-[10px] font-bold text-gray-400 uppercase">Daftar Akun Tersimpan</label>
                     <div id="wrapperListAkunTersimpan" class="space-y-2"></div>
                 </div>
 
-                <!-- TAMBAH AKUN BARU -->
                 <button onclick="tambahAkunBaru()" class="w-full bg-indigo-50 border border-indigo-200 hover:bg-indigo-100 text-indigo-900 font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 transition">
                     <i class="fa-solid fa-user-plus"></i> Tambah / Login Akun Lain
                 </button>
 
-                <!-- KHUSUS WALI: KELOLA MULTI STAMBUK ANAK -->
                 <div id="boxKelolaAnakWali" class="bg-white p-4 rounded-2xl border border-gray-200 shadow-sm space-y-3 hidden">
                     <h3 class="text-xs font-bold text-gray-400 uppercase">Kelola Stambuk Anak Dipantau</h3>
                     <div class="flex gap-2">
@@ -251,12 +274,53 @@
                     <div id="listAnakDipantau" class="max-h-40 overflow-y-auto space-y-1.5 pt-1"></div>
                 </div>
 
-                <!-- LOGOUT TOTAL -->
                 <button onclick="keluarSesiIni()" class="w-full bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs py-3 rounded-xl border border-red-200 transition">
                     🚪 Hapus Sesi Akun Ini
                 </button>
             </div>
 
+        </div>
+    </div>
+
+    <!-- ================= MODAL EDIT PROFIL DUA ARAH ================= -->
+    <div id="modalEditProfil" class="fixed inset-0 bg-black/60 z-50 flex justify-center items-center p-4 hidden">
+        <div class="bg-white p-5 rounded-2xl w-full max-w-sm space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 class="text-sm font-bold text-gray-800">Edit Profil (Live Update)</h3>
+                <button onclick="tutupModalEditProfil()" class="text-gray-400 hover:text-gray-600 text-sm">✕</button>
+            </div>
+
+            <div class="space-y-3">
+                <div>
+                    <label class="text-[10px] font-bold text-gray-400 block mb-1">Nama Lengkap</label>
+                    <input type="text" id="editNama" class="w-full px-3 py-2 bg-gray-50 border rounded-lg text-xs font-bold">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-gray-400 block mb-1">Nama Orang Tua / Wali</label>
+                    <input type="text" id="editOrangTua" placeholder="Contoh: Bpk. H. Ahmad & Ibu Siti" class="w-full px-3 py-2 bg-gray-50 border rounded-lg text-xs font-bold">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-gray-400 block mb-1">Kelas / Jabatan</label>
+                    <input type="text" id="editKelas" class="w-full px-3 py-2 bg-gray-50 border rounded-lg text-xs">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-gray-400 block mb-1">Rayon / Kamar</label>
+                    <input type="text" id="editRayon" class="w-full px-3 py-2 bg-gray-50 border rounded-lg text-xs">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-gray-400 block mb-1">Konsulat / Daerah</label>
+                    <input type="text" id="editDaerah" class="w-full px-3 py-2 bg-gray-50 border rounded-lg text-xs">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-gray-400 block mb-1">Nomor WhatsApp / HP</label>
+                    <input type="text" id="editHP" placeholder="0812xxxx" class="w-full px-3 py-2 bg-gray-50 border rounded-lg text-xs">
+                </div>
+            </div>
+
+            <div class="flex gap-2 pt-2">
+                <button onclick="tutupModalEditProfil()" class="w-1/2 bg-gray-100 text-gray-600 font-bold text-xs py-2 rounded-lg">Batal</button>
+                <button onclick="simpanEditProfil()" class="w-1/2 bg-indigo-900 hover:bg-indigo-800 text-white font-bold text-xs py-2 rounded-lg transition">Simpan Perubahan</button>
+            </div>
         </div>
     </div>
 
@@ -276,9 +340,11 @@
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let SESSION_USER_DATA = null;
+        let CURRENT_PROFIL_DATA = null;
         let LIST_STAMBUK_WALI = [];
         let activeStambukSelected = "";
         let activeTabStatusPaket = "belum";
+        let realtimeChannel = null;
 
         // INISIALISASI
         window.addEventListener('DOMContentLoaded', async () => {
@@ -347,7 +413,6 @@
             document.getElementById('sugestiGuruBox').classList.add('hidden');
         }
 
-        // TOGGLE SIDEBAR MENU (TITIK TIGA)
         function toggleSidebarMenu() {
             const sidebar = document.getElementById('sidebarMenu');
             const overlay = document.getElementById('sidebarOverlay');
@@ -362,16 +427,14 @@
             }
         }
 
-        // NAVIGASI HALAMAN
         function navigateTab(targetPage) {
-            toggleSidebarMenu(); // Tutup sidebar setelah pilih menu
+            toggleSidebarMenu();
 
             document.getElementById('pageWelcome').classList.add('hidden');
             document.getElementById('pageProfil').classList.add('hidden');
             document.getElementById('pagePaket').classList.add('hidden');
             document.getElementById('pageAkun').classList.add('hidden');
 
-            // Reset style button sidebar
             ['Welcome', 'Profil', 'Paket', 'Akun'].forEach(p => {
                 const btn = document.getElementById(`sbBtn${p}`);
                 if(btn) btn.className = "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 transition";
@@ -386,6 +449,10 @@
             } else if (targetPage === 'paket') {
                 document.getElementById('pagePaket').classList.remove('hidden');
                 document.getElementById('sbBtnPaket').className = "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold bg-indigo-600 text-white transition";
+                
+                // Hilangkan Badge Notif saat halaman paket dibuka
+                document.getElementById('badgeNotifMenu').classList.add('hidden');
+                document.getElementById('badgeNotifPaketTab').classList.add('hidden');
                 muatDataPaketDashboard();
             } else if (targetPage === 'akun') {
                 document.getElementById('pageAkun').classList.remove('hidden');
@@ -394,7 +461,7 @@
             }
         }
 
-        // AUTHENTICATION LOGIC
+        // REGISTER & LOGIN
         async function prosesRegister() {
             const role = document.getElementById('regRole').value;
             const email = document.getElementById('regEmail').value.trim();
@@ -447,7 +514,7 @@
             }
         }
 
-        // LOAD DATA DASHBOARD
+        // LOAD DATA DASHBOARD & PASANG REALTIME NOTIFIKASI PAKET
         async function fetchProfilDanBukaDashboard(authUser) {
             try {
                 const { data: profil, error } = await _supabase
@@ -477,17 +544,70 @@
                     await muatDetailProfilGuru(profil.identitas_kunci);
                 }
 
-                // Default ke Welcome Screen saat pertama masuk
+                // Pasang Realtime Listener untuk Notifikasi Paket Masuk
+                aktifkanRealtimeNotifikasi();
+
                 navigateTab('welcome');
             } catch (err) {
                 tampilkanAlertWali("Gagal memuat data profil.");
             }
         }
 
+        // NOTIFIKASI REALTIME PAKET MASUK (SUPABASE SUBSCRIPTION)
+        function aktifkanRealtimeNotifikasi() {
+            if (realtimeChannel) _supabase.removeChannel(realtimeChannel);
+
+            realtimeChannel = _supabase
+                .channel('notif-paket-masuk')
+                .on(
+                    'postgres_changes',
+                    { event: 'INSERT', schema: 'public', table: 'paket' },
+                    (payload) => {
+                        const newPaket = payload.new;
+                        const isGuru = SESSION_USER_DATA.role === 'guru';
+
+                        let cocok = false;
+                        if (!isGuru && LIST_STAMBUK_WALI.includes(String(newPaket.stambuk))) {
+                            cocok = true;
+                        } else if (isGuru && newPaket.nama === SESSION_USER_DATA.identitas_kunci) {
+                            cocok = true;
+                        }
+
+                        if (cocok) {
+                            pemicuNotifikasiPaket(newPaket);
+                        }
+                    }
+                )
+                .subscribe();
+        }
+
+        function pemicuNotifikasiPaket(paket) {
+            // Tampilkan Toast Notifikasi
+            const toast = document.getElementById('toastNotifikasiPaket');
+            document.getElementById('toastPaketText').innerText = `Paket ${paket.jenis_paket || ''} untuk ${paket.nama || 'Santri'} telah diterima di Rak ${paket.tempat || '-'}.`;
+            toast.classList.remove('-translate-y-32');
+
+            // Tampilkan Indikator Badge
+            document.getElementById('badgeNotifMenu').classList.remove('hidden');
+            document.getElementById('badgeNotifPaketTab').classList.remove('hidden');
+
+            // Play Alert Sound (opsional)
+            try {
+                const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+                audio.play();
+            } catch(e){}
+
+            setTimeout(() => { tutupToast(); }, 6000);
+        }
+
+        function tutupToast() {
+            document.getElementById('toastNotifikasiPaket').classList.add('-translate-y-32');
+        }
+
         async function muatDaftarStambukRelasi() {
             try {
                 const { data: relasi } = await _supabase.from('relasi_wali_santri').select('stambuk_anak').eq('user_id', SESSION_USER_DATA.id);
-                LIST_STAMBUK_WALI = relasi.map(r => r.stambuk_anak);
+                LIST_STAMBUK_WALI = relasi.map(r => String(r.stambuk_anak));
                 renderDaftarAnakModal();
 
                 if (LIST_STAMBUK_WALI.length > 0) {
@@ -526,10 +646,12 @@
             await muatDetailProfilSantri(stambuk);
         }
 
-        // LOAD DETAIL PROFIL SANTRI (Tampil Vertikal Runtut Ke Bawah)
+        // LOAD DETAIL PROFIL SANTRI
         async function muatDetailProfilSantri(stambuk) {
             try {
                 const { data } = await _supabase.from('mahasiswa').select('*').eq('stambuk', stambuk).single();
+
+                CURRENT_PROFIL_DATA = data || { stambuk };
 
                 if (data) {
                     document.getElementById('welcNameText').innerText = data.nama;
@@ -540,17 +662,21 @@
 
                     document.getElementById('profDetail1').innerText = data.stambuk || '-';
                     document.getElementById('profDetailNama').innerText = data.nama || '-';
+                    document.getElementById('profDetailOrangTua').innerText = data.orang_tua || 'Belum diisi';
                     document.getElementById('profDetail2').innerText = data.kelas || '-';
                     document.getElementById('profDetail3').innerText = data.rayon || '-';
                     document.getElementById('profDetail4').innerText = data.daerah || '-';
+                    document.getElementById('profDetailHP').innerText = data.hp || '-';
                 } else {
                     document.getElementById('welcNameText').innerText = `STAMBUK ${stambuk}`;
                     document.getElementById('profNama').innerText = `Stambuk: ${stambuk}`;
                     document.getElementById('profDetail1').innerText = stambuk;
                     document.getElementById('profDetailNama').innerText = '-';
+                    document.getElementById('profDetailOrangTua').innerText = '-';
                     document.getElementById('profDetail2').innerText = '-';
                     document.getElementById('profDetail3').innerText = '-';
                     document.getElementById('profDetail4').innerText = '-';
+                    document.getElementById('profDetailHP').innerText = '-';
                 }
             } catch (err) { console.error(err); }
         }
@@ -559,18 +685,86 @@
             try {
                 const { data } = await _supabase.from('guru').select('*').eq('Nama', namaGuru).single();
 
+                CURRENT_PROFIL_DATA = data || { Nama: namaGuru };
+
                 document.getElementById('profNama').innerText = namaGuru;
                 document.getElementById('profSubTitle').innerText = "Dewan Guru / Ustadz";
 
                 document.getElementById('profDetail1').innerText = data ? (data.RNK ? `RNK: ${data.RNK}` : '-') : '-';
                 document.getElementById('profDetailNama').innerText = namaGuru;
+                document.getElementById('profDetailOrangTua').innerText = data ? (data.orang_tua || 'Belum diisi') : '-';
                 document.getElementById('profDetail2').innerText = data ? (data.Tahun ? `Tahun ${data.Tahun}` : '-') : '-';
                 document.getElementById('profDetail3').innerText = data ? (data.Kamar || '-') : '-';
                 document.getElementById('profDetail4').innerText = 'Pondok Modern';
+                document.getElementById('profDetailHP').innerText = data ? (data.hp || '-') : '-';
             } catch (err) { console.error(err); }
         }
 
-        // LOAD KELOLA PAKET
+        // LOGIKA EDIT PROFIL DUA ARAH (LIVE UPDATE TO SUPABASE)
+        function bukaModalEditProfil() {
+            if(!CURRENT_PROFIL_DATA) return;
+
+            const isGuru = SESSION_USER_DATA.role === 'guru';
+
+            document.getElementById('editNama').value = isGuru ? (CURRENT_PROFIL_DATA.Nama || '') : (CURRENT_PROFIL_DATA.nama || '');
+            document.getElementById('editOrangTua').value = CURRENT_PROFIL_DATA.orang_tua || '';
+            document.getElementById('editKelas').value = isGuru ? (CURRENT_PROFIL_DATA.Tahun || '') : (CURRENT_PROFIL_DATA.kelas || '');
+            document.getElementById('editRayon').value = isGuru ? (CURRENT_PROFIL_DATA.Kamar || '') : (CURRENT_PROFIL_DATA.rayon || '');
+            document.getElementById('editDaerah').value = isGuru ? 'Pondok Modern' : (CURRENT_PROFIL_DATA.daerah || '');
+            document.getElementById('editHP').value = CURRENT_PROFIL_DATA.hp || '';
+
+            document.getElementById('modalEditProfil').classList.remove('hidden');
+        }
+
+        function tutupModalEditProfil() {
+            document.getElementById('modalEditProfil').classList.add('hidden');
+        }
+
+        async function simpanEditProfil() {
+            const isGuru = SESSION_USER_DATA.role === 'guru';
+
+            const namaVal = document.getElementById('editNama').value.trim();
+            const ortuVal = document.getElementById('editOrangTua').value.trim();
+            const kelasVal = document.getElementById('editKelas').value.trim();
+            const rayonVal = document.getElementById('editRayon').value.trim();
+            const daerahVal = document.getElementById('editDaerah').value.trim();
+            const hpVal = document.getElementById('editHP').value.trim();
+
+            try {
+                if (isGuru) {
+                    const { error } = await _supabase.from('guru').upsert([{
+                        Nama: SESSION_USER_DATA.identitas_kunci,
+                        orang_tua: ortuVal,
+                        Tahun: kelasVal,
+                        Kamar: rayonVal,
+                        hp: hpVal
+                    }], { onConflict: 'Nama' });
+
+                    if(error) throw error;
+                    await muatDetailProfilGuru(SESSION_USER_DATA.identitas_kunci);
+                } else {
+                    const { error } = await _supabase.from('mahasiswa').upsert([{
+                        stambuk: activeStambukSelected,
+                        nama: namaVal,
+                        orang_tua: ortuVal,
+                        kelas: kelasVal,
+                        rayon: rayonVal,
+                        daerah: daerahVal,
+                        hp: hpVal
+                    }], { onConflict: 'stambuk' });
+
+                    if(error) throw error;
+                    await muatDetailProfilSantri(activeStambukSelected);
+                }
+
+                tutupModalEditProfil();
+                tampilkanAlertWali("Profil berhasil diperbarui secara langsung!");
+            } catch (err) {
+                tampilkanAlertWali("Gagal memperbarui profil: " + err.message);
+            }
+        }
+
+        // KELOLA PAKET
         function switchTabStatusPaket(tab) {
             activeTabStatusPaket = tab;
             const btnBelum = document.getElementById('subTabBelum');
@@ -636,7 +830,7 @@
             } catch (err) { console.error(err); }
         }
 
-        // MULTI-ACCOUNT SWITCHER LOGIC
+        // MULTI-ACCOUNT SWITCHER
         function simpanKeMultiAccount(session) {
             let savedAccounts = JSON.parse(localStorage.getItem('saved_portal_accounts') || '[]');
             const existingIndex = savedAccounts.findIndex(a => a.user.id === session.user.id);
