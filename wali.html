@@ -132,7 +132,11 @@
 
             <!-- HALAMAN 1: WELCOME SCREEN -->
             <div id="pageWelcome" class="relative min-h-screen flex flex-col justify-between p-6 bg-slate-900 text-white overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80" alt="Overview" class="absolute inset-0 w-full h-full object-cover opacity-50 scale-105">
+                
+                <!-- FOTO LATAR BELAKANG DARI SUPABASE STORAGE -->
+                <img src="https://eimdfqhkjfocelsqkxql.supabase.co/storage/v1/object/public/banner/foto1.jpg" alt="Pesantren Atmosphere" class="absolute inset-0 w-full h-full object-cover opacity-45 scale-105">
+                
+                <!-- FILTER DARK GRADIENT -->
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-black/30"></div>
 
                 <div class="relative z-10 pt-12">
@@ -162,7 +166,7 @@
                         <i class="fa-solid fa-pen-to-square"></i> Edit
                     </button>
 
-                    <div class="w-16 h-16 bg-indigo-900 text-amber-400 rounded-full flex items-center justify-center mx-auto mb-2 text-2xl font-bold shadow-md">
+                    <div class="w-16 h-16 bg-indigo-900 text-amber-400 rounded-full flex items-center justify-center mx-auto mb-2 text-2xl font-bold shadow-md overflow-hidden">
                         <i class="fa-solid fa-user-graduate" id="iconProfilHead"></i>
                     </div>
                     <h2 class="text-lg font-bold text-gray-800" id="profNama">Memuat...</h2>
@@ -281,11 +285,11 @@
         </div>
     </div>
 
-    <!-- ================= MODAL EDIT PROFIL DUA ARAH ================= -->
+    <!-- ================= MODAL EDIT PROFIL ================= -->
     <div id="modalEditProfil" class="fixed inset-0 bg-black/60 z-50 flex justify-center items-center p-4 hidden">
         <div class="bg-white p-5 rounded-2xl w-full max-w-sm space-y-4 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b pb-2">
-                <h3 class="text-sm font-bold text-gray-800">Edit Profil (Live Update)</h3>
+                <h3 class="text-sm font-bold text-gray-800">Edit Profil</h3>
                 <button onclick="tutupModalEditProfil()" class="text-gray-400 hover:text-gray-600 text-sm">✕</button>
             </div>
 
@@ -512,7 +516,7 @@
             }
         }
 
-        // LOAD DATA DASHBOARD & PASANG REALTIME NOTIFIKASI PAKET
+        // LOAD DATA DASHBOARD
         async function fetchProfilDanBukaDashboard(authUser) {
             try {
                 const { data: profil, error } = await _supabase
@@ -549,9 +553,11 @@
             }
         }
 
-        // REALTIME SUBSCRIPTION
+        // REALTIME NOTIFIKASI
         function aktifkanRealtimeNotifikasi() {
             if (realtimeChannel) _supabase.removeChannel(realtimeChannel);
+
+            console.log("📡 Mengaktifkan Listener Realtime Notifikasi Paket...");
 
             realtimeChannel = _supabase
                 .channel('notif-paket-masuk')
@@ -559,14 +565,27 @@
                     'postgres_changes',
                     { event: 'INSERT', schema: 'public', table: 'paket' },
                     (payload) => {
+                        console.log("📦 Event Paket Masuk Diterima Dari Supabase:", payload.new);
+                        
                         const newPaket = payload.new;
                         const isGuru = SESSION_USER_DATA.role === 'guru';
 
                         let cocok = false;
-                        if (!isGuru && LIST_STAMBUK_WALI.includes(String(newPaket.stambuk))) {
-                            cocok = true;
-                        } else if (isGuru && newPaket.nama === SESSION_USER_DATA.identitas_kunci) {
-                            cocok = true;
+
+                        if (!isGuru) {
+                            const stambukPaket = String(newPaket.stambuk || '').trim();
+                            const listStambukWaliStr = LIST_STAMBUK_WALI.map(s => String(s).trim());
+
+                            if (listStambukWaliStr.includes(stambukPaket)) {
+                                cocok = true;
+                            }
+                        } else {
+                            const namaPaket = String(newPaket.nama || '').trim().toLowerCase();
+                            const namaGuru = String(SESSION_USER_DATA.identitas_kunci || '').trim().toLowerCase();
+
+                            if (namaPaket === namaGuru) {
+                                cocok = true;
+                            }
                         }
 
                         if (cocok) {
@@ -574,7 +593,9 @@
                         }
                     }
                 )
-                .subscribe();
+                .subscribe((status) => {
+                    console.log("Status Koneksi Realtime:", status);
+                });
         }
 
         function pemicuNotifikasiPaket(paket) {
@@ -639,7 +660,7 @@
             await muatDetailProfilSantri(stambuk);
         }
 
-        // MEMUAT DETAIL PROFIL SANTRI
+        // DETAIL PROFIL SANTRI
         async function muatDetailProfilSantri(stambuk) {
             try {
                 const { data } = await _supabase.from('mahasiswa').select('*').eq('stambuk', stambuk).single();
@@ -674,7 +695,7 @@
             } catch (err) { console.error(err); }
         }
 
-        // MEMUAT DETAIL PROFIL GURU
+        // DETAIL PROFIL GURU
         async function muatDetailProfilGuru(namaGuru) {
             try {
                 const { data } = await _supabase.from('guru').select('*').eq('Nama', namaGuru).single();
@@ -694,7 +715,7 @@
             } catch (err) { console.error(err); }
         }
 
-        // EDIT PROFIL LIVE UPDATE
+        // EDIT PROFIL
         function bukaModalEditProfil() {
             if(!CURRENT_PROFIL_DATA) return;
 
