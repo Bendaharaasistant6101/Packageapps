@@ -88,12 +88,14 @@
         </div>
         
         <!-- STATISTIK UTAMA -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center mb-4">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center mb-3">
             <div class="bg-blue-50 rounded-xl p-2.5"><p class="text-[9px] font-bold text-blue-600">TOTAL PAKET</p><p id="statTotal" class="text-lg font-black text-blue-950">0</p></div>
             <div class="bg-amber-50 rounded-xl p-2.5"><p class="text-[9px] font-bold text-amber-600">BELUM DIAMBIL</p><p id="statBelum" class="text-lg font-black text-amber-950">0</p></div>
             <div class="bg-emerald-50 rounded-xl p-2.5"><p class="text-[9px] font-bold text-emerald-600">MASUK HARI INI</p><p id="statTotalMasuk" class="text-lg font-black text-emerald-950">0</p></div>
             <div class="bg-purple-50 rounded-xl p-2.5"><p class="text-[9px] font-bold text-purple-600">SUDAH DIAMBIL</p><p id="statSudahAmbil" class="text-lg font-black text-purple-950">0</p></div>
         </div>
+        <!-- BANNER PAKET MENUMPUK -->
+        <div id="bannerMenumpuk" class="hidden mb-3 px-3 py-2 rounded-xl bg-red-50 border border-red-300 text-red-800 text-[11px] font-bold"><span id="teksBannerMenumpuk"></span></div>
         
         <!-- TAB 1: INPUT PAKET SANTRI -->
         <div id="kontenTabInput" class="space-y-4 flex-grow flex flex-col overflow-hidden">
@@ -193,7 +195,7 @@
                 <button onclick="eksporKeExcel('siswa')" class="bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-lg font-bold">  📥  Ekspor Paket Santri ke Excel (.xlsx)</button>
             </div>
             <div class="overflow-auto border rounded-xl flex-grow">
-                <table class="w-full text-left text-[11px] border-collapse min-w-[2100px] table-fixed">
+                <table class="w-full text-left text-[11px] border-collapse min-w-[2200px] table-fixed">
                     <thead class="bg-slate-800 text-white sticky top-0">
                         <tr>
                             <th class="p-2 w-[100px]">Stambuk</th>
@@ -205,12 +207,12 @@
                             <th class="p-2 w-[100px]">Jenis</th>
                             <th class="p-2 w-[100px]">Rak</th>
                             <th class="p-2 w-[100px]">Keterangan</th>
-                            <th class="p-2 w-[110px]">Status</th>
+                            <th class="p-2 w-[150px]">Status</th>
                             <th class="p-2 w-[130px]">Waktu Masuk</th>
                             <th class="p-2 w-[130px]">Petugas Input</th>
                             <th class="p-2 w-[130px]">Waktu Keluar</th>
                             <th class="p-2 w-[130px]">Petugas Ambil</th>
-                            <th class="p-2 w-[280px] text-center">Aksi / Tindakan</th>
+                            <th class="p-2 w-[330px] text-center">Aksi / Tindakan</th>
                         </tr>
                     </thead>
                     <tbody id="tabelBodyPengambilan" class="divide-y"></tbody>
@@ -230,7 +232,7 @@
                 <button onclick="eksporKeExcel('guru')" class="bg-purple-700 text-white text-xs px-3 py-1.5 rounded-lg font-bold">  📥  Ekspor Paket Guru ke Excel (.xlsx)</button>
             </div>
             <div class="overflow-auto border rounded-xl flex-grow">
-                <table class="w-full text-left text-[11px] border min-w-[1500px] table-fixed">
+                <table class="w-full text-left text-[11px] border min-w-[1600px] table-fixed">
                     <thead class="bg-purple-900 text-white sticky top-0">
                         <tr>
                             <th class="p-2 w-[180px]">Nama Guru</th>
@@ -238,12 +240,12 @@
                             <th class="p-2 w-[80px]">Tahun</th>
                             <th class="p-2 w-[90px]">Jenis</th>
                             <th class="p-2 w-[90px]">Rak</th>
-                            <th class="p-2 w-[110px]">Status</th>
+                            <th class="p-2 w-[150px]">Status</th>
                             <th class="p-2 w-[120px]">Waktu Input</th>
                             <th class="p-2 w-[120px]">Petugas Input</th>
                             <th class="p-2 w-[120px]">Waktu Keluar</th>
                             <th class="p-2 w-[120px]">Petugas Keluar</th>
-                            <th class="p-2 w-[280px] text-center">Tindakan / Aksi</th>
+                            <th class="p-2 w-[330px] text-center">Tindakan / Aksi</th>
                         </tr>
                     </thead>
                     <tbody id="tabelBodyAmbilGuru" class="divide-y"></tbody>
@@ -273,49 +275,59 @@
 
         <!-- TAB 6: ANONYMUS PACKAGE (Petugas Full & Super Admin) -->
         <div id="kontenTabAnonim" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden">
-            <div class="bg-slate-100 p-4 rounded-2xl border border-slate-300 overflow-y-auto max-h-[45%]">
+            <div class="bg-slate-100 p-4 rounded-2xl border border-slate-300 overflow-y-auto max-h-[42%]">
                 <h3 class="font-black text-xs text-slate-800 mb-2">  🕵️  Catat Paket Tanpa Identitas <span class="font-medium text-slate-500">(semua kolom boleh dikosongkan)</span></h3>
                 <form id="formAnonim" onsubmit="simpanPaketAnonim(event)" class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
                     <input type="text" id="anonNama" placeholder="Nama (opsional)" autocomplete="off" class="p-2 border rounded-md font-semibold focus:outline-none focus:border-indigo-500">
                     <input type="tel" id="anonTelp" placeholder="No. Telp (opsional)" autocomplete="off" class="p-2 border rounded-md font-semibold focus:outline-none focus:border-indigo-500">
                     <input type="text" id="anonPengirim" placeholder="Pengirim (opsional)" autocomplete="off" class="p-2 border rounded-md font-semibold focus:outline-none focus:border-indigo-500">
-                    <input type="text" id="anonCiri" placeholder="Ciri-ciri (opsional)" autocomplete="off" class="p-2 border rounded-md font-semibold focus:outline-none focus:border-indigo-500">
-                    <textarea id="anonKet" rows="2" placeholder="Keterangan tambahan (opsional)" class="col-span-2 md:col-span-2 p-2 border rounded-md font-semibold focus:outline-none focus:border-indigo-500"></textarea>
-                    <div class="col-span-2 md:col-span-2 flex items-center gap-2">
-                        <button type="button" onclick="bukaKamera()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold px-3 py-2 rounded-md whitespace-nowrap">  📷  Buka Kamera</button>
-                        <img id="previewFotoAnonim" class="hidden h-14 w-14 object-cover rounded-md border-2 border-indigo-400" alt="Pratinjau foto">
-                        <button type="button" id="btnHapusFotoAnonim" onclick="hapusFotoAnonimForm()" class="hidden bg-red-100 border border-red-300 text-red-700 font-bold px-2 py-1 rounded-md">Hapus Foto</button>
-                        <span id="infoFotoAnonim" class="text-slate-500 text-[11px]">Belum ada foto</span>
+                    <input type="text" id="anonTempat" placeholder="Lokasi Rak (opsional)" autocomplete="off" class="p-2 border-2 border-emerald-400 rounded-md font-bold text-center placeholder-emerald-600 focus:outline-none focus:border-emerald-600">
+                    <input type="text" id="anonCiri" placeholder="Ciri-ciri (opsional)" autocomplete="off" class="col-span-2 p-2 border rounded-md font-semibold focus:outline-none focus:border-indigo-500">
+                    <textarea id="anonKet" rows="1" placeholder="Keterangan tambahan (opsional)" class="col-span-2 p-2 border rounded-md font-semibold focus:outline-none focus:border-indigo-500"></textarea>
+                    <div class="col-span-2 md:col-span-4 flex flex-wrap items-center gap-2">
+                        <button type="button" id="btnAmbilFotoAnonim" onclick="bukaKamera()" class="bg-slate-800 hover:bg-slate-900 disabled:opacity-50 text-white font-bold px-3 py-2 rounded-md whitespace-nowrap">  📷  Ambil Foto (0/4)</button>
+                        <div id="thumbFotoAnonim" class="flex flex-wrap items-center gap-2"></div>
+                        <span id="infoFotoAnonim" class="text-slate-500 text-[11px]">Belum ada foto (maksimal 4 foto)</span>
                     </div>
                     <input type="file" id="inputFotoFallback" accept="image/*" capture="environment" class="hidden" onchange="handleFotoFallback(event)">
                     <button type="submit" id="btnSubmitAnonim" class="col-span-2 md:col-span-4 bg-slate-800 text-white font-black p-2.5 rounded-md tracking-wider shadow hover:bg-slate-900 transition">+= SIMPAN ANONYMUS PACKAGE</button>
                 </form>
             </div>
-            <div class="flex flex-wrap items-center gap-3 bg-slate-50 p-2.5 rounded-xl border text-xs">
+            <div class="flex flex-wrap items-center gap-2.5 bg-slate-50 p-2.5 rounded-xl border text-xs">
                 <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  📌  Status:</label>
                     <select id="filterStatusAnonim" onchange="renderTabelAnonim()" class="p-1.5 border rounded-lg bg-white font-bold text-slate-700 focus:outline-none">
                         <option value="Semua">Semua Status</option>
                         <option value="Belum Diambil">Belum Diambil</option>
                         <option value="Sudah Diambil">Sudah Diambil</option>
+                        <option value="Ditautkan">Ditautkan</option>
                     </select>
                 </div>
-                <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  🔍  Cari:</label> <input type="text" id="cariAnonim" placeholder="Nama / telp / pengirim / ciri..." oninput="renderTabelAnonim()" class="p-1.5 border-2 border-slate-400 rounded-lg bg-white font-bold w-56 placeholder-gray-400 focus:outline-none"> </div>
+                <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  🔍  Cari:</label> <input type="text" id="cariAnonim" placeholder="Nama / telp / pengirim / ciri / rak..." oninput="renderTabelAnonim()" class="p-1.5 border-2 border-slate-400 rounded-lg bg-white font-bold w-52 placeholder-gray-400 focus:outline-none"> </div>
+                <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  📅  Dari:</label> <input type="date" id="anonTglDari" onchange="renderTabelAnonim()" class="p-1.5 border rounded-lg bg-white font-medium"> </div>
+                <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">Sampai:</label> <input type="date" id="anonTglSampai" onchange="renderTabelAnonim()" class="p-1.5 border rounded-lg bg-white font-medium"> </div>
+                <button onclick="resetFilterAnonim()" class="bg-gray-500 text-white px-2.5 py-1.5 rounded-lg font-bold">Reset</button>
                 <button onclick="muatDataAnonim()" class="bg-gray-500 text-white px-2.5 py-1.5 rounded-lg font-bold">Muat Ulang</button>
+                <div class="flex items-center gap-1.5 ml-auto">
+                    <button id="btnPdfKartu" onclick="eksporPdfAnonim('kartu')" class="bg-indigo-700 hover:bg-indigo-800 disabled:opacity-50 text-white px-3 py-1.5 rounded-lg font-bold">  📄  PDF Kartu</button>
+                    <button id="btnPdfTabel" onclick="eksporPdfAnonim('tabel')" class="bg-indigo-700 hover:bg-indigo-800 disabled:opacity-50 text-white px-3 py-1.5 rounded-lg font-bold">  📄  PDF Tabel</button>
+                </div>
+                <span id="statusPdfAnonim" class="w-full text-[11px] text-indigo-700 font-bold"></span>
             </div>
             <div class="overflow-auto border rounded-xl flex-grow">
-                <table class="w-full text-left text-[11px] border min-w-[1400px] table-fixed">
+                <table class="w-full text-left text-[11px] border min-w-[1700px] table-fixed">
                     <thead class="bg-slate-800 text-white sticky top-0">
                         <tr>
                             <th class="p-2 w-[120px]">Waktu Masuk</th>
-                            <th class="p-2 w-[130px]">Nama</th>
-                            <th class="p-2 w-[110px]">No. Telp</th>
-                            <th class="p-2 w-[130px]">Pengirim</th>
-                            <th class="p-2 w-[180px]">Ciri-ciri</th>
-                            <th class="p-2 w-[180px]">Keterangan</th>
-                            <th class="p-2 w-[60px]">Foto</th>
-                            <th class="p-2 w-[100px]">Status</th>
-                            <th class="p-2 w-[110px]">Petugas Input</th>
-                            <th class="p-2 w-[230px] text-center">Aksi</th>
+                            <th class="p-2 w-[120px]">Nama</th>
+                            <th class="p-2 w-[105px]">No. Telp</th>
+                            <th class="p-2 w-[120px]">Pengirim</th>
+                            <th class="p-2 w-[150px]">Ciri-ciri</th>
+                            <th class="p-2 w-[150px]">Keterangan</th>
+                            <th class="p-2 w-[70px]">Rak</th>
+                            <th class="p-2 w-[55px]">Foto</th>
+                            <th class="p-2 w-[130px]">Status</th>
+                            <th class="p-2 w-[100px]">Petugas Input</th>
+                            <th class="p-2 w-[380px] text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody id="tabelBodyAnonim" class="divide-y"></tbody>
@@ -371,6 +383,58 @@
                 <button onclick="tutupDetailAnonim()" class="text-xs bg-gray-200 px-2 py-1 rounded font-bold">Tutup</button>
             </div>
             <div id="isiDetailAnonim" class="text-xs space-y-2"></div>
+        </div>
+    </div>
+
+    <!-- MODAL EDIT ANONYMUS PACKAGE -->
+    <div id="modalEditAnonim" class="fixed inset-0 bg-black/80 z-[80] flex justify-center items-center hidden no-print p-4">
+        <div class="bg-white w-full max-w-md max-h-[90vh] overflow-y-auto p-5 rounded-2xl text-gray-800 shadow-2xl">
+            <h3 class="font-black text-sm text-slate-900 border-b pb-2 mb-3">  ✏️  Edit Data Anonymus Package</h3>
+            <form onsubmit="simpanEditAnonim(event)" class="space-y-2 text-xs">
+                <input type="hidden" id="edId">
+                <div><label class="font-bold text-gray-600">Nama</label><input type="text" id="edNama" class="w-full p-2 border rounded-md font-semibold"></div>
+                <div><label class="font-bold text-gray-600">No. Telp</label><input type="tel" id="edTelp" class="w-full p-2 border rounded-md font-semibold"></div>
+                <div><label class="font-bold text-gray-600">Pengirim</label><input type="text" id="edPengirim" class="w-full p-2 border rounded-md font-semibold"></div>
+                <div><label class="font-bold text-gray-600">Lokasi Rak</label><input type="text" id="edTempat" class="w-full p-2 border rounded-md font-semibold"></div>
+                <div><label class="font-bold text-gray-600">Ciri-ciri</label><input type="text" id="edCiri" class="w-full p-2 border rounded-md font-semibold"></div>
+                <div><label class="font-bold text-gray-600">Keterangan Tambahan</label><textarea id="edKet" rows="2" class="w-full p-2 border rounded-md font-semibold"></textarea></div>
+                <p class="text-[10px] text-gray-400">Foto tidak bisa diubah di sini. Untuk mengganti foto, hapus lalu catat ulang.</p>
+                <div class="flex gap-2 pt-1">
+                    <button type="button" onclick="tutupEditAnonim()" class="w-1/3 bg-gray-200 font-bold py-2 rounded-xl">Batal</button>
+                    <button type="submit" class="w-2/3 bg-indigo-600 hover:bg-indigo-700 text-white font-black py-2 rounded-xl">SIMPAN PERUBAHAN</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL TAUTKAN KE PEMILIK -->
+    <div id="modalTautkanAnonim" class="fixed inset-0 bg-black/80 z-[80] flex justify-center items-center hidden no-print p-4">
+        <div class="bg-white w-full max-w-md max-h-[90vh] overflow-y-auto p-5 rounded-2xl text-gray-800 shadow-2xl">
+            <h3 class="font-black text-sm text-slate-900 border-b pb-2 mb-3">  🔗  Tautkan ke Pemilik</h3>
+            <p class="text-[11px] text-gray-500 mb-2">Paket ini akan dibuat sebagai paket santri/guru biasa. Data anonim dan fotonya tetap disimpan dengan status "Ditautkan".</p>
+            <input type="hidden" id="tkId">
+            <div class="space-y-2 text-xs">
+                <select id="tkTipe" onchange="cariPemilikTautkan()" class="w-full p-2 border rounded-md font-bold bg-white">
+                    <option value="santri">Pemilik: Santri</option>
+                    <option value="guru">Pemilik: Guru</option>
+                </select>
+                <input type="text" id="tkCari" oninput="cariPemilikTautkan()" placeholder="Ketik nama / stambuk pemilik..." autocomplete="off" class="w-full p-2 border-2 border-indigo-400 rounded-md font-bold focus:outline-none">
+                <div id="tkHasil" class="max-h-40 overflow-y-auto border rounded-md divide-y sugest-box"></div>
+                <div id="tkTerpilihInfo" class="p-2 bg-indigo-50 border border-indigo-200 rounded-md font-bold text-indigo-900">Belum memilih pemilik</div>
+                <select id="tkJenis" class="w-full p-2 border rounded-md font-bold bg-white">
+                    <option value="">-- Pilih Jenis Paket --</option>
+                    <option value="Kardus">Kardus</option>
+                    <option value="Container">Container</option>
+                    <option value="Baju">Baju</option>
+                    <option value="Shopee">Shopee</option>
+                    <option value="Lainnya">Lainnya Dll</option>
+                </select>
+                <input type="text" id="tkTempat" placeholder="Lokasi Rak" class="w-full p-2 border rounded-md font-bold">
+                <div class="flex gap-2 pt-1">
+                    <button type="button" onclick="tutupTautkanAnonim()" class="w-1/3 bg-gray-200 font-bold py-2 rounded-xl">Batal</button>
+                    <button type="button" onclick="simpanTautkanAnonim()" class="w-2/3 bg-emerald-600 hover:bg-emerald-700 text-white font-black py-2 rounded-xl">TAUTKAN</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -451,10 +515,18 @@
 
     <!-- Script Paket Terpadu -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
     <script>
         const SUPABASE_URL = "https://eimdfqhkjfocelsqkxql.supabase.co";
         const SUPABASE_ANON_KEY = "sb_publishable_XC4q-eA0TQWrgknkkDJ3UQ_WM3TGD-a";
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // ===== PENGATURAN (silakan ubah) =====
+        const NAMA_PESANTREN = "PONDOK PESANTREN";   // tampil di kop PDF dan struk
+        const BATAS_HARI_MENUMPUK = 7;               // paket dianggap menumpuk setelah sekian hari belum diambil
+        const BATAS_MENIT_TIDAK_AKTIF = 15;          // otomatis keluar kalau tidak ada aktivitas
+        const MAKS_FOTO_ANONIM = 4;                  // maksimal foto per Anonymus Package
 
         let listSeluruhMahasiswa = [];
         let databasePaket = [];
@@ -464,11 +536,43 @@
         let logAuditSystem = [];
         let elemenFokusTerakhir = null;
         let objekGrafikLogistik = null;
+        let hasilCtrlF = [];
+        let hasilSugestiGuru = [];
+        let daftarUsers = [];
 
         // ===== ANONYMUS PACKAGE: state =====
         let listAnonim = [];
-        let fotoAnonimData = '';
+        let fotoAnonimList = [];
         let streamKamera = null;
+        let hasilTautkan = [];
+        let tkTerpilih = null;
+
+        // ===== Fungsi bantu umum =====
+        function esc(s) {
+            return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        }
+        function parseWaktuMasuk(str) {
+            const m = /(\d{2})\/(\d{2})\/(\d{4})(?:\s+(\d{1,2})[.:](\d{2}))?/.exec(str || '');
+            if (!m) return null;
+            return new Date(+m[3], +m[2] - 1, +m[1], +(m[4] || 0), +(m[5] || 0));
+        }
+        function umurHari(p) {
+            const d = parseWaktuMasuk(p.waktu_masuk);
+            if (!d) return 0;
+            return Math.floor((Date.now() - d.getTime()) / 86400000);
+        }
+        function menumpuk(p) { return p.status === 'Belum Diambil' && umurHari(p) >= BATAS_HARI_MENUMPUK; }
+        function badgeMenumpuk(p) {
+            return menumpuk(p) ? `<span class="ml-1 px-1.5 py-0.5 rounded bg-red-600 text-white text-[9px] font-black whitespace-nowrap">⏰ ${umurHari(p)} hari</span>` : '';
+        }
+        function kelasBarisMenumpuk(p) { return menumpuk(p) ? 'bg-red-50' : ''; }
+        function badgeStatus(status, varian) {
+            let kls;
+            if (status === 'Belum Diambil') kls = 'bg-amber-100 text-amber-800 border border-amber-300';
+            else if (status === 'Ditautkan') kls = 'bg-blue-100 text-blue-800 border border-blue-300';
+            else kls = varian === 'guru' ? 'bg-purple-100 text-purple-800 border border-purple-300' : 'bg-emerald-100 text-emerald-800 border border-emerald-300';
+            return `<span class="px-2 py-0.5 rounded-full font-black text-[10px] ${kls}">${esc(status)}</span>`;
+        }
 
         function tampilkanPesanError(pesan, elemenUntukFokus = null) {
             elemenFokusTerakhir = elemenUntukFokus;
@@ -523,6 +627,7 @@
             const tgl = new Date();
             return tgl.toLocaleDateString('id-ID', {day: '2-digit', month: '2-digit', year: 'numeric'}) + ' ' + tgl.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
         }
+        function namaPetugasSaatIni() { return userLoginAktif ? (userLoginAktif.nama || userLoginAktif.username || 'Petugas') : 'Petugas'; }
         function catatAuditLog(pesan) {
             const waktu = dapatkanWaktuSekarang();
             const namaOp = userLoginAktif ? (userLoginAktif.nama || userLoginAktif.username || 'Admin') : 'System';
@@ -535,7 +640,7 @@
             const box = document.getElementById('boxLogAuditSystem');
             if(box) {
                 box.innerHTML = logAuditSystem.length === 0 ?
-                `<div class="text-slate-500 text-center py-4">[Belum ada riwayat aktivitas]</div>` : logAuditSystem.map(log => `<div>${log}</div>`).join('');
+                `<div class="text-slate-500 text-center py-4">[Belum ada riwayat aktivitas]</div>` : logAuditSystem.map(log => `<div>${esc(log)}</div>`).join('');
             }
         }
         function bersihkanLogAuditLocal() {
@@ -585,19 +690,26 @@
         function filterListCtrlFSantri(keyword) {
             const kw = keyword.toLowerCase().trim();
             const box = document.getElementById('boxListCtrlFSantri');
-            const hasil = listSeluruhMahasiswa.filter(s => (s.nama && s.nama.toLowerCase().includes(kw)) || (s.stambuk && s.stambuk.toLowerCase().includes(kw)) );
-            if(hasil.length === 0) {
+            hasilCtrlF = listSeluruhMahasiswa.filter(s => (s.nama && s.nama.toLowerCase().includes(kw)) || (s.stambuk && s.stambuk.toLowerCase().includes(kw)) ).slice(0, 30);
+            if(hasilCtrlF.length === 0) {
                 box.innerHTML = `<div class="p-3 text-center text-xs text-slate-500">Santri tidak ditemukan</div>`;
                 return;
             }
-            box.innerHTML = hasil.slice(0, 30).map(s => `
-                <div onclick="pilihSantriDariCtrlF('${s.stambuk}')" class="p-2 text-xs hover:bg-slate-800 cursor-pointer flex justify-between items-center transition">
-                    <span class="font-bold text-amber-400">${s.stambuk}</span>
-                    <span class="font-medium text-slate-200 text-right truncate w-[240px]">${s.nama} (${s.kelas})</span>
+            box.innerHTML = hasilCtrlF.map((s, i) => `
+                <div onclick="pilihSantriDariIndex(${i})" class="p-2 text-xs hover:bg-slate-800 cursor-pointer flex justify-between items-center transition">
+                    <span class="font-bold text-amber-400">${esc(s.stambuk)}</span>
+                    <span class="font-medium text-slate-200 text-right truncate w-[240px]">${esc(s.nama)} (${esc(s.kelas)})</span>
                 </div>
             `).join('');
         }
-        function pilihSantriDariCtrlF(stVal) { document.getElementById('stambuk').value = stVal; tutupCtrlFSantri(); cekStambukOtomatis(); setTimeout(() => { document.getElementById('jenis_paket').focus(); }, 150); }
+        function pilihSantriDariIndex(i) {
+            const s = hasilCtrlF[i];
+            if (!s) return;
+            document.getElementById('stambuk').value = s.stambuk;
+            tutupCtrlFSantri();
+            cekStambukOtomatis();
+            setTimeout(() => { document.getElementById('jenis_paket').focus(); }, 150);
+        }
 
         async function cekStambukOtomatis() {
             const stambukInput = document.getElementById('stambuk');
@@ -636,6 +748,7 @@
             });
 
             if (hasilFilter.length === 0) {
+                hasilSugestiGuru = [];
                 dropdown.innerHTML = `<div class="p-2 text-xs text-red-500 italic text-center font-bold">⚠️ Nama guru tidak terdaftar</div>`;
                 dropdown.classList.remove('hidden');
                 document.getElementById('kamarGuru').value = '';
@@ -643,29 +756,26 @@
                 return;
             }
 
-            dropdown.innerHTML = hasilFilter.slice(0, 10).map(g => {
-                const namaFinal = g.nama || g.Nama || "-";
-                const kamarFinal = g.kamar || g.Kamar || "-";
-                const tahunFinal = g.tahun || g.Tahun || "-";
-                
-                const namaEscaped = namaFinal.replace(/'/g, "\\'");
-                const kamarEscaped = kamarFinal.replace(/'/g, "\\'");
-                const tahunEscaped = String(tahunFinal).replace(/'/g, "\\'");
-
-                return `
-                    <div onclick="pilihGuruDariSugesti('${namaEscaped}', '${kamarEscaped}', '${tahunEscaped}')" 
-                         class="p-2 text-xs hover:bg-purple-100 cursor-pointer font-semibold border-b border-gray-100 text-gray-800 transition">
-                         💡 ${namaFinal} — <span class="text-purple-600 font-bold">${kamarFinal}</span> (${tahunFinal})
-                    </div>
-                `;
-            }).join('');
+            hasilSugestiGuru = hasilFilter.slice(0, 10).map(g => ({
+                nama: g.nama || g.Nama || "-",
+                kamar: String(g.kamar || g.Kamar || "-"),
+                tahun: String(g.tahun || g.Tahun || "-")
+            }));
+            dropdown.innerHTML = hasilSugestiGuru.map((g, i) => `
+                <div onclick="pilihGuruDariIndex(${i})" 
+                     class="p-2 text-xs hover:bg-purple-100 cursor-pointer font-semibold border-b border-gray-100 text-gray-800 transition">
+                     💡 ${esc(g.nama)} — <span class="text-purple-600 font-bold">${esc(g.kamar)}</span> (${esc(g.tahun)})
+                </div>
+            `).join('');
             dropdown.classList.remove('hidden');
         }
 
-        function pilihGuruDariSugesti(nama, kamar, tahun) {
-            document.getElementById('namaGuruInput').value = nama;
-            document.getElementById('kamarGuru').value = kamar;
-            document.getElementById('tahunGuru').value = tahun;
+        function pilihGuruDariIndex(i) {
+            const g = hasilSugestiGuru[i];
+            if (!g) return;
+            document.getElementById('namaGuruInput').value = g.nama;
+            document.getElementById('kamarGuru').value = g.kamar;
+            document.getElementById('tahunGuru').value = g.tahun;
             
             const dropdown = document.getElementById('dropdownSugestiGuru');
             dropdown.innerHTML = '';
@@ -679,10 +789,10 @@
         async function simpanPaketBaru(e) {
             e.preventDefault();
             if(!userLoginAktif) {
-                const dataLokal = localStorage.getItem('sesiPetugas');
+                const dataLokal = sessionStorage.getItem('sesiPetugas');
                 if (dataLokal) { userLoginAktif = JSON.parse(dataLokal); } else { return; }
             }
-            const namaPetugasAktif = userLoginAktif ? (userLoginAktif.nama || userLoginAktif.username) : 'Petugas';
+            const namaPetugasAktif = namaPetugasSaatIni();
             const paket = {
                 stambuk: document.getElementById('stambuk').value.trim(),
                 nama: document.getElementById('nama').value,
@@ -713,7 +823,7 @@
         async function simpanPaketGuruBaru(e) {
             e.preventDefault();
             if(!userLoginAktif) return;
-            const namaPetugasAktif = userLoginAktif.nama || userLoginAktif.username;
+            const namaPetugasAktif = namaPetugasSaatIni();
             const paketGuru = {
                 stambuk: '-',
                 nama: document.getElementById('namaGuruInput').value.trim(),
@@ -747,9 +857,14 @@
             const p = document.getElementById('loginPassword').value.trim();
             try {
                 const { data, error } = await _supabase.from('users').select('*').eq('username', u).eq('password', p).single();
-                if(error || !data) { tampilkanPesanError("Kombinasi password / username salah.", 'loginUsername'); return; }
-                userLoginAktif = data;
-                localStorage.setItem('sesiPetugas', JSON.stringify(data));
+                if(error) console.error("Detail error login:", error);
+                if(error && error.code !== 'PGRST116') { tampilkanPesanError("Gagal membaca data akun dari Supabase:\n" + (error.message || 'error tidak diketahui'), 'loginUsername'); return; }
+                if(error && error.code === 'PGRST116') { tampilkanPesanError("Username/password tidak cocok, atau ada lebih dari satu akun dengan data yang sama.", 'loginUsername'); return; }
+                if(!data) { tampilkanPesanError("Kombinasi password / username salah.", 'loginUsername'); return; }
+                // Simpan sesi TANPA password, dan hanya selama tab/browser terbuka
+                const { password: _abaikan, ...dataAman } = data;
+                userLoginAktif = dataAman;
+                sessionStorage.setItem('sesiPetugas', JSON.stringify(dataAman));
                 jalankanInisialisasiDashboard();
             } catch(e) {
                 tampilkanPesanError("Gagal terhubung ke autentikasi Supabase.", 'loginUsername');
@@ -770,12 +885,74 @@
             document.getElementById('landingPage').classList.add('hidden');
             document.getElementById('mainDashboard').classList.remove('hidden');
             catatAuditLog(`Berhasil login ke dalam sistem.`);
+            resetTimerTidakAktif();
             switchTab('navTabInput');
             prahJ91ZuNL8Y2px8iYciYeHN8sfSh5eXH8();
             muatDataKomplit();
+            if(bolehAksesAnonim()) { muatDataAnonim(); }
             if(userLoginAktif.role === 'superadmin') { muatDaftarPenggunaPetugas(); }
         }
-        function keluarSistem() { tutupKamera(); localStorage.removeItem('sesiPetugas'); userLoginAktif = null; document.getElementById('mainDashboard').classList.add('hidden'); document.getElementById('portalPage').classList.remove('hidden'); }
+
+        // ===== Keluar otomatis kalau tidak ada aktivitas =====
+        let timerTidakAktif = null;
+        function resetTimerTidakAktif() {
+            if (!userLoginAktif) return;
+            clearTimeout(timerTidakAktif);
+            timerTidakAktif = setTimeout(() => {
+                if (!userLoginAktif) return;
+                catatAuditLog(`Otomatis keluar karena tidak ada aktivitas ${BATAS_MENIT_TIDAK_AKTIF} menit.`);
+                keluarSistem();
+                tampilkanPesanError(`Anda otomatis keluar karena tidak ada aktivitas selama ${BATAS_MENIT_TIDAK_AKTIF} menit. Silakan login kembali.`);
+            }, BATAS_MENIT_TIDAK_AKTIF * 60 * 1000);
+        }
+        ['mousemove', 'keydown', 'click', 'touchstart', 'scroll'].forEach(ev => {
+            window.addEventListener(ev, resetTimerTidakAktif, { passive: true });
+        });
+
+        function keluarSistem() {
+            clearTimeout(timerTidakAktif);
+            tutupKamera();
+            sessionStorage.removeItem('sesiPetugas');
+            localStorage.removeItem('sesiPetugas'); // bersihkan sesi lama dari versi sebelumnya
+            userLoginAktif = null;
+            listAnonim = [];
+            document.getElementById('mainDashboard').classList.add('hidden');
+            document.getElementById('portalPage').classList.remove('hidden');
+        }
+
+        // ===== CETAK STRUK =====
+        function cetakStruk(jenis, id) {
+            const p = jenis === 'anonim'
+                ? listAnonim.find(x => String(x.id) === String(id))
+                : databasePaket.find(x => String(x.id) === String(id));
+            if (!p) { tampilkanPesanError("Data paket tidak ditemukan."); return; }
+            let judul, baris;
+            if (jenis === 'anonim') {
+                judul = 'PAKET TANPA IDENTITAS';
+                baris = [['No.', '#' + p.id], ['Nama', p.nama], ['Pengirim', p.pengirim], ['No. Telp', p.no_telp], ['Ciri-ciri', p.ciri_ciri], ['Ket.', p.keterangan_tambahan], ['Rak', p.tempat], ['Foto', p.jumlah_foto ? p.jumlah_foto + ' foto' : (p.ada_foto ? 'ada' : '-')], ['Masuk', p.waktu_masuk], ['Petugas', p.petugas_input]];
+            } else if (p.keterangan === 'guru') {
+                judul = 'PAKET GURU';
+                baris = [['Nama', p.nama], ['Kamar', p.kelas], ['Tahun', p.rayon], ['Jenis', p.jenis_paket], ['Rak', p.tempat], ['Masuk', p.waktu_masuk], ['Petugas', p.petugas_input]];
+            } else {
+                judul = 'PAKET SANTRI';
+                baris = [['Stambuk', p.stambuk], ['Nama', p.nama], ['Kelas', p.kelas], ['Rayon', p.rayon], ['Daerah', p.daerah], ['Jenis', p.jenis_paket], ['Rak', p.tempat], ['Masuk', p.waktu_masuk], ['Petugas', p.petugas_input]];
+            }
+            const garis = `<div style="border-top:1px dashed #000;margin:6px 0"></div>`;
+            const area = document.getElementById('areaCetakStruk');
+            area.innerHTML =
+                `<div style="text-align:center;font-weight:bold;font-size:13px">${esc(NAMA_PESANTREN)}</div>` +
+                `<div style="text-align:center;font-weight:bold">STRUK PENERIMAAN</div>` +
+                `<div style="text-align:center;font-weight:bold">${judul}</div>` +
+                `<div style="text-align:center">${esc(dapatkanWaktuSekarang())}</div>` + garis +
+                baris.map(([k, v]) => `<div style="display:flex;gap:4px;margin:1px 0"><span style="width:62px;flex-shrink:0">${esc(k)}</span><span style="word-break:break-word">: ${esc(v && v !== '-' ? v : '-')}</span></div>`).join('') +
+                garis +
+                `<div style="text-align:center">Simpan struk ini sebagai bukti.</div>` +
+                `<div style="text-align:center">Dicetak oleh: ${esc(namaPetugasSaatIni())}</div>`;
+            area.classList.remove('hidden');
+            window.addEventListener('afterprint', () => area.classList.add('hidden'), { once: true });
+            catatAuditLog(`Mencetak struk paket ID ${p.id} (${jenis}).`);
+            window.print();
+        }
 
         function jalankanFilterDashboardAmbil() {
             const tglVal = document.getElementById('filterTanggalInput').value;
@@ -794,18 +971,18 @@
             const tbodyTerkini = document.getElementById('tabelBodyLogTerkini');
             if(tbodyTerkini) {
                 tbodyTerkini.innerHTML = databaseSantri.slice(0, 50).map(p => `
-                    <tr class="border-b hover:bg-slate-50">
-                        <td class="p-2 font-mono font-bold">${p.stambuk}</td>
-                        <td class="p-2 font-semibold">${p.nama}</td>
-                        <td class="p-2">${p.kelas}</td>
-                        <td class="p-2">${p.rayon || '-'}</td>
-                        <td class="p-2">${p.daerah || '-'}</td>
-                        <td class="p-2">${p.orangtua || '-'}</td>
-                        <td class="p-2 font-bold text-indigo-600">${p.jenis_paket}</td>
-                        <td class="p-2 font-black text-amber-700">${p.tempat}</td>
-                        <td class="p-2 uppercase font-medium text-slate-500 text-[10px]"><span class="px-1.5 py-0.5 bg-slate-100 rounded border">${p.keterangan || 'siswa'}</span></td>
-                        <td class="p-2"><span class="px-2 py-0.5 rounded-full text-[10px] font-black ${p.status === 'Belum Diambil' ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-emerald-100 text-emerald-800 border border-emerald-300'}">${p.status}</span></td>
-                        <td class="p-2 text-slate-500 font-medium">${p.petugas_input || '-'}</td>
+                    <tr class="border-b hover:bg-slate-50 ${kelasBarisMenumpuk(p)}">
+                        <td class="p-2 font-mono font-bold">${esc(p.stambuk)}</td>
+                        <td class="p-2 font-semibold">${esc(p.nama)}</td>
+                        <td class="p-2">${esc(p.kelas)}</td>
+                        <td class="p-2">${esc(p.rayon || '-')}</td>
+                        <td class="p-2">${esc(p.daerah || '-')}</td>
+                        <td class="p-2">${esc(p.orangtua || '-')}</td>
+                        <td class="p-2 font-bold text-indigo-600">${esc(p.jenis_paket)}</td>
+                        <td class="p-2 font-black text-amber-700">${esc(p.tempat)}</td>
+                        <td class="p-2 uppercase font-medium text-slate-500 text-[10px]"><span class="px-1.5 py-0.5 bg-slate-100 rounded border">${esc(p.keterangan || 'siswa')}</span></td>
+                        <td class="p-2">${badgeStatus(p.status)}${badgeMenumpuk(p)}</td>
+                        <td class="p-2 text-slate-500 font-medium">${esc(p.petugas_input || '-')}</td>
                     </tr>
                 `).join('');
             }
@@ -813,27 +990,28 @@
             const tbodyAmbil = document.getElementById('tabelBodyPengambilan');
             if(tbodyAmbil) {
                 tbodyAmbil.innerHTML = dataPaketTerfilter.map(p => `
-                    <tr class="border-b text-slate-700 font-medium hover:bg-slate-50/80 transition">
-                        <td class="p-2 font-mono font-bold text-slate-900">${p.stambuk}</td>
-                        <td class="p-2 font-bold text-slate-900">${p.nama}</td>
-                        <td class="p-2">${p.kelas}</td>
-                        <td class="p-2">${p.rayon || '-'}</td>
-                        <td class="p-2">${p.daerah || '-'}</td>
-                        <td class="p-2 text-gray-500">${p.orangtua || '-'}</td>
-                        <td class="p-2 font-extrabold text-indigo-700">${p.jenis_paket}</td>
-                        <td class="p-2 font-black text-amber-800 text-sm">${p.tempat}</td>
-                        <td class="p-2 text-gray-400 font-bold uppercase text-[10px]">${p.keterangan || 'siswa'}</td>
-                        <td class="p-2"><span class="px-2 py-0.5 rounded-full font-black text-[10px] ${p.status === 'Belum Diambil' ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-emerald-100 text-emerald-800 border border-emerald-300'}">${p.status}</span></td>
-                        <td class="p-2 text-gray-500">${p.waktu_masuk || '-'}</td>
-                        <td class="p-2 text-gray-400">${p.petugas_input || '-'}</td>
-                        <td class="p-2 text-gray-500">${p.waktu_keluar || '-'}</td>
-                        <td class="p-2 text-gray-400">${p.petugas_keluar || '-'}</td>
+                    <tr class="border-b text-slate-700 font-medium hover:bg-slate-50/80 transition ${kelasBarisMenumpuk(p)}">
+                        <td class="p-2 font-mono font-bold text-slate-900">${esc(p.stambuk)}</td>
+                        <td class="p-2 font-bold text-slate-900">${esc(p.nama)}</td>
+                        <td class="p-2">${esc(p.kelas)}</td>
+                        <td class="p-2">${esc(p.rayon || '-')}</td>
+                        <td class="p-2">${esc(p.daerah || '-')}</td>
+                        <td class="p-2 text-gray-500">${esc(p.orangtua || '-')}</td>
+                        <td class="p-2 font-extrabold text-indigo-700">${esc(p.jenis_paket)}</td>
+                        <td class="p-2 font-black text-amber-800 text-sm">${esc(p.tempat)}</td>
+                        <td class="p-2 text-gray-400 font-bold uppercase text-[10px]">${esc(p.keterangan || 'siswa')}</td>
+                        <td class="p-2">${badgeStatus(p.status)}${badgeMenumpuk(p)}</td>
+                        <td class="p-2 text-gray-500">${esc(p.waktu_masuk || '-')}</td>
+                        <td class="p-2 text-gray-400">${esc(p.petugas_input || '-')}</td>
+                        <td class="p-2 text-gray-500">${esc(p.waktu_keluar || '-')}</td>
+                        <td class="p-2 text-gray-400">${esc(p.petugas_keluar || '-')}</td>
                         <td class="p-2 text-center flex items-center justify-center gap-1.5">
                             ${p.status === 'Belum Diambil' ? 
-                            `<button onclick="prosesAmbilPaketLangsung('${p.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Set Diambil</button>` : 
-                            `<button onclick="batalAmbilPaket('${p.id}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Batal Ambil</button>` }
-                            <button onclick="editPosisiRakPaket('${p.id}', '${p.tempat}')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-2 py-0.5 rounded text-[10px]">Edit Rak</button>
-                            <button onclick="hapusPaketSistem('${p.id}', '${p.nama}')" class="bg-red-700 hover:bg-red-800 text-white font-black px-2 py-0.5 rounded text-[10px]">Hapus</button>
+                            `<button onclick="prosesAmbilPaketLangsung('${esc(p.id)}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Set Diambil</button>` : 
+                            `<button onclick="batalAmbilPaket('${esc(p.id)}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Batal Ambil</button>` }
+                            <button onclick="editPosisiRakPaket('${esc(p.id)}')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-2 py-0.5 rounded text-[10px]">Edit Rak</button>
+                            <button onclick="cetakStruk('paket','${esc(p.id)}')" class="bg-slate-600 hover:bg-slate-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Struk</button>
+                            <button onclick="hapusPaketSistem('${esc(p.id)}')" class="bg-red-700 hover:bg-red-800 text-white font-black px-2 py-0.5 rounded text-[10px]">Hapus</button>
                         </td>
                     </tr>
                 `).join('');
@@ -860,23 +1038,24 @@
             });
 
             tbody.innerHTML = dataGuru.map(g => `
-                <tr class="border-b text-slate-700 hover:bg-slate-50 transition">
-                    <td class="p-2 font-bold text-slate-900">${g.nama}</td>
-                    <td class="p-2 font-semibold text-purple-700">${g.kelas}</td>
-                    <td class="p-2 text-gray-500">${g.rayon || '-'}</td>
-                    <td class="p-2 font-extrabold text-indigo-600">${g.jenis_paket}</td>
-                    <td class="p-2 font-black text-amber-700">${g.tempat}</td>
-                    <td class="p-2"><span class="px-2 py-0.5 rounded-full font-black text-[10px] ${g.status === 'Belum Diambil' ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-purple-100 text-purple-800 border border-purple-300'}">${g.status}</span></td>
-                    <td class="p-2 text-gray-500">${g.waktu_masuk || '-'}</td>
-                    <td class="p-2 text-gray-400">${g.petugas_input || '-'}</td>
-                    <td class="p-2 text-gray-500">${g.waktu_keluar || '-'}</td>
-                    <td class="p-2 text-gray-400 truncate max-w-[120px]" title="${g.petugas_keluar || '-'}">${g.petugas_keluar || '-'}</td>
+                <tr class="border-b text-slate-700 hover:bg-slate-50 transition ${kelasBarisMenumpuk(g)}">
+                    <td class="p-2 font-bold text-slate-900">${esc(g.nama)}</td>
+                    <td class="p-2 font-semibold text-purple-700">${esc(g.kelas)}</td>
+                    <td class="p-2 text-gray-500">${esc(g.rayon || '-')}</td>
+                    <td class="p-2 font-extrabold text-indigo-600">${esc(g.jenis_paket)}</td>
+                    <td class="p-2 font-black text-amber-700">${esc(g.tempat)}</td>
+                    <td class="p-2">${badgeStatus(g.status, 'guru')}${badgeMenumpuk(g)}</td>
+                    <td class="p-2 text-gray-500">${esc(g.waktu_masuk || '-')}</td>
+                    <td class="p-2 text-gray-400">${esc(g.petugas_input || '-')}</td>
+                    <td class="p-2 text-gray-500">${esc(g.waktu_keluar || '-')}</td>
+                    <td class="p-2 text-gray-400 truncate max-w-[120px]" title="${esc(g.petugas_keluar || '-')}">${esc(g.petugas_keluar || '-')}</td>
                     <td class="p-2 text-center flex items-center justify-center gap-1">
                         ${g.status === 'Belum Diambil' ? 
-                        `<button onclick="bukaModalProsesAmbilGuru('${g.id}')" class="bg-purple-700 hover:bg-purple-800 text-white font-bold px-2 py-0.5 rounded text-[10px]">Opsi Ambil</button>` : 
-                        `<button onclick="batalAmbilPaket('${g.id}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Batalkan</button>`}
-                        <button onclick="editPosisiRakPaket('${g.id}', '${g.tempat}')" class="bg-amber-500 text-slate-950 font-black px-2 py-0.5 rounded text-[10px]">Edit Rak</button>
-                        <button onclick="hapusPaketSistem('${g.id}', '${g.nama}')" class="bg-red-700 hover:bg-red-800 text-white font-black px-2 py-0.5 rounded text-[10px]">Hapus</button>
+                        `<button onclick="bukaModalProsesAmbilGuru('${esc(g.id)}')" class="bg-purple-700 hover:bg-purple-800 text-white font-bold px-2 py-0.5 rounded text-[10px]">Opsi Ambil</button>` : 
+                        `<button onclick="batalAmbilPaket('${esc(g.id)}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Batalkan</button>`}
+                        <button onclick="editPosisiRakPaket('${esc(g.id)}')" class="bg-amber-500 text-slate-950 font-black px-2 py-0.5 rounded text-[10px]">Edit Rak</button>
+                        <button onclick="cetakStruk('paket','${esc(g.id)}')" class="bg-slate-600 hover:bg-slate-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Struk</button>
+                        <button onclick="hapusPaketSistem('${esc(g.id)}')" class="bg-red-700 hover:bg-red-800 text-white font-black px-2 py-0.5 rounded text-[10px]">Hapus</button>
                     </td>
                 </tr>
             `).join('');
@@ -885,16 +1064,16 @@
             if(logGuruTerkini) {
                 let dataGuruTerkini = databasePaket.filter(p => p.keterangan === 'guru');
                 logGuruTerkini.innerHTML = dataGuruTerkini.slice(0, 40).map(g => `
-                    <tr class="border-b hover:bg-slate-50 text-[11px]">
-                        <td class="p-2 font-bold">${g.nama}</td>
-                        <td class="p-2 text-purple-700 font-bold">${g.kelas}</td>
-                        <td class="p-2">${g.rayon || '-'}</td>
-                        <td class="p-2 font-semibold text-indigo-600">${g.jenis_paket}</td>
-                        <td class="p-2 font-black text-amber-700">${g.tempat}</td>
-                        <td class="p-2 text-gray-500">${g.waktu_masuk || '-'}</td>
-                        <td class="p-2 text-gray-400">${g.petugas_input || '-'}</td>
-                        <td class="p-2 text-gray-500">${g.waktu_keluar || '-'}</td>
-                        <td class="p-2 text-gray-400 truncate max-w-[100px]">${g.petugas_keluar || '-'}</td>
+                    <tr class="border-b hover:bg-slate-50 text-[11px] ${kelasBarisMenumpuk(g)}">
+                        <td class="p-2 font-bold">${esc(g.nama)}</td>
+                        <td class="p-2 text-purple-700 font-bold">${esc(g.kelas)}</td>
+                        <td class="p-2">${esc(g.rayon || '-')}</td>
+                        <td class="p-2 font-semibold text-indigo-600">${esc(g.jenis_paket)}</td>
+                        <td class="p-2 font-black text-amber-700">${esc(g.tempat)}</td>
+                        <td class="p-2 text-gray-500">${esc(g.waktu_masuk || '-')}</td>
+                        <td class="p-2 text-gray-400">${esc(g.petugas_input || '-')}</td>
+                        <td class="p-2 text-gray-500">${esc(g.waktu_keluar || '-')}</td>
+                        <td class="p-2 text-gray-400 truncate max-w-[100px]">${esc(g.petugas_keluar || '-')}</td>
                     </tr>
                 `).join('');
             }
@@ -908,6 +1087,20 @@
             const tglHariIni = new Date().toLocaleDateString('id-ID', {day: '2-digit', month: '2-digit', year: 'numeric'});
             const jumlahMasukHariIni = databasePaket.filter(p => p.waktu_masuk && p.waktu_masuk.includes(tglHariIni)).length;
             document.getElementById('statTotalMasuk').innerText = jumlahMasukHariIni;
+            perbaruiBannerMenumpuk();
+        }
+
+        function perbaruiBannerMenumpuk() {
+            const banner = document.getElementById('bannerMenumpuk');
+            if (!banner) return;
+            const nUtama = databasePaket.filter(menumpuk).length;
+            const nAnonim = bolehAksesAnonim() ? listAnonim.filter(menumpuk).length : 0;
+            const total = nUtama + nAnonim;
+            if (total === 0) { banner.classList.add('hidden'); return; }
+            let rincian = `santri/guru: ${nUtama}`;
+            if (bolehAksesAnonim()) rincian += `, anonim: ${nAnonim}`;
+            document.getElementById('teksBannerMenumpuk').innerText = `⚠️ ${total} paket belum diambil sudah ${BATAS_HARI_MENUMPUK} hari atau lebih (${rincian}). Baris ditandai merah di tabel.`;
+            banner.classList.remove('hidden');
         }
 
         function resetFilterAmbilGuru() {
@@ -917,7 +1110,9 @@
             renderTabelAmbilGuru();
         }
 
-        async function hapusPaketSistem(id, namaPemilik) {
+        async function hapusPaketSistem(id) {
+            const p = databasePaket.find(x => String(x.id) === String(id));
+            const namaPemilik = p ? p.nama : id;
             if(!confirm(`Apakah Anda yakin ingin MENGHAPUS PERMANEN data paket milik [ ${namaPemilik} ] dari database cloud?`)) return;
             try {
                 const { error } = await _supabase.from('paket').delete().eq('id', id);
@@ -949,7 +1144,7 @@
             if((metode === 'Di antarkan' || metode === 'di ambilkan') && !tambahanVal) { alert("Nama keterangan utusan wajib diisi!"); return; }
             if((metode === 'Di antarkan' || metode === 'di ambilkan') && tambahanVal) { ketFinalAmbil = `${metode} (${tambahanVal})`; }
             if(!userLoginAktif) return;
-            const namaPetugasSekarang = userLoginAktif.nama || userLoginAktif.username;
+            const namaPetugasSekarang = namaPetugasSaatIni();
             try {
                 const { error } = await _supabase.from('paket').update({ status: 'Sudah Diambil', waktu_keluar: dapatkanWaktuSekarang(), petugas_keluar: `${namaPetugasSekarang} [Metode: ${metode}] (Oleh: ${tambahanVal || 'Sendiri'})` }).eq('id', id);
                 if (error) throw error;
@@ -964,7 +1159,7 @@
         async function prosesAmbilPaketLangsung(id) {
             if(!userLoginAktif) return;
             try {
-                const namaPetugasSekarang = userLoginAktif.nama || userLoginAktif.username;
+                const namaPetugasSekarang = namaPetugasSaatIni();
                 const { error } = await _supabase.from('paket').update({ status: 'Sudah Diambil', waktu_keluar: dapatkanWaktuSekarang(), petugas_keluar: namaPetugasSekarang }).eq('id', id);
                 if (error) throw error;
                 catatAuditLog(`Menandai paket ID ${id} sebagai sudah diambil.`);
@@ -984,7 +1179,9 @@
                 tampilkanPesanError("Gagal membatalkan status ambil di database.");
             }
         }
-        async function editPosisiRakPaket(id, lokasiLama) {
+        async function editPosisiRakPaket(id) {
+            const p = databasePaket.find(x => String(x.id) === String(id));
+            const lokasiLama = p ? (p.tempat || '') : '';
             const lokasiBaru = prompt(`Ubah posisi Rak untuk paket ini:\n(Posisi saat ini: ${lokasiLama})`, lokasiLama);
             if(lokasiBaru === null) return;
             const nilaiBersih = lokasiBaru.trim();
@@ -1109,11 +1306,12 @@
             try {
                 const { data, error } = await _supabase.from('users').select('*');
                 if (error) throw error;
-                bodyUsers.innerHTML = data.map(u => `
+                daftarUsers = data || [];
+                bodyUsers.innerHTML = daftarUsers.map(u => `
                     <tr class="border-b text-slate-700">
-                        <td class="p-2 font-bold">${u.username}</td>
-                        <td class="p-2 font-medium uppercase text-indigo-600">${u.role}</td>
-                        <td class="p-2 text-center"><button onclick="hapusAkunPetugas('${u.id}', '${u.username}')" class="bg-red-100 border border-red-300 text-red-700 px-2 py-0.5 rounded text-[11px] font-bold">Hapus</button></td>
+                        <td class="p-2 font-bold">${esc(u.username)}</td>
+                        <td class="p-2 font-medium uppercase text-indigo-600">${esc(u.role)}</td>
+                        <td class="p-2 text-center"><button onclick="hapusAkunPetugas('${esc(u.id)}')" class="bg-red-100 border border-red-300 text-red-700 px-2 py-0.5 rounded text-[11px] font-bold">Hapus</button></td>
                     </tr>
                 `).join('');
             } catch(e) { console.error(e); }
@@ -1134,7 +1332,9 @@
             } catch(e) { alert("Gagal mendaftarkan akun baru."); }
         }
 
-        async function hapusAkunPetugas(id, username) {
+        async function hapusAkunPetugas(id) {
+            const u = daftarUsers.find(x => String(x.id) === String(id));
+            const username = u ? u.username : id;
             if(username === userLoginAktif.username) { alert("Anda tidak diperbolehkan menghapus akun Anda sendiri yang sedang aktif!"); return; }
             if(!confirm(`Hapus hak akses sistem untuk user petugas [ ${username} ]?`)) return;
             try {
@@ -1148,15 +1348,34 @@
         // =====================================================================
         // ANONYMUS PACKAGE (khusus petugas_full & superadmin)
         // =====================================================================
-        function esc(s) {
-            return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-        }
         function bolehAksesAnonim() {
             return !!userLoginAktif && (userLoginAktif.role === 'petugas_full' || userLoginAktif.role === 'superadmin');
         }
+        const PESAN_KOLOM_ANONIM = "Pastikan tabel 'paket_anonim' sudah dibuat dan SQL upgrade (upgrade_anonymus_package.sql) sudah dijalankan di Supabase.";
 
-        // ----- Kamera -----
+        // ----- Kamera & foto -----
+        function renderFotoAnonimForm() {
+            const box = document.getElementById('thumbFotoAnonim');
+            const n = fotoAnonimList.length;
+            box.innerHTML = fotoAnonimList.map((f, i) => `
+                <div class="relative">
+                    <img src="${f}" alt="Foto ${i + 1}" class="h-14 w-14 object-cover rounded-md border-2 border-indigo-400">
+                    <button type="button" onclick="hapusFotoAnonimForm(${i})" class="absolute -top-1.5 -right-1.5 bg-red-600 text-white rounded-full w-4 h-4 text-[9px] font-black leading-none">x</button>
+                </div>`).join('');
+            const btn = document.getElementById('btnAmbilFotoAnonim');
+            btn.innerText = `📷 Ambil Foto (${n}/${MAKS_FOTO_ANONIM})`;
+            btn.disabled = n >= MAKS_FOTO_ANONIM;
+            document.getElementById('infoFotoAnonim').innerText = n === 0 ? `Belum ada foto (maksimal ${MAKS_FOTO_ANONIM} foto)` : (n >= MAKS_FOTO_ANONIM ? 'Batas foto tercapai' : 'Foto siap disimpan');
+        }
+        function tambahFotoAnonim(dataUrl) {
+            if (!dataUrl || fotoAnonimList.length >= MAKS_FOTO_ANONIM) return;
+            fotoAnonimList.push(dataUrl);
+            renderFotoAnonimForm();
+        }
+        function hapusFotoAnonimForm(i) { fotoAnonimList.splice(i, 1); renderFotoAnonimForm(); }
+
         async function bukaKamera() {
+            if (fotoAnonimList.length >= MAKS_FOTO_ANONIM) { tampilkanPesanError(`Maksimal ${MAKS_FOTO_ANONIM} foto per paket.`); return; }
             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
                 document.getElementById('inputFotoFallback').click();
                 return;
@@ -1191,25 +1410,10 @@
             canvas.getContext('2d').drawImage(sumber, 0, 0, w, h);
             return canvas.toDataURL('image/jpeg', 0.65);
         }
-        function aturFotoAnonim(dataUrl) {
-            fotoAnonimData = dataUrl || '';
-            const img = document.getElementById('previewFotoAnonim');
-            const btnHapus = document.getElementById('btnHapusFotoAnonim');
-            const info = document.getElementById('infoFotoAnonim');
-            if (fotoAnonimData) {
-                img.src = fotoAnonimData; img.classList.remove('hidden');
-                btnHapus.classList.remove('hidden');
-                info.innerText = 'Foto siap disimpan';
-            } else {
-                img.removeAttribute('src'); img.classList.add('hidden');
-                btnHapus.classList.add('hidden');
-                info.innerText = 'Belum ada foto';
-            }
-        }
         function ambilFotoDariKamera() {
             const video = document.getElementById('videoKamera');
             if (!video.videoWidth) { tampilkanPesanError("Kamera belum siap, coba sebentar lagi."); return; }
-            aturFotoAnonim(kompresKeDataUrl(video, video.videoWidth, video.videoHeight));
+            tambahFotoAnonim(kompresKeDataUrl(video, video.videoWidth, video.videoHeight));
             tutupKamera();
         }
         function handleFotoFallback(event) {
@@ -1218,14 +1422,13 @@
             const url = URL.createObjectURL(file);
             const img = new Image();
             img.onload = () => {
-                aturFotoAnonim(kompresKeDataUrl(img, img.naturalWidth, img.naturalHeight));
+                tambahFotoAnonim(kompresKeDataUrl(img, img.naturalWidth, img.naturalHeight));
                 URL.revokeObjectURL(url);
             };
             img.onerror = () => { URL.revokeObjectURL(url); tampilkanPesanError("Foto tidak bisa dibaca."); };
             img.src = url;
             event.target.value = '';
         }
-        function hapusFotoAnonimForm() { aturFotoAnonim(''); }
 
         // ----- Simpan -----
         async function simpanPaketAnonim(e) {
@@ -1236,17 +1439,20 @@
                 nama: ambil('anonNama'),
                 no_telp: ambil('anonTelp'),
                 pengirim: ambil('anonPengirim'),
+                tempat: ambil('anonTempat'),
                 ciri_ciri: ambil('anonCiri'),
                 keterangan_tambahan: ambil('anonKet'),
-                foto: fotoAnonimData || null,
-                ada_foto: !!fotoAnonimData,
+                foto: fotoAnonimList[0] || null,
+                foto_tambahan: fotoAnonimList.slice(1),
+                jumlah_foto: fotoAnonimList.length,
+                ada_foto: fotoAnonimList.length > 0,
                 status: 'Belum Diambil',
                 waktu_masuk: dapatkanWaktuSekarang(),
-                petugas_input: userLoginAktif.nama || userLoginAktif.username,
+                petugas_input: namaPetugasSaatIni(),
                 waktu_keluar: '-',
                 petugas_keluar: '-'
             };
-            const semuaKosong = !rec.nama && !rec.no_telp && !rec.pengirim && !rec.ciri_ciri && !rec.keterangan_tambahan && !rec.foto;
+            const semuaKosong = !rec.nama && !rec.no_telp && !rec.pengirim && !rec.tempat && !rec.ciri_ciri && !rec.keterangan_tambahan && !rec.foto;
             if (semuaKosong && !confirm("Semua kolom kosong. Tetap simpan sebagai paket tanpa keterangan?")) return;
             const btn = document.getElementById('btnSubmitAnonim');
             btn.disabled = true;
@@ -1255,12 +1461,13 @@
                 if (error) throw error;
                 catatAuditLog(`Menyimpan Anonymus Package${rec.nama ? ': ' + rec.nama : ''}${rec.pengirim ? ' (pengirim: ' + rec.pengirim + ')' : ''}`);
                 document.getElementById('formAnonim').reset();
-                aturFotoAnonim('');
+                fotoAnonimList = [];
+                renderFotoAnonimForm();
                 await muatDataAnonim();
                 tampilkanPesanError("Anonymus Package berhasil disimpan!", 'anonNama');
             } catch (err) {
                 console.error(err);
-                tampilkanPesanError("Gagal menyimpan Anonymus Package.\nPastikan tabel 'paket_anonim' sudah dibuat di Supabase.");
+                tampilkanPesanError("Gagal menyimpan Anonymus Package.\n" + PESAN_KOLOM_ANONIM);
             } finally {
                 btn.disabled = false;
             }
@@ -1270,56 +1477,100 @@
         async function muatDataAnonim() {
             if (!bolehAksesAnonim()) return;
             try {
-                // Kolom foto sengaja tidak diambil di daftar agar ringan; foto dimuat saat tombol Lihat ditekan
+                // Kolom foto sengaja tidak diambil di daftar agar ringan; foto dimuat saat dibutuhkan
                 const { data, error } = await _supabase.from('paket_anonim')
-                    .select('id,nama,no_telp,pengirim,ciri_ciri,keterangan_tambahan,ada_foto,status,waktu_masuk,petugas_input,waktu_keluar,petugas_keluar')
-                    .order('id', { ascending: false }).limit(300);
+                    .select('id,nama,no_telp,pengirim,ciri_ciri,keterangan_tambahan,tempat,ada_foto,jumlah_foto,status,waktu_masuk,petugas_input,waktu_keluar,petugas_keluar,created_at')
+                    .order('id', { ascending: false }).limit(500);
                 if (error) throw error;
                 listAnonim = data || [];
                 renderTabelAnonim();
+                perbaruiBannerMenumpuk();
             } catch (err) {
                 console.error("Gagal memuat Anonymus Package:", err);
                 const tbody = document.getElementById('tabelBodyAnonim');
-                if (tbody) tbody.innerHTML = `<tr><td colspan="10" class="p-4 text-center text-red-600 font-bold">Gagal memuat data. Pastikan tabel 'paket_anonim' sudah dibuat di Supabase.</td></tr>`;
+                if (tbody) tbody.innerHTML = `<tr><td colspan="11" class="p-4 text-center text-red-600 font-bold">Gagal memuat data. ${esc(PESAN_KOLOM_ANONIM)}</td></tr>`;
             }
+        }
+        function tanggalRecordAnonim(p) {
+            if (p.created_at) { const d = new Date(p.created_at); if (!isNaN(d)) return d; }
+            return parseWaktuMasuk(p.waktu_masuk);
+        }
+        function dataAnonimTerfilter() {
+            const statusVal = document.getElementById('filterStatusAnonim').value;
+            const kw = document.getElementById('cariAnonim').value.trim().toLowerCase();
+            const dari = document.getElementById('anonTglDari').value;
+            const sampai = document.getElementById('anonTglSampai').value;
+            return listAnonim.filter(p => {
+                if (statusVal !== 'Semua' && p.status !== statusVal) return false;
+                if (kw && ![p.nama, p.no_telp, p.pengirim, p.ciri_ciri, p.keterangan_tambahan, p.tempat].some(v => v && String(v).toLowerCase().includes(kw))) return false;
+                if (dari || sampai) {
+                    const d = tanggalRecordAnonim(p);
+                    if (!d) return false;
+                    if (dari && d < new Date(dari + 'T00:00:00')) return false;
+                    if (sampai && d > new Date(sampai + 'T23:59:59')) return false;
+                }
+                return true;
+            });
+        }
+        function deskripsiFilterAnonim() {
+            const bagian = [];
+            const statusVal = document.getElementById('filterStatusAnonim').value;
+            const kw = document.getElementById('cariAnonim').value.trim();
+            const dari = document.getElementById('anonTglDari').value;
+            const sampai = document.getElementById('anonTglSampai').value;
+            bagian.push('Status: ' + (statusVal === 'Semua' ? 'Semua' : statusVal));
+            if (kw) bagian.push(`Pencarian: "${kw}"`);
+            if (dari || sampai) bagian.push(`Periode: ${dari || '...'} s/d ${sampai || '...'}`);
+            return bagian.join('  |  ');
+        }
+        function resetFilterAnonim() {
+            document.getElementById('filterStatusAnonim').value = 'Semua';
+            document.getElementById('cariAnonim').value = '';
+            document.getElementById('anonTglDari').value = '';
+            document.getElementById('anonTglSampai').value = '';
+            renderTabelAnonim();
         }
         function renderTabelAnonim() {
             const tbody = document.getElementById('tabelBodyAnonim');
             if (!tbody) return;
-            const statusVal = document.getElementById('filterStatusAnonim').value;
-            const kw = document.getElementById('cariAnonim').value.trim().toLowerCase();
-            const hasil = listAnonim.filter(p => {
-                if (statusVal !== 'Semua' && p.status !== statusVal) return false;
-                if (!kw) return true;
-                return [p.nama, p.no_telp, p.pengirim, p.ciri_ciri, p.keterangan_tambahan].some(v => v && String(v).toLowerCase().includes(kw));
-            });
+            const hasil = dataAnonimTerfilter();
             if (hasil.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="10" class="p-4 text-center text-slate-400">[Belum ada data Anonymus Package]</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="11" class="p-4 text-center text-slate-400">[Belum ada data Anonymus Package]</td></tr>`;
                 return;
             }
             const kosong = '<span class="text-slate-300">-</span>';
-            tbody.innerHTML = hasil.map(p => `
-                <tr class="border-b text-slate-700 hover:bg-slate-50 transition align-top">
+            tbody.innerHTML = hasil.map(p => {
+                const id = esc(p.id);
+                let aksiStatus = '';
+                if (p.status === 'Belum Diambil') {
+                    aksiStatus = `<button onclick="bukaTautkanAnonim('${id}')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Tautkan</button>
+                                  <button onclick="setDiambilAnonim('${id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Set Diambil</button>`;
+                } else if (p.status === 'Sudah Diambil') {
+                    aksiStatus = `<button onclick="batalDiambilAnonim('${id}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Batal Ambil</button>`;
+                }
+                return `
+                <tr class="border-b text-slate-700 hover:bg-slate-50 transition align-top ${kelasBarisMenumpuk(p)}">
                     <td class="p-2 text-gray-500">${esc(p.waktu_masuk) || '-'}</td>
-                    <td class="p-2 font-bold text-slate-900">${p.nama ? esc(p.nama) : kosong}</td>
+                    <td class="p-2 font-bold text-slate-900 break-words">${p.nama ? esc(p.nama) : kosong}</td>
                     <td class="p-2">${p.no_telp ? esc(p.no_telp) : kosong}</td>
-                    <td class="p-2">${p.pengirim ? esc(p.pengirim) : kosong}</td>
+                    <td class="p-2 break-words">${p.pengirim ? esc(p.pengirim) : kosong}</td>
                     <td class="p-2 break-words">${p.ciri_ciri ? esc(p.ciri_ciri) : kosong}</td>
                     <td class="p-2 break-words">${p.keterangan_tambahan ? esc(p.keterangan_tambahan) : kosong}</td>
-                    <td class="p-2 text-center">${p.ada_foto ? '📷' : kosong}</td>
-                    <td class="p-2"><span class="px-2 py-0.5 rounded-full font-black text-[10px] ${p.status === 'Belum Diambil' ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-emerald-100 text-emerald-800 border border-emerald-300'}">${esc(p.status)}</span></td>
+                    <td class="p-2 font-black text-amber-800">${p.tempat ? esc(p.tempat) : kosong}</td>
+                    <td class="p-2 text-center">${p.ada_foto ? '📷' + (p.jumlah_foto > 1 ? ' ' + p.jumlah_foto : '') : kosong}</td>
+                    <td class="p-2">${badgeStatus(p.status)}${badgeMenumpuk(p)}</td>
                     <td class="p-2 text-gray-400">${esc(p.petugas_input) || '-'}</td>
                     <td class="p-2 text-center">
                         <div class="flex items-center justify-center gap-1 flex-wrap">
-                            <button onclick="lihatDetailAnonim('${esc(p.id)}')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Lihat</button>
-                            ${p.status === 'Belum Diambil'
-                                ? `<button onclick="setDiambilAnonim('${esc(p.id)}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Set Diambil</button>`
-                                : `<button onclick="batalDiambilAnonim('${esc(p.id)}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Batal Ambil</button>`}
-                            <button onclick="hapusPaketAnonim('${esc(p.id)}')" class="bg-red-700 hover:bg-red-800 text-white font-black px-2 py-0.5 rounded text-[10px]">Hapus</button>
+                            <button onclick="lihatDetailAnonim('${id}')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Lihat</button>
+                            <button onclick="bukaEditAnonim('${id}')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-2 py-0.5 rounded text-[10px]">Edit</button>
+                            <button onclick="cetakStruk('anonim','${id}')" class="bg-slate-600 hover:bg-slate-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Struk</button>
+                            ${aksiStatus}
+                            <button onclick="hapusPaketAnonim('${id}')" class="bg-red-700 hover:bg-red-800 text-white font-black px-2 py-0.5 rounded text-[10px]">Hapus</button>
                         </div>
                     </td>
-                </tr>
-            `).join('');
+                </tr>`;
+            }).join('');
         }
 
         // ----- Detail + foto -----
@@ -1333,25 +1584,28 @@
                 ${baris('Nama', p.nama)}
                 ${baris('No. Telp', p.no_telp)}
                 ${baris('Pengirim', p.pengirim)}
+                ${baris('Lokasi Rak', p.tempat)}
                 ${baris('Ciri-ciri', p.ciri_ciri)}
                 ${baris('Keterangan Tambahan', p.keterangan_tambahan)}
                 ${baris('Status', p.status)}
                 ${baris('Waktu Masuk', p.waktu_masuk)}
                 ${baris('Petugas Input', p.petugas_input)}
                 ${baris('Waktu Keluar', p.waktu_keluar)}
-                ${baris('Petugas Keluar', p.petugas_keluar)}
+                ${baris('Petugas Keluar / Keterangan', p.petugas_keluar)}
             `;
             document.getElementById('modalDetailAnonim').classList.remove('hidden');
             if (!p.ada_foto) return;
             try {
-                const { data, error } = await _supabase.from('paket_anonim').select('foto').eq('id', id).single();
+                const { data, error } = await _supabase.from('paket_anonim').select('foto,foto_tambahan').eq('id', id).single();
                 if (error) throw error;
+                const semua = [];
+                if (data && data.foto) semua.push(data.foto);
+                if (data && Array.isArray(data.foto_tambahan)) semua.push(...data.foto_tambahan);
+                const valid = semua.filter(f => typeof f === 'string' && f.startsWith('data:image/'));
                 const fotoBox = document.getElementById('boxFotoDetailAnonim');
-                if (data && data.foto && String(data.foto).startsWith('data:image/')) {
-                    fotoBox.innerHTML = `<img src="${data.foto}" alt="Foto paket" class="w-full rounded-xl border">`;
-                } else {
-                    fotoBox.innerText = 'Foto tidak tersedia';
-                }
+                if (valid.length === 0) { fotoBox.innerText = 'Foto tidak tersedia'; return; }
+                fotoBox.className = 'grid grid-cols-2 gap-2';
+                fotoBox.innerHTML = valid.map((f, i) => `<img src="${f}" alt="Foto paket ${i + 1}" class="w-full rounded-xl border ${i === 0 && valid.length % 2 === 1 ? 'col-span-2' : ''}">`).join('');
             } catch (err) {
                 const fotoBox = document.getElementById('boxFotoDetailAnonim');
                 if (fotoBox) fotoBox.innerText = 'Gagal memuat foto';
@@ -1359,11 +1613,131 @@
         }
         function tutupDetailAnonim() { document.getElementById('modalDetailAnonim').classList.add('hidden'); }
 
+        // ----- Edit data -----
+        function bukaEditAnonim(id) {
+            if (!bolehAksesAnonim()) return;
+            const p = listAnonim.find(x => String(x.id) === String(id));
+            if (!p) return;
+            document.getElementById('edId').value = p.id;
+            document.getElementById('edNama').value = p.nama || '';
+            document.getElementById('edTelp').value = p.no_telp || '';
+            document.getElementById('edPengirim').value = p.pengirim || '';
+            document.getElementById('edTempat').value = p.tempat || '';
+            document.getElementById('edCiri').value = p.ciri_ciri || '';
+            document.getElementById('edKet').value = p.keterangan_tambahan || '';
+            document.getElementById('modalEditAnonim').classList.remove('hidden');
+        }
+        function tutupEditAnonim() { document.getElementById('modalEditAnonim').classList.add('hidden'); }
+        async function simpanEditAnonim(e) {
+            e.preventDefault();
+            if (!bolehAksesAnonim()) return;
+            const id = document.getElementById('edId').value;
+            const ambil = el => document.getElementById(el).value.trim() || null;
+            const perubahan = {
+                nama: ambil('edNama'), no_telp: ambil('edTelp'), pengirim: ambil('edPengirim'),
+                tempat: ambil('edTempat'), ciri_ciri: ambil('edCiri'), keterangan_tambahan: ambil('edKet')
+            };
+            try {
+                const { error } = await _supabase.from('paket_anonim').update(perubahan).eq('id', id);
+                if (error) throw error;
+                catatAuditLog(`Mengedit data Anonymus Package ID ${id}.`);
+                tutupEditAnonim();
+                await muatDataAnonim();
+            } catch (err) { tampilkanPesanError("Gagal menyimpan perubahan Anonymus Package.\n" + PESAN_KOLOM_ANONIM); }
+        }
+
+        // ----- Tautkan ke pemilik -----
+        function bukaTautkanAnonim(id) {
+            if (!bolehAksesAnonim()) return;
+            const p = listAnonim.find(x => String(x.id) === String(id));
+            if (!p) return;
+            tkTerpilih = null;
+            hasilTautkan = [];
+            document.getElementById('tkId').value = p.id;
+            document.getElementById('tkTipe').value = 'santri';
+            document.getElementById('tkCari').value = '';
+            document.getElementById('tkJenis').value = '';
+            document.getElementById('tkTempat').value = p.tempat || '';
+            document.getElementById('tkHasil').innerHTML = '';
+            document.getElementById('tkTerpilihInfo').innerText = 'Belum memilih pemilik';
+            document.getElementById('modalTautkanAnonim').classList.remove('hidden');
+            setTimeout(() => document.getElementById('tkCari').focus(), 100);
+        }
+        function tutupTautkanAnonim() { document.getElementById('modalTautkanAnonim').classList.add('hidden'); }
+        function cariPemilikTautkan() {
+            const tipe = document.getElementById('tkTipe').value;
+            const kw = document.getElementById('tkCari').value.trim().toLowerCase();
+            const box = document.getElementById('tkHasil');
+            tkTerpilih = null;
+            document.getElementById('tkTerpilihInfo').innerText = 'Belum memilih pemilik';
+            if (!kw) { hasilTautkan = []; box.innerHTML = ''; return; }
+            if (tipe === 'santri') {
+                hasilTautkan = listSeluruhMahasiswa
+                    .filter(s => (s.nama && s.nama.toLowerCase().includes(kw)) || (s.stambuk && String(s.stambuk).toLowerCase().includes(kw)))
+                    .slice(0, 20)
+                    .map(s => ({ tipe: 'santri', stambuk: String(s.stambuk), nama: s.nama, kelas: s.kelas || '-', rayon: s.rayon || '-', daerah: s.daerah || '-', orangtua: s.orangtua || '-' }));
+            } else {
+                hasilTautkan = listSeluruhGuruData
+                    .filter(g => (g.nama || g.Nama || '').toLowerCase().includes(kw))
+                    .slice(0, 20)
+                    .map(g => ({ tipe: 'guru', stambuk: '-', nama: g.nama || g.Nama || '-', kelas: String(g.kamar || g.Kamar || '-'), rayon: String(g.tahun || g.Tahun || '-'), daerah: '-', orangtua: '-' }));
+            }
+            if (hasilTautkan.length === 0) {
+                box.innerHTML = `<div class="p-2 text-center text-gray-400">Tidak ditemukan</div>`;
+                return;
+            }
+            box.innerHTML = hasilTautkan.map((h, i) => `
+                <div onclick="pilihPemilikTautkan(${i})" class="p-2 hover:bg-indigo-50 cursor-pointer flex justify-between gap-2">
+                    <span class="font-bold">${esc(h.nama)}</span>
+                    <span class="text-gray-500 text-right">${esc(h.tipe === 'santri' ? h.stambuk + ' • ' + h.kelas : h.kelas)}</span>
+                </div>`).join('');
+        }
+        function pilihPemilikTautkan(i) {
+            tkTerpilih = hasilTautkan[i] || null;
+            if (!tkTerpilih) return;
+            document.getElementById('tkTerpilihInfo').innerText = `Terpilih: ${tkTerpilih.nama} (${tkTerpilih.tipe === 'santri' ? 'Santri, stambuk ' + tkTerpilih.stambuk : 'Guru'})`;
+        }
+        async function simpanTautkanAnonim() {
+            if (!bolehAksesAnonim()) return;
+            const id = document.getElementById('tkId').value;
+            const p = listAnonim.find(x => String(x.id) === String(id));
+            const jenis = document.getElementById('tkJenis').value;
+            const tempat = document.getElementById('tkTempat').value.trim();
+            if (!p) return;
+            if (!tkTerpilih) { tampilkanPesanError("Pilih dulu pemilik paket dari daftar."); return; }
+            if (!jenis) { tampilkanPesanError("Pilih jenis paket dulu."); return; }
+            if (!tempat) { tampilkanPesanError("Lokasi rak wajib diisi untuk paket santri/guru."); return; }
+            if (!confirm(`Tautkan paket anonim #${p.id} ke ${tkTerpilih.nama}?`)) return;
+            const paketBaru = {
+                stambuk: tkTerpilih.stambuk, nama: tkTerpilih.nama, kelas: tkTerpilih.kelas, rayon: tkTerpilih.rayon,
+                daerah: tkTerpilih.daerah, orangtua: tkTerpilih.orangtua, jenis_paket: jenis, tempat: tempat,
+                status: 'Belum Diambil', petugas_input: p.petugas_input || namaPetugasSaatIni(),
+                waktu_masuk: p.waktu_masuk || dapatkanWaktuSekarang(), waktu_keluar: '-',
+                keterangan: tkTerpilih.tipe === 'guru' ? 'guru' : 'siswa'
+            };
+            try {
+                const { error: e1 } = await _supabase.from('paket').insert([paketBaru]);
+                if (e1) throw e1;
+            } catch (err) { tampilkanPesanError("Gagal membuat paket santri/guru dari paket anonim."); return; }
+            try {
+                const { error: e2 } = await _supabase.from('paket_anonim').update({
+                    status: 'Ditautkan', waktu_keluar: dapatkanWaktuSekarang(),
+                    petugas_keluar: `${namaPetugasSaatIni()} -> ${tkTerpilih.tipe === 'guru' ? 'Guru' : 'Santri'}: ${tkTerpilih.nama}`
+                }).eq('id', id);
+                if (e2) throw e2;
+            } catch (err) { tampilkanPesanError("Paket baru sudah dibuat, tapi status paket anonim gagal diperbarui. Ubah status secara manual agar tidak terhitung dua kali."); }
+            catatAuditLog(`Menautkan Anonymus Package ID ${id} ke ${tkTerpilih.tipe}: ${tkTerpilih.nama}`);
+            tutupTautkanAnonim();
+            await muatDataKomplit();
+            await muatDataAnonim();
+            tampilkanPesanError(`Berhasil ditautkan ke ${tkTerpilih.nama}. Paket kini ada di daftar paket ${tkTerpilih.tipe === 'guru' ? 'guru' : 'santri'}.`);
+        }
+
         // ----- Aksi status & hapus -----
         async function setDiambilAnonim(id) {
             if (!bolehAksesAnonim()) return;
             try {
-                const { error } = await _supabase.from('paket_anonim').update({ status: 'Sudah Diambil', waktu_keluar: dapatkanWaktuSekarang(), petugas_keluar: userLoginAktif.nama || userLoginAktif.username }).eq('id', id);
+                const { error } = await _supabase.from('paket_anonim').update({ status: 'Sudah Diambil', waktu_keluar: dapatkanWaktuSekarang(), petugas_keluar: namaPetugasSaatIni() }).eq('id', id);
                 if (error) throw error;
                 catatAuditLog(`Menandai Anonymus Package ID ${id} sebagai sudah diambil.`);
                 await muatDataAnonim();
@@ -1388,6 +1762,152 @@
                 catatAuditLog(`Menghapus permanen Anonymus Package ID ${id}.`);
                 await muatDataAnonim();
             } catch (err) { tampilkanPesanError("Gagal menghapus Anonymus Package."); }
+        }
+
+        // ----- Ekspor PDF (kartu / tabel) -----
+        function setStatusPdf(teks) { const el = document.getElementById('statusPdfAnonim'); if (el) el.innerText = teks || ''; }
+        async function ambilFotoUntukPdf(records) {
+            const peta = {};
+            const ids = records.filter(r => r.ada_foto).map(r => r.id);
+            for (let i = 0; i < ids.length; i += 8) {
+                const potong = ids.slice(i, i + 8);
+                const { data, error } = await _supabase.from('paket_anonim').select('id,foto,foto_tambahan').in('id', potong);
+                if (error) throw error;
+                (data || []).forEach(r => {
+                    const semua = [];
+                    if (r.foto) semua.push(r.foto);
+                    if (Array.isArray(r.foto_tambahan)) semua.push(...r.foto_tambahan);
+                    peta[String(r.id)] = semua.filter(f => typeof f === 'string' && f.startsWith('data:image/'));
+                });
+                setStatusPdf(`Mengambil foto ${Math.min(i + 8, ids.length)} dari ${ids.length}...`);
+            }
+            return peta;
+        }
+        function gambarFit(doc, dataUrl, x, y, boxW, boxH) {
+            try {
+                const pr = doc.getImageProperties(dataUrl);
+                const skala = Math.min(boxW / pr.width, boxH / pr.height);
+                const w = pr.width * skala, h = pr.height * skala;
+                doc.addImage(dataUrl, 'JPEG', x + (boxW - w) / 2, y + (boxH - h) / 2, w, h);
+            } catch (err) { console.error("Gagal menambahkan gambar ke PDF:", err); }
+        }
+        function gambarKopPdf(doc, judul, infoFilter) {
+            const lebar = doc.internal.pageSize.getWidth();
+            doc.setTextColor(0);
+            doc.setFont('helvetica', 'bold'); doc.setFontSize(14);
+            doc.text(NAMA_PESANTREN, lebar / 2, 14, { align: 'center' });
+            doc.setFontSize(11);
+            doc.text(judul, lebar / 2, 20, { align: 'center' });
+            doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
+            doc.text(`Dicetak: ${dapatkanWaktuSekarang()}  |  Petugas: ${namaPetugasSaatIni()}`, lebar / 2, 25, { align: 'center' });
+            const barisFilter = doc.splitTextToSize(infoFilter, lebar - 24)[0] || '';
+            doc.text(barisFilter, lebar / 2, 29, { align: 'center' });
+            doc.setDrawColor(150); doc.setLineWidth(0.3);
+            doc.line(12, 31, lebar - 12, 31);
+        }
+        function gambarKartuAnonim(doc, r, fotos, x, y, w, h) {
+            doc.setDrawColor(100); doc.setLineWidth(0.4); doc.rect(x, y, w, h);
+            doc.setFillColor(30, 41, 59); doc.rect(x, y, w, 8, 'F');
+            doc.setTextColor(255); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
+            doc.text(`Anonymus Package #${r.id}`, x + 3, y + 5.5);
+            doc.text(String(r.status || ''), x + w - 3, y + 5.5, { align: 'right' });
+            doc.setTextColor(0);
+            const baris = [['Waktu Masuk', r.waktu_masuk], ['Nama', r.nama], ['No. Telp', r.no_telp], ['Pengirim', r.pengirim], ['Lokasi Rak', r.tempat], ['Ciri-ciri', r.ciri_ciri], ['Keterangan', r.keterangan_tambahan], ['Petugas Input', r.petugas_input]];
+            if (r.status !== 'Belum Diambil') { baris.push(['Waktu Keluar', r.waktu_keluar], ['Ket. Keluar', r.petugas_keluar]); }
+            let cy = y + 14;
+            for (const [label, val] of baris) {
+                doc.setFont('helvetica', 'bold'); doc.setFontSize(8.5);
+                doc.text(label, x + 4, cy);
+                doc.setFont('helvetica', 'normal');
+                const teks = (val && String(val).trim() && String(val).trim() !== '-') ? String(val) : '-';
+                let lines = doc.splitTextToSize(teks, 74);
+                if (lines.length > 3) { lines = lines.slice(0, 3); lines[2] = lines[2].replace(/.{0,3}$/, '...'); }
+                doc.text(lines, x + 32, cy);
+                cy += Math.max(lines.length * 4, 4) + 2.5;
+            }
+            // Area foto
+            const fx = x + 112, fy = y + 12;
+            doc.setDrawColor(190); doc.setLineWidth(0.2);
+            doc.rect(fx, fy, 70, 58);
+            if (fotos.length > 0) {
+                gambarFit(doc, fotos[0], fx + 1, fy + 1, 68, 56);
+            } else {
+                doc.setTextColor(150); doc.setFont('helvetica', 'italic'); doc.setFontSize(9);
+                doc.text('Tidak ada foto', fx + 35, fy + 30, { align: 'center' });
+                doc.setTextColor(0);
+            }
+            if (fotos.length > 1) {
+                doc.setFont('helvetica', 'bold'); doc.setFontSize(8);
+                doc.text('Foto tambahan', fx, fy + 76);
+                fotos.slice(1, 4).forEach((f, i) => {
+                    const bx = fx + i * 24;
+                    doc.setDrawColor(190); doc.rect(bx, fy + 78, 22, 22);
+                    gambarFit(doc, f, bx + 0.5, fy + 78.5, 21, 21);
+                });
+            }
+        }
+        async function eksporPdfAnonim(mode) {
+            if (!bolehAksesAnonim()) { tampilkanPesanError("Akses ditolak. Ekspor ini khusus Petugas Full dan Super Admin."); return; }
+            if (!window.jspdf) { tampilkanPesanError("Pustaka PDF belum termuat. Periksa koneksi internet lalu muat ulang halaman."); return; }
+            const data = dataAnonimTerfilter();
+            if (data.length === 0) { tampilkanPesanError("Tidak ada data Anonymus Package untuk diekspor dengan filter saat ini."); return; }
+            if (mode === 'kartu' && data.length > 100 && !confirm(`Ada ${data.length} paket, PDF kartu bisa besar dan lama dibuat. Lanjutkan?`)) return;
+            const btnK = document.getElementById('btnPdfKartu'), btnT = document.getElementById('btnPdfTabel');
+            btnK.disabled = true; btnT.disabled = true;
+            setStatusPdf('Menyiapkan PDF...');
+            try {
+                const peta = await ambilFotoUntukPdf(data);
+                setStatusPdf('Membuat PDF...');
+                const { jsPDF } = window.jspdf;
+                const infoFilter = deskripsiFilterAnonim() + `  |  Jumlah: ${data.length} paket`;
+                let doc;
+                if (mode === 'kartu') {
+                    doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+                    const judul = 'LAPORAN ANONYMUS PACKAGE (KARTU)';
+                    data.forEach((r, i) => {
+                        if (i % 2 === 0) { if (i > 0) doc.addPage(); gambarKopPdf(doc, judul, infoFilter); }
+                        const y = 34 + (i % 2) * 122;
+                        gambarKartuAnonim(doc, r, peta[String(r.id)] || [], 12, y, 186, 116);
+                    });
+                } else {
+                    doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+                    const judul = 'LAPORAN ANONYMUS PACKAGE (TABEL)';
+                    const body = data.map((r, i) => [i + 1, r.waktu_masuk || '-', r.nama || '-', r.no_telp || '-', r.pengirim || '-', r.ciri_ciri || '-', r.keterangan_tambahan || '-', r.tempat || '-', r.status || '-', '']);
+                    doc.autoTable({
+                        startY: 34,
+                        margin: { top: 34, left: 10, right: 10, bottom: 14 },
+                        head: [['No', 'Waktu Masuk', 'Nama', 'No. Telp', 'Pengirim', 'Ciri-ciri', 'Keterangan', 'Rak', 'Status', 'Foto']],
+                        body: body,
+                        styles: { fontSize: 7.5, cellPadding: 1.5, valign: 'middle', overflow: 'linebreak' },
+                        headStyles: { fillColor: [30, 41, 59] },
+                        columnStyles: { 0: { cellWidth: 9 }, 9: { cellWidth: 20, minCellHeight: 17 } },
+                        didDrawCell: (d) => {
+                            if (d.section === 'body' && d.column.index === 9) {
+                                const rec = data[d.row.index];
+                                const f = (peta[String(rec.id)] || [])[0];
+                                if (f) gambarFit(doc, f, d.cell.x + 1, d.cell.y + 1, d.cell.width - 2, d.cell.height - 2);
+                            }
+                        },
+                        didDrawPage: () => gambarKopPdf(doc, judul, infoFilter)
+                    });
+                }
+                const total = doc.getNumberOfPages();
+                const lb = doc.internal.pageSize.getWidth(), tg = doc.internal.pageSize.getHeight();
+                for (let i = 1; i <= total; i++) {
+                    doc.setPage(i); doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(120);
+                    doc.text(`Halaman ${i} / ${total}`, lb / 2, tg - 6, { align: 'center' });
+                }
+                const tglBerkas = new Date().toISOString().slice(0, 10);
+                doc.save(`Laporan_Anonymus_Package_${mode}_${tglBerkas}.pdf`);
+                catatAuditLog(`Mengekspor ${data.length} Anonymus Package ke PDF (${mode}).`);
+                setStatusPdf(`PDF berhasil dibuat (${data.length} paket).`);
+            } catch (err) {
+                console.error("Gagal membuat PDF:", err);
+                setStatusPdf('');
+                tampilkanPesanError("Gagal membuat PDF. " + (err && err.message ? err.message : ''));
+            } finally {
+                btnK.disabled = false; btnT.disabled = false;
+            }
         }
 
         async function lakukanPencarianPublik() {
@@ -1429,15 +1949,15 @@
                         return `
                             <div class="p-4 bg-gradient-to-r from-indigo-950 to-slate-900 border border-indigo-500/40 rounded-2xl shadow-xl flex justify-between items-center animate-fade-in">
                                 <div class="max-w-[75%]">
-                                    <p class="text-[10px] uppercase font-bold tracking-wider text-blue-400">PENGGUNA: ${p.keterangan || 'siswa'}</p>
-                                    <h4 class="font-black text-sm text-white mt-0.5 truncate">${p.nama}</h4>
-                                    <p class="text-[11px] text-slate-300 mt-1">Kelas: <span class="text-white font-bold">${p.kelas}</span> | Rayon: <span class="text-white font-bold">${p.rayon || '-'}</span></p>
-                                    <p class="text-[11px] text-slate-300">Jenis Paket: <span class="text-indigo-300 font-bold">${p.jenis_paket}</span></p>
-                                    <p class="text-[10px] text-slate-500 mt-1.5 font-medium">🕒 Waktu Tiba: ${p.waktu_masuk}</p>
+                                    <p class="text-[10px] uppercase font-bold tracking-wider text-blue-400">PENGGUNA: ${esc(p.keterangan || 'siswa')}</p>
+                                    <h4 class="font-black text-sm text-white mt-0.5 truncate">${esc(p.nama)}</h4>
+                                    <p class="text-[11px] text-slate-300 mt-1">Kelas: <span class="text-white font-bold">${esc(p.kelas)}</span> | Rayon: <span class="text-white font-bold">${esc(p.rayon || '-')}</span></p>
+                                    <p class="text-[11px] text-slate-300">Jenis Paket: <span class="text-indigo-300 font-bold">${esc(p.jenis_paket)}</span></p>
+                                    <p class="text-[10px] text-slate-500 mt-1.5 font-medium">🕒 Waktu Tiba: ${esc(p.waktu_masuk)}</p>
                                 </div>
                                 <div class="text-center bg-indigo-900/60 border border-indigo-400 px-4 py-2.5 rounded-xl min-w-[80px]">
                                     <p class="text-[9px] font-bold text-indigo-300 uppercase">KODE RAK</p>
-                                    <p class="text-lg font-black text-amber-400 tracking-tight">${p.tempat}</p>
+                                    <p class="text-lg font-black text-amber-400 tracking-tight">${esc(p.tempat)}</p>
                                 </div>
                             </div>
                         `;
@@ -1445,16 +1965,16 @@
                         return `
                             <div class="p-4 bg-gradient-to-r from-purple-950 to-slate-900 border border-purple-500/40 rounded-2xl shadow-xl flex justify-between items-center animate-fade-in">
                                 <div class="max-w-[75%]">
-                                    <p class="text-[10px] uppercase font-bold tracking-wider text-purple-400">PENGGUNA: ${p.keterangan || 'guru'}</p>
-                                    <h4 class="font-black text-sm text-white mt-0.5 truncate">${p.nama}</h4>
-                                    <p class="text-[11px] text-slate-300 mt-1">Kamar: <span class="text-white font-bold">${p.kelas}</span> | Tahun: <span class="text-white font-bold">${p.rayon || '-'}</span></p>
-                                    <p class="text-[11px] text-slate-300">Jenis Paket: <span class="text-purple-300 font-bold">${p.jenis_paket}</span></p>
-                                    <p class="text-[10px] text-slate-500 mt-1.5 font-medium">🕒 Waktu Tiba: ${p.waktu_masuk}</p>
-                                    ${p.status === 'Sudah Diambil' ? `<p class="text-[10px] text-amber-400 font-bold mt-0.5">📤 Diambil: ${p.waktu_keluar} (${p.petugas_keluar || '-'})</p>` : ''}
+                                    <p class="text-[10px] uppercase font-bold tracking-wider text-purple-400">PENGGUNA: ${esc(p.keterangan || 'guru')}</p>
+                                    <h4 class="font-black text-sm text-white mt-0.5 truncate">${esc(p.nama)}</h4>
+                                    <p class="text-[11px] text-slate-300 mt-1">Kamar: <span class="text-white font-bold">${esc(p.kelas)}</span> | Tahun: <span class="text-white font-bold">${esc(p.rayon || '-')}</span></p>
+                                    <p class="text-[11px] text-slate-300">Jenis Paket: <span class="text-purple-300 font-bold">${esc(p.jenis_paket)}</span></p>
+                                    <p class="text-[10px] text-slate-500 mt-1.5 font-medium">🕒 Waktu Tiba: ${esc(p.waktu_masuk)}</p>
+                                    ${p.status === 'Sudah Diambil' ? `<p class="text-[10px] text-amber-400 font-bold mt-0.5">📤 Diambil: ${esc(p.waktu_keluar)} (${esc(p.petugas_keluar || '-')})</p>` : ''}
                                 </div>
                                 <div class="text-center bg-purple-900/60 border border-purple-400 px-4 py-2.5 rounded-xl min-w-[80px]">
                                     <p class="text-[9px] font-bold text-purple-300 uppercase">KODE RAK</p>
-                                    <p class="text-lg font-black text-amber-400 tracking-tight">${p.tempat}</p>
+                                    <p class="text-lg font-black text-amber-400 tracking-tight">${esc(p.tempat)}</p>
                                 </div>
                             </div>
                         `;
@@ -1470,10 +1990,10 @@
             if(window.dataHistorySantriSaja && window.dataHistorySantriSaja.length > 0) {
                 box.innerHTML = window.dataHistorySantriSaja.map(p => `
                     <div class="p-3 bg-slate-800 border border-slate-700 rounded-xl text-xs">
-                        <p class="font-bold text-slate-200">${p.jenis_paket} - Rak [ ${p.tempat} ] (<span class="text-amber-400 uppercase font-black text-[10px]">${p.keterangan || 'siswa'}</span>)</p>
-                        <p class="text-slate-300 mt-0.5">Nama Pemilik: <span class="font-bold text-white">${p.nama}</span></p>
-                        <p class="text-[11px] text-slate-400 mt-0.5">Tiba: ${p.waktu_masuk} | Keluar: ${p.waktu_keluar}</p>
-                        <p class="text-[11px] text-indigo-300 font-medium">Keterangan Ambil: ${p.petugas_keluar || '-'}</p>
+                        <p class="font-bold text-slate-200">${esc(p.jenis_paket)} - Rak [ ${esc(p.tempat)} ] (<span class="text-amber-400 uppercase font-black text-[10px]">${esc(p.keterangan || 'siswa')}</span>)</p>
+                        <p class="text-slate-300 mt-0.5">Nama Pemilik: <span class="font-bold text-white">${esc(p.nama)}</span></p>
+                        <p class="text-[11px] text-slate-400 mt-0.5">Tiba: ${esc(p.waktu_masuk)} | Keluar: ${esc(p.waktu_keluar)}</p>
+                        <p class="text-[11px] text-indigo-300 font-medium">Keterangan Ambil: ${esc(p.petugas_keluar || '-')}</p>
                     </div>
                 `).join('');
             } else {
@@ -1488,13 +2008,17 @@
         });
 
         window.addEventListener('DOMContentLoaded', () => {
-            const cekSesiLokal = localStorage.getItem('sesiPetugas');
+            localStorage.removeItem('sesiPetugas'); // hapus sesi lama (berisi password) dari versi sebelumnya
+            const cekSesiLokal = sessionStorage.getItem('sesiPetugas');
             if (cekSesiLokal) {
-                userLoginAktif = JSON.parse(cekSesiLokal);
+                try { userLoginAktif = JSON.parse(cekSesiLokal); } catch(e) { userLoginAktif = null; }
+            }
+            if (userLoginAktif) {
                 jalankanInisialisasiDashboard();
             } else {
                 document.getElementById('landingPage').classList.remove('hidden');
             }
+            renderFotoAnonimForm();
             perbaruiTampilanAuditLog();
         });
 
