@@ -81,6 +81,7 @@
                 <button onclick="switchTab('navTabAmbilGuru')" id="navTabAmbilGuru" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  📤  Tab 2.5: Pengambilan Guru</button>
                 <button onclick="switchTab('navTabAnalisis')" id="navTabAnalisis" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  📊  Tab 3: Analisis Grafik</button>
                 <button onclick="switchTab('navTabAudit')" id="navTabAudit" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  📜  Tab 4: Log Audit</button>
+                <button onclick="switchTab('navTabAnonim')" id="navTabAnonim" class="hidden px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  🕵️  Tab 6: Anonymus Package</button>
                 <button onclick="switchTab('navTabUsers')" id="navTabUsers" class="hidden px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  👥  Tab 5: Kelola Akun</button>
                 <button onclick="keluarSistem()" class="bg-red-500 text-white font-bold px-3 py-2 rounded-xl ml-1">  🔒  Keluar</button>
             </div>
@@ -270,6 +271,58 @@
             <div class="overflow-y-auto border rounded-xl flex-grow p-2 bg-slate-900 font-mono text-xs text-green-400 space-y-1" id="boxLogAuditSystem"></div>
         </div>
 
+        <!-- TAB 6: ANONYMUS PACKAGE (Petugas Full & Super Admin) -->
+        <div id="kontenTabAnonim" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden">
+            <div class="bg-slate-100 p-4 rounded-2xl border border-slate-300 overflow-y-auto max-h-[45%]">
+                <h3 class="font-black text-xs text-slate-800 mb-2">  🕵️  Catat Paket Tanpa Identitas <span class="font-medium text-slate-500">(semua kolom boleh dikosongkan)</span></h3>
+                <form id="formAnonim" onsubmit="simpanPaketAnonim(event)" class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+                    <input type="text" id="anonNama" placeholder="Nama (opsional)" autocomplete="off" class="p-2 border rounded-md font-semibold focus:outline-none focus:border-indigo-500">
+                    <input type="tel" id="anonTelp" placeholder="No. Telp (opsional)" autocomplete="off" class="p-2 border rounded-md font-semibold focus:outline-none focus:border-indigo-500">
+                    <input type="text" id="anonPengirim" placeholder="Pengirim (opsional)" autocomplete="off" class="p-2 border rounded-md font-semibold focus:outline-none focus:border-indigo-500">
+                    <input type="text" id="anonCiri" placeholder="Ciri-ciri (opsional)" autocomplete="off" class="p-2 border rounded-md font-semibold focus:outline-none focus:border-indigo-500">
+                    <textarea id="anonKet" rows="2" placeholder="Keterangan tambahan (opsional)" class="col-span-2 md:col-span-2 p-2 border rounded-md font-semibold focus:outline-none focus:border-indigo-500"></textarea>
+                    <div class="col-span-2 md:col-span-2 flex items-center gap-2">
+                        <button type="button" onclick="bukaKamera()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold px-3 py-2 rounded-md whitespace-nowrap">  📷  Buka Kamera</button>
+                        <img id="previewFotoAnonim" class="hidden h-14 w-14 object-cover rounded-md border-2 border-indigo-400" alt="Pratinjau foto">
+                        <button type="button" id="btnHapusFotoAnonim" onclick="hapusFotoAnonimForm()" class="hidden bg-red-100 border border-red-300 text-red-700 font-bold px-2 py-1 rounded-md">Hapus Foto</button>
+                        <span id="infoFotoAnonim" class="text-slate-500 text-[11px]">Belum ada foto</span>
+                    </div>
+                    <input type="file" id="inputFotoFallback" accept="image/*" capture="environment" class="hidden" onchange="handleFotoFallback(event)">
+                    <button type="submit" id="btnSubmitAnonim" class="col-span-2 md:col-span-4 bg-slate-800 text-white font-black p-2.5 rounded-md tracking-wider shadow hover:bg-slate-900 transition">+= SIMPAN ANONYMUS PACKAGE</button>
+                </form>
+            </div>
+            <div class="flex flex-wrap items-center gap-3 bg-slate-50 p-2.5 rounded-xl border text-xs">
+                <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  📌  Status:</label>
+                    <select id="filterStatusAnonim" onchange="renderTabelAnonim()" class="p-1.5 border rounded-lg bg-white font-bold text-slate-700 focus:outline-none">
+                        <option value="Semua">Semua Status</option>
+                        <option value="Belum Diambil">Belum Diambil</option>
+                        <option value="Sudah Diambil">Sudah Diambil</option>
+                    </select>
+                </div>
+                <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  🔍  Cari:</label> <input type="text" id="cariAnonim" placeholder="Nama / telp / pengirim / ciri..." oninput="renderTabelAnonim()" class="p-1.5 border-2 border-slate-400 rounded-lg bg-white font-bold w-56 placeholder-gray-400 focus:outline-none"> </div>
+                <button onclick="muatDataAnonim()" class="bg-gray-500 text-white px-2.5 py-1.5 rounded-lg font-bold">Muat Ulang</button>
+            </div>
+            <div class="overflow-auto border rounded-xl flex-grow">
+                <table class="w-full text-left text-[11px] border min-w-[1400px] table-fixed">
+                    <thead class="bg-slate-800 text-white sticky top-0">
+                        <tr>
+                            <th class="p-2 w-[120px]">Waktu Masuk</th>
+                            <th class="p-2 w-[130px]">Nama</th>
+                            <th class="p-2 w-[110px]">No. Telp</th>
+                            <th class="p-2 w-[130px]">Pengirim</th>
+                            <th class="p-2 w-[180px]">Ciri-ciri</th>
+                            <th class="p-2 w-[180px]">Keterangan</th>
+                            <th class="p-2 w-[60px]">Foto</th>
+                            <th class="p-2 w-[100px]">Status</th>
+                            <th class="p-2 w-[110px]">Petugas Input</th>
+                            <th class="p-2 w-[230px] text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelBodyAnonim" class="divide-y"></tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- TAB 5: KELOLA AKUN -->
         <div id="kontenTabUsers" class="hidden space-y-4 flex-grow flex flex-col overflow-hidden">
             <div class="bg-purple-50 p-4 rounded-2xl border border-purple-200">
@@ -291,6 +344,33 @@
                     <tbody id="tabelBodyUsers" class="divide-y"></tbody>
                 </table>
             </div>
+        </div>
+    </div>
+
+    <!-- MODAL KAMERA (ANONYMUS PACKAGE) -->
+    <div id="modalKamera" class="fixed inset-0 bg-black/90 z-[90] flex justify-center items-center hidden no-print p-4">
+        <div class="bg-slate-900 border border-slate-700 w-full max-w-md p-4 rounded-2xl flex flex-col text-white shadow-2xl">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="font-black text-xs text-amber-400">  📷  AMBIL FOTO PAKET</h3>
+                <button onclick="tutupKamera()" class="text-xs bg-slate-800 text-slate-300 px-2 py-1 rounded">X</button>
+            </div>
+            <video id="videoKamera" autoplay playsinline muted class="w-full rounded-xl bg-black max-h-[60vh]"></video>
+            <canvas id="canvasKamera" class="hidden"></canvas>
+            <div class="flex gap-2 mt-3">
+                <button onclick="tutupKamera()" class="w-1/3 bg-slate-700 font-bold py-2 rounded-xl text-xs">Batal</button>
+                <button onclick="ambilFotoDariKamera()" class="w-2/3 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-black py-2 rounded-xl text-xs tracking-wider">  📸  AMBIL FOTO</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DETAIL ANONYMUS PACKAGE -->
+    <div id="modalDetailAnonim" class="fixed inset-0 bg-black/80 z-[80] flex justify-center items-center hidden no-print p-4">
+        <div class="bg-white w-full max-w-md max-h-[90vh] overflow-y-auto p-5 rounded-2xl text-gray-800 shadow-2xl">
+            <div class="flex justify-between items-center border-b pb-2 mb-3">
+                <h3 class="font-black text-sm text-slate-900">  🕵️  Detail Anonymus Package</h3>
+                <button onclick="tutupDetailAnonim()" class="text-xs bg-gray-200 px-2 py-1 rounded font-bold">Tutup</button>
+            </div>
+            <div id="isiDetailAnonim" class="text-xs space-y-2"></div>
         </div>
     </div>
 
@@ -373,7 +453,7 @@
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script>
         const SUPABASE_URL = "https://eimdfqhkjfocelsqkxql.supabase.co";
-        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpbWRmcWhramZvY2Vsc3FreHFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxNzUwODksImV4cCI6MjA5ODc1MTA4OX0.5s6W7G8rgfEg8ttiKes5FDAGRJeTWupJbW6enCWELaQ";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpbWRmcWhramZvY2Vsc3FreHFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxNzUwODksImV4cCI6MjA5ODc1MTA4OX0.EME9M9cSy9FvfHvcx2gMPkp1H5Dj4YaKufPRsAyon8Tf";
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let listSeluruhMahasiswa = [];
@@ -384,6 +464,11 @@
         let logAuditSystem = [];
         let elemenFokusTerakhir = null;
         let objekGrafikLogistik = null;
+
+        // ===== ANONYMUS PACKAGE: state =====
+        let listAnonim = [];
+        let fotoAnonimData = '';
+        let streamKamera = null;
 
         function tampilkanPesanError(pesan, elemenUntukFokus = null) {
             elemenFokusTerakhir = elemenUntukFokus;
@@ -468,7 +553,7 @@
         function bukaModalLoginAdmin() { document.getElementById('modalLoginAdmin').classList.remove('hidden'); document.getElementById('loginUsername').value = ''; document.getElementById('loginPassword').value = ''; setTimeout(() => { document.getElementById('loginUsername').focus(); }, 120); }
         function tutupModalLoginAdmin() { document.getElementById('modalLoginAdmin').classList.add('hidden'); }
 
-        async function prefetchDaftarSantriDanGuru() {
+        async function prahJ91ZuNL8Y2px8iYciYeHN8sfSh5eXH8() {
             try {
                 let seluruhSantri = [];
                 let barisMulai = 0;
@@ -677,17 +762,20 @@
             document.getElementById('roleLabel').innerText = userLoginAktif.role;
             const btnUsersTab = document.getElementById('navTabUsers');
             if(userLoginAktif.role === 'superadmin') btnUsersTab.classList.remove('hidden'); else btnUsersTab.classList.add('hidden');
+            // Tab Anonymus Package: hanya petugas_full & superadmin
+            const btnAnonimTab = document.getElementById('navTabAnonim');
+            if(bolehAksesAnonim()) btnAnonimTab.classList.remove('hidden'); else btnAnonimTab.classList.add('hidden');
             tutupModalLoginAdmin();
             document.getElementById('portalPage').classList.add('hidden');
             document.getElementById('landingPage').classList.add('hidden');
             document.getElementById('mainDashboard').classList.remove('hidden');
             catatAuditLog(`Berhasil login ke dalam sistem.`);
             switchTab('navTabInput');
-            prefetchDaftarSantriDanGuru();
+            prahJ91ZuNL8Y2px8iYciYeHN8sfSh5eXH8();
             muatDataKomplit();
             if(userLoginAktif.role === 'superadmin') { muatDaftarPenggunaPetugas(); }
         }
-        function keluarSistem() { localStorage.removeItem('sesiPetugas'); userLoginAktif = null; document.getElementById('mainDashboard').classList.add('hidden'); document.getElementById('portalPage').classList.remove('hidden'); }
+        function keluarSistem() { tutupKamera(); localStorage.removeItem('sesiPetugas'); userLoginAktif = null; document.getElementById('mainDashboard').classList.add('hidden'); document.getElementById('portalPage').classList.remove('hidden'); }
 
         function jalankanFilterDashboardAmbil() {
             const tglVal = document.getElementById('filterTanggalInput').value;
@@ -1057,6 +1145,251 @@
             } catch(e) { alert("Gagal menghapus data petugas."); }
         }
 
+        // =====================================================================
+        // ANONYMUS PACKAGE (khusus petugas_full & superadmin)
+        // =====================================================================
+        function esc(s) {
+            return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        }
+        function bolehAksesAnonim() {
+            return !!userLoginAktif && (userLoginAktif.role === 'petugas_full' || userLoginAktif.role === 'superadmin');
+        }
+
+        // ----- Kamera -----
+        async function bukaKamera() {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                document.getElementById('inputFotoFallback').click();
+                return;
+            }
+            try {
+                streamKamera = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' } }, audio: false });
+                const video = document.getElementById('videoKamera');
+                video.srcObject = streamKamera;
+                document.getElementById('modalKamera').classList.remove('hidden');
+            } catch (err) {
+                // Izin ditolak / kamera tidak ada / bukan HTTPS -> pakai kamera bawaan perangkat
+                document.getElementById('inputFotoFallback').click();
+            }
+        }
+        function tutupKamera() {
+            if (streamKamera) { streamKamera.getTracks().forEach(t => t.stop()); streamKamera = null; }
+            const video = document.getElementById('videoKamera');
+            if (video) video.srcObject = null;
+            const modal = document.getElementById('modalKamera');
+            if (modal) modal.classList.add('hidden');
+        }
+        function kompresKeDataUrl(sumber, lebar, tinggi) {
+            const MAKS = 800;
+            let w = lebar, h = tinggi;
+            if (Math.max(w, h) > MAKS) {
+                const skala = MAKS / Math.max(w, h);
+                w = Math.round(w * skala);
+                h = Math.round(h * skala);
+            }
+            const canvas = document.getElementById('canvasKamera');
+            canvas.width = w; canvas.height = h;
+            canvas.getContext('2d').drawImage(sumber, 0, 0, w, h);
+            return canvas.toDataURL('image/jpeg', 0.65);
+        }
+        function aturFotoAnonim(dataUrl) {
+            fotoAnonimData = dataUrl || '';
+            const img = document.getElementById('previewFotoAnonim');
+            const btnHapus = document.getElementById('btnHapusFotoAnonim');
+            const info = document.getElementById('infoFotoAnonim');
+            if (fotoAnonimData) {
+                img.src = fotoAnonimData; img.classList.remove('hidden');
+                btnHapus.classList.remove('hidden');
+                info.innerText = 'Foto siap disimpan';
+            } else {
+                img.removeAttribute('src'); img.classList.add('hidden');
+                btnHapus.classList.add('hidden');
+                info.innerText = 'Belum ada foto';
+            }
+        }
+        function ambilFotoDariKamera() {
+            const video = document.getElementById('videoKamera');
+            if (!video.videoWidth) { tampilkanPesanError("Kamera belum siap, coba sebentar lagi."); return; }
+            aturFotoAnonim(kompresKeDataUrl(video, video.videoWidth, video.videoHeight));
+            tutupKamera();
+        }
+        function handleFotoFallback(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+            const url = URL.createObjectURL(file);
+            const img = new Image();
+            img.onload = () => {
+                aturFotoAnonim(kompresKeDataUrl(img, img.naturalWidth, img.naturalHeight));
+                URL.revokeObjectURL(url);
+            };
+            img.onerror = () => { URL.revokeObjectURL(url); tampilkanPesanError("Foto tidak bisa dibaca."); };
+            img.src = url;
+            event.target.value = '';
+        }
+        function hapusFotoAnonimForm() { aturFotoAnonim(''); }
+
+        // ----- Simpan -----
+        async function simpanPaketAnonim(e) {
+            e.preventDefault();
+            if (!bolehAksesAnonim()) { tampilkanPesanError("Akses ditolak. Fitur ini khusus Petugas Full dan Super Admin."); return; }
+            const ambil = id => document.getElementById(id).value.trim() || null;
+            const rec = {
+                nama: ambil('anonNama'),
+                no_telp: ambil('anonTelp'),
+                pengirim: ambil('anonPengirim'),
+                ciri_ciri: ambil('anonCiri'),
+                keterangan_tambahan: ambil('anonKet'),
+                foto: fotoAnonimData || null,
+                ada_foto: !!fotoAnonimData,
+                status: 'Belum Diambil',
+                waktu_masuk: dapatkanWaktuSekarang(),
+                petugas_input: userLoginAktif.nama || userLoginAktif.username,
+                waktu_keluar: '-',
+                petugas_keluar: '-'
+            };
+            const semuaKosong = !rec.nama && !rec.no_telp && !rec.pengirim && !rec.ciri_ciri && !rec.keterangan_tambahan && !rec.foto;
+            if (semuaKosong && !confirm("Semua kolom kosong. Tetap simpan sebagai paket tanpa keterangan?")) return;
+            const btn = document.getElementById('btnSubmitAnonim');
+            btn.disabled = true;
+            try {
+                const { error } = await _supabase.from('paket_anonim').insert([rec]);
+                if (error) throw error;
+                catatAuditLog(`Menyimpan Anonymus Package${rec.nama ? ': ' + rec.nama : ''}${rec.pengirim ? ' (pengirim: ' + rec.pengirim + ')' : ''}`);
+                document.getElementById('formAnonim').reset();
+                aturFotoAnonim('');
+                await muatDataAnonim();
+                tampilkanPesanError("Anonymus Package berhasil disimpan!", 'anonNama');
+            } catch (err) {
+                console.error(err);
+                tampilkanPesanError("Gagal menyimpan Anonymus Package.\nPastikan tabel 'paket_anonim' sudah dibuat di Supabase.");
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        // ----- Muat & tampilkan -----
+        async function muatDataAnonim() {
+            if (!bolehAksesAnonim()) return;
+            try {
+                // Kolom foto sengaja tidak diambil di daftar agar ringan; foto dimuat saat tombol Lihat ditekan
+                const { data, error } = await _supabase.from('paket_anonim')
+                    .select('id,nama,no_telp,pengirim,ciri_ciri,keterangan_tambahan,ada_foto,status,waktu_masuk,petugas_input,waktu_keluar,petugas_keluar')
+                    .order('id', { ascending: false }).limit(300);
+                if (error) throw error;
+                listAnonim = data || [];
+                renderTabelAnonim();
+            } catch (err) {
+                console.error("Gagal memuat Anonymus Package:", err);
+                const tbody = document.getElementById('tabelBodyAnonim');
+                if (tbody) tbody.innerHTML = `<tr><td colspan="10" class="p-4 text-center text-red-600 font-bold">Gagal memuat data. Pastikan tabel 'paket_anonim' sudah dibuat di Supabase.</td></tr>`;
+            }
+        }
+        function renderTabelAnonim() {
+            const tbody = document.getElementById('tabelBodyAnonim');
+            if (!tbody) return;
+            const statusVal = document.getElementById('filterStatusAnonim').value;
+            const kw = document.getElementById('cariAnonim').value.trim().toLowerCase();
+            const hasil = listAnonim.filter(p => {
+                if (statusVal !== 'Semua' && p.status !== statusVal) return false;
+                if (!kw) return true;
+                return [p.nama, p.no_telp, p.pengirim, p.ciri_ciri, p.keterangan_tambahan].some(v => v && String(v).toLowerCase().includes(kw));
+            });
+            if (hasil.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="10" class="p-4 text-center text-slate-400">[Belum ada data Anonymus Package]</td></tr>`;
+                return;
+            }
+            const kosong = '<span class="text-slate-300">-</span>';
+            tbody.innerHTML = hasil.map(p => `
+                <tr class="border-b text-slate-700 hover:bg-slate-50 transition align-top">
+                    <td class="p-2 text-gray-500">${esc(p.waktu_masuk) || '-'}</td>
+                    <td class="p-2 font-bold text-slate-900">${p.nama ? esc(p.nama) : kosong}</td>
+                    <td class="p-2">${p.no_telp ? esc(p.no_telp) : kosong}</td>
+                    <td class="p-2">${p.pengirim ? esc(p.pengirim) : kosong}</td>
+                    <td class="p-2 break-words">${p.ciri_ciri ? esc(p.ciri_ciri) : kosong}</td>
+                    <td class="p-2 break-words">${p.keterangan_tambahan ? esc(p.keterangan_tambahan) : kosong}</td>
+                    <td class="p-2 text-center">${p.ada_foto ? '📷' : kosong}</td>
+                    <td class="p-2"><span class="px-2 py-0.5 rounded-full font-black text-[10px] ${p.status === 'Belum Diambil' ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-emerald-100 text-emerald-800 border border-emerald-300'}">${esc(p.status)}</span></td>
+                    <td class="p-2 text-gray-400">${esc(p.petugas_input) || '-'}</td>
+                    <td class="p-2 text-center">
+                        <div class="flex items-center justify-center gap-1 flex-wrap">
+                            <button onclick="lihatDetailAnonim('${esc(p.id)}')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Lihat</button>
+                            ${p.status === 'Belum Diambil'
+                                ? `<button onclick="setDiambilAnonim('${esc(p.id)}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Set Diambil</button>`
+                                : `<button onclick="batalDiambilAnonim('${esc(p.id)}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Batal Ambil</button>`}
+                            <button onclick="hapusPaketAnonim('${esc(p.id)}')" class="bg-red-700 hover:bg-red-800 text-white font-black px-2 py-0.5 rounded text-[10px]">Hapus</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // ----- Detail + foto -----
+        async function lihatDetailAnonim(id) {
+            const p = listAnonim.find(x => String(x.id) === String(id));
+            if (!p) return;
+            const baris = (label, val) => `<div><span class="font-bold text-gray-500">${label}:</span> <span class="font-semibold">${val ? esc(val) : '-'}</span></div>`;
+            const box = document.getElementById('isiDetailAnonim');
+            box.innerHTML = `
+                <div id="boxFotoDetailAnonim" class="${p.ada_foto ? '' : 'hidden'} text-center text-slate-400 py-3">Memuat foto...</div>
+                ${baris('Nama', p.nama)}
+                ${baris('No. Telp', p.no_telp)}
+                ${baris('Pengirim', p.pengirim)}
+                ${baris('Ciri-ciri', p.ciri_ciri)}
+                ${baris('Keterangan Tambahan', p.keterangan_tambahan)}
+                ${baris('Status', p.status)}
+                ${baris('Waktu Masuk', p.waktu_masuk)}
+                ${baris('Petugas Input', p.petugas_input)}
+                ${baris('Waktu Keluar', p.waktu_keluar)}
+                ${baris('Petugas Keluar', p.petugas_keluar)}
+            `;
+            document.getElementById('modalDetailAnonim').classList.remove('hidden');
+            if (!p.ada_foto) return;
+            try {
+                const { data, error } = await _supabase.from('paket_anonim').select('foto').eq('id', id).single();
+                if (error) throw error;
+                const fotoBox = document.getElementById('boxFotoDetailAnonim');
+                if (data && data.foto && String(data.foto).startsWith('data:image/')) {
+                    fotoBox.innerHTML = `<img src="${data.foto}" alt="Foto paket" class="w-full rounded-xl border">`;
+                } else {
+                    fotoBox.innerText = 'Foto tidak tersedia';
+                }
+            } catch (err) {
+                const fotoBox = document.getElementById('boxFotoDetailAnonim');
+                if (fotoBox) fotoBox.innerText = 'Gagal memuat foto';
+            }
+        }
+        function tutupDetailAnonim() { document.getElementById('modalDetailAnonim').classList.add('hidden'); }
+
+        // ----- Aksi status & hapus -----
+        async function setDiambilAnonim(id) {
+            if (!bolehAksesAnonim()) return;
+            try {
+                const { error } = await _supabase.from('paket_anonim').update({ status: 'Sudah Diambil', waktu_keluar: dapatkanWaktuSekarang(), petugas_keluar: userLoginAktif.nama || userLoginAktif.username }).eq('id', id);
+                if (error) throw error;
+                catatAuditLog(`Menandai Anonymus Package ID ${id} sebagai sudah diambil.`);
+                await muatDataAnonim();
+            } catch (err) { tampilkanPesanError("Gagal memperbarui status Anonymus Package."); }
+        }
+        async function batalDiambilAnonim(id) {
+            if (!bolehAksesAnonim()) return;
+            if (!confirm("Batalkan status pengambilan paket anonim ini?")) return;
+            try {
+                const { error } = await _supabase.from('paket_anonim').update({ status: 'Belum Diambil', waktu_keluar: '-', petugas_keluar: '-' }).eq('id', id);
+                if (error) throw error;
+                catatAuditLog(`Membatalkan pengambilan Anonymus Package ID ${id}.`);
+                await muatDataAnonim();
+            } catch (err) { tampilkanPesanError("Gagal membatalkan status Anonymus Package."); }
+        }
+        async function hapusPaketAnonim(id) {
+            if (!bolehAksesAnonim()) return;
+            if (!confirm("Hapus PERMANEN data Anonymus Package ini beserta fotonya?")) return;
+            try {
+                const { error } = await _supabase.from('paket_anonim').delete().eq('id', id);
+                if (error) throw error;
+                catatAuditLog(`Menghapus permanen Anonymus Package ID ${id}.`);
+                await muatDataAnonim();
+            } catch (err) { tampilkanPesanError("Gagal menghapus Anonymus Package."); }
+        }
+
         async function lakukanPencarianPublik() {
             const kw = document.getElementById('cariPublikInput').value.trim().toLowerCase();
             const box = document.getElementById('boxHasilPublik');
@@ -1166,7 +1499,13 @@
         });
 
         function switchTab(tabId) {
-            ['navTabInput', 'navTabInputGuru', 'navTabAmbil', 'navTabAmbilGuru', 'navTabAnalisis', 'navTabAudit', 'navTabUsers'].forEach(t => {
+            // Penjagaan akses: tab Anonymus Package hanya untuk petugas_full & superadmin
+            if (tabId === 'navTabAnonim' && !bolehAksesAnonim()) {
+                tampilkanPesanError("Akses ditolak. Tab ini khusus Petugas Full dan Super Admin.");
+                return;
+            }
+            if (tabId !== 'navTabAnonim') tutupKamera();
+            ['navTabInput', 'navTabInputGuru', 'navTabAmbil', 'navTabAmbilGuru', 'navTabAnalisis', 'navTabAudit', 'navTabAnonim', 'navTabUsers'].forEach(t => {
                 const el = document.getElementById(t);
                 if(el) { el.classList.replace('bg-indigo-600', 'bg-gray-200'); el.classList.replace('text-white', 'text-gray-700'); }
             });
@@ -1178,6 +1517,7 @@
             document.getElementById('kontenTabAmbilGuru').classList.add('hidden');
             document.getElementById('kontenTabAnalisis').classList.add('hidden');
             document.getElementById('kontenTabAudit').classList.add('hidden');
+            document.getElementById('kontenTabAnonim').classList.add('hidden');
             document.getElementById('kontenTabUsers').classList.add('hidden');
             if(tabId === 'navTabInput') document.getElementById('kontenTabInput').classList.remove('hidden');
             if(tabId === 'navTabInputGuru') { document.getElementById('kontenTabInputGuru').classList.remove('hidden'); setTimeout(()=> { document.getElementById('namaGuruInput').focus(); }, 50); }
@@ -1185,6 +1525,7 @@
             if(tabId === 'navTabAmbilGuru') { document.getElementById('kontenTabAmbilGuru').classList.remove('hidden'); renderTabelAmbilGuru(); }
             if(tabId === 'navTabAnalisis') { document.getElementById('kontenTabAnalisis').classList.remove('hidden'); buatGrafikAnalisisStatistik(); }
             if(tabId === 'navTabAudit') { document.getElementById('kontenTabAudit').classList.remove('hidden'); perbaruiTampilanAuditLog(); }
+            if(tabId === 'navTabAnonim') { document.getElementById('kontenTabAnonim').classList.remove('hidden'); muatDataAnonim(); }
             if(tabId === 'navTabUsers') document.getElementById('kontenTabUsers').classList.remove('hidden');
         }
     </script>
