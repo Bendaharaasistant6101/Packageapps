@@ -82,6 +82,7 @@
                 <button onclick="switchTab('navTabAnalisis')" id="navTabAnalisis" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  📊  Tab 3: Analisis Grafik</button>
                 <button onclick="switchTab('navTabAudit')" id="navTabAudit" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  📜  Tab 4: Log Audit</button>
                 <button onclick="switchTab('navTabAnonim')" id="navTabAnonim" class="hidden px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  🕵️  Tab 6: Anonymus Package</button>
+                <button onclick="switchTab('navTabKop')" id="navTabKop" class="hidden px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  🖨️  Tab 7: Pengaturan Kop</button>
                 <button onclick="switchTab('navTabUsers')" id="navTabUsers" class="hidden px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  👥  Tab 5: Kelola Akun</button>
                 <button onclick="keluarSistem()" class="bg-red-500 text-white font-bold px-3 py-2 rounded-xl ml-1">  🔒  Keluar</button>
             </div>
@@ -332,6 +333,91 @@
                     </thead>
                     <tbody id="tabelBodyAnonim" class="divide-y"></tbody>
                 </table>
+            </div>
+        </div>
+
+        <!-- TAB 7: PENGATURAN KOP SURAT (Super Admin) -->
+        <div id="kontenTabKop" class="hidden flex-grow flex flex-col overflow-y-auto gap-3">
+            <div class="bg-slate-50 p-4 rounded-2xl border text-xs">
+                <h3 class="font-black text-slate-800 mb-1">  🖨️  Pengaturan Kop Surat PDF</h3>
+                <p class="text-[11px] text-gray-500 mb-3">Kop ini dipakai di semua PDF Anonymus Package, dan nama pesantrennya juga tampil di struk. Tersimpan di database, jadi sama di semua perangkat. Perubahan baru berlaku setelah menekan Simpan.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-3">
+                        <div>
+                            <label class="font-bold text-gray-600">Nama Pesantren / Instansi</label>
+                            <input type="text" id="kpNama" oninput="bacaFormKop()" class="w-full p-2 border rounded-md font-semibold">
+                        </div>
+                        <div class="flex flex-wrap items-end gap-2">
+                            <div>
+                                <label class="font-bold text-gray-600 block">Font nama</label>
+                                <select id="kpFontNama" onchange="bacaFormKop()" class="p-2 border rounded-md bg-white font-semibold">
+                                    <option value="helvetica">Sans-serif (Helvetica)</option>
+                                    <option value="times">Serif (Times)</option>
+                                    <option value="courier">Monospace (Courier)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="font-bold text-gray-600 block">Ukuran (8-28 pt)</label>
+                                <input type="number" id="kpUkuranNama" min="8" max="28" step="1" oninput="bacaFormKop()" class="w-20 p-2 border rounded-md font-semibold">
+                            </div>
+                            <label class="flex items-center gap-1 font-bold text-gray-600 pb-2"><input type="checkbox" id="kpTebalNama" onchange="bacaFormKop()"> Tebal</label>
+                        </div>
+                        <div>
+                            <label class="font-bold text-gray-600">Baris tambahan (alamat, telp, email). Satu baris per kalimat, maksimal 4 baris.</label>
+                            <textarea id="kpInfo" rows="4" oninput="bacaFormKop()" class="w-full p-2 border rounded-md font-semibold"></textarea>
+                        </div>
+                        <div class="flex flex-wrap items-end gap-2">
+                            <div>
+                                <label class="font-bold text-gray-600 block">Font baris tambahan</label>
+                                <select id="kpFontInfo" onchange="bacaFormKop()" class="p-2 border rounded-md bg-white font-semibold">
+                                    <option value="helvetica">Sans-serif (Helvetica)</option>
+                                    <option value="times">Serif (Times)</option>
+                                    <option value="courier">Monospace (Courier)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="font-bold text-gray-600 block">Ukuran (6-14 pt)</label>
+                                <input type="number" id="kpUkuranInfo" min="6" max="14" step="1" oninput="bacaFormKop()" class="w-20 p-2 border rounded-md font-semibold">
+                            </div>
+                            <label class="flex items-center gap-1 font-bold text-gray-600 pb-2"><input type="checkbox" id="kpTebalInfo" onchange="bacaFormKop()"> Tebal</label>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="font-bold text-gray-600 block">Logo kiri (PNG / JPG)</label>
+                            <div class="flex items-center gap-2">
+                                <input type="file" accept="image/png,image/jpeg" onchange="pilihLogoKop('logoKiri', event)" class="text-[11px]">
+                                <button type="button" onclick="hapusLogoKop('logoKiri')" class="bg-red-100 border border-red-300 text-red-700 font-bold px-2 py-1 rounded-md">Hapus</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="font-bold text-gray-600 block">Logo kanan (opsional)</label>
+                            <div class="flex items-center gap-2">
+                                <input type="file" accept="image/png,image/jpeg" onchange="pilihLogoKop('logoKanan', event)" class="text-[11px]">
+                                <button type="button" onclick="hapusLogoKop('logoKanan')" class="bg-red-100 border border-red-300 text-red-700 font-bold px-2 py-1 rounded-md">Hapus</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="font-bold text-gray-600 block">Tinggi logo: <span id="kpTinggiLabel">18 mm</span></label>
+                            <input type="range" id="kpTinggiLogo" min="10" max="30" step="1" oninput="bacaFormKop()" class="w-full">
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <label class="flex items-center gap-1 font-bold text-gray-600"><input type="checkbox" id="kpGaris" onchange="bacaFormKop()"> Garis di bawah kop</label>
+                            <label class="flex items-center gap-1 font-bold text-gray-600">Warna <input type="color" id="kpWarna" oninput="bacaFormKop()" class="h-7 w-10 border rounded"></label>
+                        </div>
+                        <p class="text-[10px] text-gray-400">Kalau kop dibuat terlalu tinggi, PDF kartu otomatis memakai 1 kartu per halaman supaya tidak terpotong.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-slate-50 p-4 rounded-2xl border text-xs">
+                <h4 class="font-bold text-gray-700 mb-2">Pratinjau (perkiraan tampilan di PDF)</h4>
+                <div class="overflow-x-auto"><div id="kpPreview" class="bg-white border p-3" style="width:186mm"></div></div>
+                <div class="flex flex-wrap items-center gap-2 mt-3">
+                    <button type="button" onclick="simpanPengaturanKop()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-black px-4 py-2 rounded-lg">SIMPAN KOP</button>
+                    <button type="button" onclick="eksporPdfContohKop()" class="bg-slate-700 hover:bg-slate-800 text-white font-bold px-3 py-2 rounded-lg">  📄  PDF Contoh</button>
+                    <button type="button" onclick="resetKopDefault()" class="bg-gray-500 hover:bg-gray-600 text-white font-bold px-3 py-2 rounded-lg">Kembalikan Bawaan</button>
+                    <span id="kpStatus" class="text-[11px] text-indigo-700 font-bold"></span>
+                </div>
             </div>
         </div>
 
@@ -658,7 +744,7 @@
         function bukaModalLoginAdmin() { document.getElementById('modalLoginAdmin').classList.remove('hidden'); document.getElementById('loginUsername').value = ''; document.getElementById('loginPassword').value = ''; setTimeout(() => { document.getElementById('loginUsername').focus(); }, 120); }
         function tutupModalLoginAdmin() { document.getElementById('modalLoginAdmin').classList.add('hidden'); }
 
-        async function prahJ91ZuNL8Y2px8iYciYeHN8sfSh5eXH8() {
+        async function pr9yMnTm4NSzvG9rrwjM2ec8xZgh1cafXH8() {
             try {
                 let seluruhSantri = [];
                 let barisMulai = 0;
@@ -877,6 +963,9 @@
             document.getElementById('roleLabel').innerText = userLoginAktif.role;
             const btnUsersTab = document.getElementById('navTabUsers');
             if(userLoginAktif.role === 'superadmin') btnUsersTab.classList.remove('hidden'); else btnUsersTab.classList.add('hidden');
+            // Tab Pengaturan Kop: hanya superadmin
+            const btnKopTab = document.getElementById('navTabKop');
+            if(userLoginAktif.role === 'superadmin') btnKopTab.classList.remove('hidden'); else btnKopTab.classList.add('hidden');
             // Tab Anonymus Package: hanya petugas_full & superadmin
             const btnAnonimTab = document.getElementById('navTabAnonim');
             if(bolehAksesAnonim()) btnAnonimTab.classList.remove('hidden'); else btnAnonimTab.classList.add('hidden');
@@ -887,8 +976,9 @@
             catatAuditLog(`Berhasil login ke dalam sistem.`);
             resetTimerTidakAktif();
             switchTab('navTabInput');
-            prahJ91ZuNL8Y2px8iYciYeHN8sfSh5eXH8();
+            pr9yMnTm4NSzvG9rrwjM2ec8xZgh1cafXH8();
             muatDataKomplit();
+            muatPengaturanKop();
             if(bolehAksesAnonim()) { muatDataAnonim(); }
             if(userLoginAktif.role === 'superadmin') { muatDaftarPenggunaPetugas(); }
         }
@@ -940,7 +1030,7 @@
             const garis = `<div style="border-top:1px dashed #000;margin:6px 0"></div>`;
             const area = document.getElementById('areaCetakStruk');
             area.innerHTML =
-                `<div style="text-align:center;font-weight:bold;font-size:13px">${esc(NAMA_PESANTREN)}</div>` +
+                `<div style="text-align:center;font-weight:bold;font-size:13px">${esc(kopCfg.nama || NAMA_PESANTREN)}</div>` +
                 `<div style="text-align:center;font-weight:bold">STRUK PENERIMAAN</div>` +
                 `<div style="text-align:center;font-weight:bold">${judul}</div>` +
                 `<div style="text-align:center">${esc(dapatkanWaktuSekarang())}</div>` + garis +
@@ -1791,19 +1881,10 @@
                 doc.addImage(dataUrl, 'JPEG', x + (boxW - w) / 2, y + (boxH - h) / 2, w, h);
             } catch (err) { console.error("Gagal menambahkan gambar ke PDF:", err); }
         }
-        function gambarKopPdf(doc, judul, infoFilter) {
-            const lebar = doc.internal.pageSize.getWidth();
-            doc.setTextColor(0);
-            doc.setFont('helvetica', 'bold'); doc.setFontSize(14);
-            doc.text(NAMA_PESANTREN, lebar / 2, 14, { align: 'center' });
-            doc.setFontSize(11);
-            doc.text(judul, lebar / 2, 20, { align: 'center' });
-            doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
-            doc.text(`Dicetak: ${dapatkanWaktuSekarang()}  |  Petugas: ${namaPetugasSaatIni()}`, lebar / 2, 25, { align: 'center' });
-            const barisFilter = doc.splitTextToSize(infoFilter, lebar - 24)[0] || '';
-            doc.text(barisFilter, lebar / 2, 29, { align: 'center' });
-            doc.setDrawColor(150); doc.setLineWidth(0.3);
-            doc.line(12, 31, lebar - 12, 31);
+        // Menggambar kop memakai pengaturan dari tab Pengaturan Kop.
+        // gambar=false -> hanya mengukur; hasilnya posisi Y tempat isi laporan boleh dimulai.
+        function gambarKopPdf(doc, judul, infoFilter, gambar = true) {
+            return kopPdf(doc, judul, infoFilter, gambar, kopCfg);
         }
         function gambarKartuAnonim(doc, r, fotos, x, y, w, h) {
             doc.setDrawColor(100); doc.setLineWidth(0.4); doc.rect(x, y, w, h);
@@ -1864,18 +1945,22 @@
                 if (mode === 'kartu') {
                     doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
                     const judul = 'LAPORAN ANONYMUS PACKAGE (KARTU)';
+                    const yMulai = gambarKopPdf(doc, judul, infoFilter, false);
+                    const tinggiKartu = 116, jarakKartu = 4;
+                    const perHalaman = (yMulai + 2 * tinggiKartu + jarakKartu + 10 <= doc.internal.pageSize.getHeight()) ? 2 : 1;
                     data.forEach((r, i) => {
-                        if (i % 2 === 0) { if (i > 0) doc.addPage(); gambarKopPdf(doc, judul, infoFilter); }
-                        const y = 34 + (i % 2) * 122;
-                        gambarKartuAnonim(doc, r, peta[String(r.id)] || [], 12, y, 186, 116);
+                        if (i % perHalaman === 0) { if (i > 0) doc.addPage(); gambarKopPdf(doc, judul, infoFilter); }
+                        const y = yMulai + (i % perHalaman) * (tinggiKartu + jarakKartu);
+                        gambarKartuAnonim(doc, r, peta[String(r.id)] || [], 12, y, 186, tinggiKartu);
                     });
                 } else {
                     doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
                     const judul = 'LAPORAN ANONYMUS PACKAGE (TABEL)';
+                    const yMulaiTabel = gambarKopPdf(doc, judul, infoFilter, false);
                     const body = data.map((r, i) => [i + 1, r.waktu_masuk || '-', r.nama || '-', r.no_telp || '-', r.pengirim || '-', r.ciri_ciri || '-', r.keterangan_tambahan || '-', r.tempat || '-', r.status || '-', '']);
                     doc.autoTable({
-                        startY: 34,
-                        margin: { top: 34, left: 10, right: 10, bottom: 14 },
+                        startY: yMulaiTabel,
+                        margin: { top: yMulaiTabel, left: 10, right: 10, bottom: 14 },
                         head: [['No', 'Waktu Masuk', 'Nama', 'No. Telp', 'Pengirim', 'Ciri-ciri', 'Keterangan', 'Rak', 'Status', 'Foto']],
                         body: body,
                         styles: { fontSize: 7.5, cellPadding: 1.5, valign: 'middle', overflow: 'linebreak' },
@@ -1908,6 +1993,224 @@
             } finally {
                 btnK.disabled = false; btnT.disabled = false;
             }
+        }
+
+        // =====================================================================
+        // PENGATURAN KOP SURAT (khusus superadmin; tersimpan di Supabase)
+        // =====================================================================
+        // Font bawaan PDF hanya tiga keluarga ini (tanpa perlu menanam file font).
+        const FONT_KOP = {
+            helvetica: "Arial, Helvetica, sans-serif",
+            times: "'Times New Roman', Times, serif",
+            courier: "'Courier New', Courier, monospace"
+        };
+        const KOP_DEFAULT = {
+            nama: NAMA_PESANTREN, info: '',
+            fontNama: 'helvetica', ukuranNama: 14, tebalNama: true,
+            fontInfo: 'helvetica', ukuranInfo: 9, tebalInfo: false,
+            logoKiri: '', logoKanan: '', tinggiLogo: 18,
+            garis: true, warnaGaris: '#000000'
+        };
+        let kopCfg = { ...KOP_DEFAULT };     // pengaturan yang sedang berlaku
+        let kopDraft = { ...KOP_DEFAULT };   // pengaturan yang sedang diedit di form
+
+        function hexKeRgb(hex) {
+            const m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(hex || '');
+            return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : [0, 0, 0];
+        }
+        function rapikanKop(c) {
+            const o = { ...KOP_DEFAULT, ...(c || {}) };
+            const angka = (v, min, max, def) => { v = parseFloat(v); return isNaN(v) ? def : Math.min(max, Math.max(min, v)); };
+            o.ukuranNama = angka(o.ukuranNama, 8, 28, 14);
+            o.ukuranInfo = angka(o.ukuranInfo, 6, 14, 9);
+            o.tinggiLogo = angka(o.tinggiLogo, 10, 30, 18);
+            if (!FONT_KOP[o.fontNama]) o.fontNama = 'helvetica';
+            if (!FONT_KOP[o.fontInfo]) o.fontInfo = 'helvetica';
+            o.tebalNama = !!o.tebalNama; o.tebalInfo = !!o.tebalInfo; o.garis = !!o.garis;
+            o.nama = String(o.nama || '');
+            o.info = String(o.info || '');
+            o.logoKiri = typeof o.logoKiri === 'string' && o.logoKiri.startsWith('data:image/') ? o.logoKiri : '';
+            o.logoKanan = typeof o.logoKanan === 'string' && o.logoKanan.startsWith('data:image/') ? o.logoKanan : '';
+            o.warnaGaris = /^#[0-9a-f]{6}$/i.test(o.warnaGaris) ? o.warnaGaris : '#000000';
+            return o;
+        }
+        async function muatPengaturanKop() {
+            try {
+                const { data, error } = await _supabase.from('pengaturan_kop').select('data').eq('id', 1).maybeSingle();
+                if (error) throw error;
+                if (data && data.data) kopCfg = rapikanKop(data.data);
+            } catch (err) { console.warn("Pengaturan kop belum tersedia, memakai bawaan:", err); }
+        }
+
+        // Menggambar kop PDF. gambar=false -> hanya mengukur. Mengembalikan posisi Y awal isi laporan (mm).
+        function kopPdf(doc, judul, infoFilter, gambar, cfg) {
+            const k = rapikanKop(cfg || kopCfg);
+            const pw = doc.internal.pageSize.getWidth();
+            const M = 12, atas = 8;
+            const lh = pt => pt * 0.3528 * 1.2;
+            const siapkanLogo = (data) => {
+                if (!data) return null;
+                try {
+                    const pr = doc.getImageProperties(data);
+                    let h = k.tinggiLogo, w = h * pr.width / pr.height;
+                    if (w > 40) { w = 40; h = w * pr.height / pr.width; }
+                    return { data, w, h, fmt: pr.fileType };
+                } catch (err) { return null; }
+            };
+            const L = siapkanLogo(k.logoKiri), R = siapkanLogo(k.logoKanan);
+            const cadang = Math.max(L ? L.w : 0, R ? R.w : 0);
+            const lebarTeks = pw - 2 * M - (cadang ? 2 * (cadang + 4) : 0);
+            doc.setFont(k.fontNama, k.tebalNama ? 'bold' : 'normal'); doc.setFontSize(k.ukuranNama);
+            const barisNama = doc.splitTextToSize(k.nama, lebarTeks);
+            doc.setFont(k.fontInfo, k.tebalInfo ? 'bold' : 'normal'); doc.setFontSize(k.ukuranInfo);
+            const barisInfo = [];
+            k.info.split('\n').map(s => s.trim()).filter(Boolean).slice(0, 4).forEach(s => barisInfo.push(...doc.splitTextToSize(s, lebarTeks)));
+            const tinggiTeks = barisNama.length * lh(k.ukuranNama) + barisInfo.length * lh(k.ukuranInfo) + (barisInfo.length ? 1 : 0);
+            const tinggiBlok = Math.max(tinggiTeks, L ? L.h : 0, R ? R.h : 0);
+            const yGaris = atas + tinggiBlok + 2;
+            const yJudul = yGaris + 6;
+            if (gambar) {
+                doc.setTextColor(0);
+                if (L) doc.addImage(L.data, L.fmt, M, atas + (tinggiBlok - L.h) / 2, L.w, L.h);
+                if (R) doc.addImage(R.data, R.fmt, pw - M - R.w, atas + (tinggiBlok - R.h) / 2, R.w, R.h);
+                let y = atas + (tinggiBlok - tinggiTeks) / 2;
+                doc.setFont(k.fontNama, k.tebalNama ? 'bold' : 'normal'); doc.setFontSize(k.ukuranNama);
+                barisNama.forEach(b => { doc.text(b, pw / 2, y + lh(k.ukuranNama) * 0.8, { align: 'center' }); y += lh(k.ukuranNama); });
+                if (barisInfo.length) y += 1;
+                doc.setFont(k.fontInfo, k.tebalInfo ? 'bold' : 'normal'); doc.setFontSize(k.ukuranInfo);
+                barisInfo.forEach(b => { doc.text(b, pw / 2, y + lh(k.ukuranInfo) * 0.8, { align: 'center' }); y += lh(k.ukuranInfo); });
+                if (k.garis) {
+                    const [r, g, b] = hexKeRgb(k.warnaGaris);
+                    doc.setDrawColor(r, g, b); doc.setLineWidth(0.6);
+                    doc.line(M, yGaris, pw - M, yGaris);
+                }
+                doc.setTextColor(0);
+                doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
+                doc.text(judul, pw / 2, yJudul, { align: 'center' });
+                doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
+                doc.text(`Dicetak: ${dapatkanWaktuSekarang()}  |  Petugas: ${namaPetugasSaatIni()}`, pw / 2, yJudul + 5, { align: 'center' });
+                const bf = doc.splitTextToSize(infoFilter || '', pw - 24)[0] || '';
+                doc.text(bf, pw / 2, yJudul + 9, { align: 'center' });
+            }
+            return yJudul + 13;
+        }
+
+        // ----- Form & pratinjau -----
+        function isiFormKop() {
+            const d = kopDraft;
+            document.getElementById('kpNama').value = d.nama;
+            document.getElementById('kpInfo').value = d.info;
+            document.getElementById('kpFontNama').value = d.fontNama;
+            document.getElementById('kpUkuranNama').value = d.ukuranNama;
+            document.getElementById('kpTebalNama').checked = d.tebalNama;
+            document.getElementById('kpFontInfo').value = d.fontInfo;
+            document.getElementById('kpUkuranInfo').value = d.ukuranInfo;
+            document.getElementById('kpTebalInfo').checked = d.tebalInfo;
+            document.getElementById('kpTinggiLogo').value = d.tinggiLogo;
+            document.getElementById('kpGaris').checked = d.garis;
+            document.getElementById('kpWarna').value = d.warnaGaris;
+        }
+        function bacaFormKop() {
+            kopDraft = rapikanKop({
+                nama: document.getElementById('kpNama').value,
+                info: document.getElementById('kpInfo').value,
+                fontNama: document.getElementById('kpFontNama').value,
+                ukuranNama: document.getElementById('kpUkuranNama').value,
+                tebalNama: document.getElementById('kpTebalNama').checked,
+                fontInfo: document.getElementById('kpFontInfo').value,
+                ukuranInfo: document.getElementById('kpUkuranInfo').value,
+                tebalInfo: document.getElementById('kpTebalInfo').checked,
+                logoKiri: kopDraft.logoKiri,
+                logoKanan: kopDraft.logoKanan,
+                tinggiLogo: document.getElementById('kpTinggiLogo').value,
+                garis: document.getElementById('kpGaris').checked,
+                warnaGaris: document.getElementById('kpWarna').value
+            });
+            renderPreviewKop();
+        }
+        function renderPreviewKop() {
+            const el = document.getElementById('kpPreview');
+            if (!el) return;
+            const d = kopDraft;
+            document.getElementById('kpTinggiLabel').innerText = d.tinggiLogo + ' mm';
+            const adaLogo = !!(d.logoKiri || d.logoKanan);
+            const sisiLogo = (src) => src
+                ? `<img src="${src}" alt="Logo" style="height:${d.tinggiLogo}mm;max-width:40mm;object-fit:contain">`
+                : (adaLogo ? `<div style="width:${d.tinggiLogo}mm"></div>` : '');
+            const info = d.info.split('\n').map(s => s.trim()).filter(Boolean).slice(0, 4).map(s => esc(s)).join('<br>');
+            el.innerHTML = `
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:4mm;padding-bottom:2mm;${d.garis ? 'border-bottom:0.6mm solid ' + esc(d.warnaGaris) : ''}">
+                    <div style="display:flex">${sisiLogo(d.logoKiri)}</div>
+                    <div style="flex:1;text-align:center;color:#000">
+                        <div style="font-family:${FONT_KOP[d.fontNama]};font-size:${d.ukuranNama}pt;font-weight:${d.tebalNama ? 'bold' : 'normal'};line-height:1.2">${esc(d.nama) || '&nbsp;'}</div>
+                        ${info ? `<div style="font-family:${FONT_KOP[d.fontInfo]};font-size:${d.ukuranInfo}pt;font-weight:${d.tebalInfo ? 'bold' : 'normal'};line-height:1.2;margin-top:1mm">${info}</div>` : ''}
+                    </div>
+                    <div style="display:flex">${sisiLogo(d.logoKanan)}</div>
+                </div>
+                <div style="text-align:center;font-family:Arial,Helvetica,sans-serif;font-weight:bold;font-size:11pt;margin-top:3mm;color:#000">JUDUL LAPORAN</div>`;
+        }
+        async function bukaTabKop() {
+            await muatPengaturanKop();
+            kopDraft = rapikanKop(kopCfg);
+            isiFormKop();
+            renderPreviewKop();
+            document.getElementById('kpStatus').innerText = '';
+        }
+        function pilihLogoKop(kunci, event) {
+            const file = event.target.files && event.target.files[0];
+            event.target.value = '';
+            if (!file) return;
+            if (!/^image\/(png|jpe?g)$/i.test(file.type)) { tampilkanPesanError("Logo harus berupa gambar PNG atau JPG."); return; }
+            const url = URL.createObjectURL(file);
+            const img = new Image();
+            img.onload = () => {
+                const MAKS = 400;
+                let w = img.naturalWidth, h = img.naturalHeight;
+                if (Math.max(w, h) > MAKS) { const s = MAKS / Math.max(w, h); w = Math.round(w * s); h = Math.round(h * s); }
+                const c = document.createElement('canvas'); c.width = w; c.height = h;
+                const ctx = c.getContext('2d');
+                const png = /png/i.test(file.type);
+                if (!png) { ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h); }
+                ctx.drawImage(img, 0, 0, w, h);
+                kopDraft[kunci] = png ? c.toDataURL('image/png') : c.toDataURL('image/jpeg', 0.85);
+                URL.revokeObjectURL(url);
+                renderPreviewKop();
+            };
+            img.onerror = () => { URL.revokeObjectURL(url); tampilkanPesanError("Logo tidak bisa dibaca."); };
+            img.src = url;
+        }
+        function hapusLogoKop(kunci) { kopDraft[kunci] = ''; renderPreviewKop(); }
+        function resetKopDefault() {
+            if (!confirm("Kembalikan semua pengaturan kop ke bawaan? (Belum tersimpan sampai kamu menekan SIMPAN KOP)")) return;
+            kopDraft = { ...KOP_DEFAULT };
+            isiFormKop();
+            renderPreviewKop();
+            document.getElementById('kpStatus').innerText = 'Belum disimpan';
+        }
+        async function simpanPengaturanKop() {
+            if (!userLoginAktif || userLoginAktif.role !== 'superadmin') { tampilkanPesanError("Hanya Super Admin yang boleh mengubah kop surat."); return; }
+            bacaFormKop();
+            try {
+                const { error } = await _supabase.from('pengaturan_kop').upsert({ id: 1, data: kopDraft, diperbarui_oleh: namaPetugasSaatIni(), updated_at: new Date().toISOString() });
+                if (error) throw error;
+                kopCfg = rapikanKop(kopDraft);
+                catatAuditLog('Menyimpan pengaturan kop surat PDF.');
+                document.getElementById('kpStatus').innerText = 'Tersimpan ' + dapatkanWaktuSekarang();
+                tampilkanPesanError("Pengaturan kop surat berhasil disimpan.");
+            } catch (err) {
+                console.error(err);
+                tampilkanPesanError("Gagal menyimpan kop surat.\nPastikan tabel 'pengaturan_kop' sudah dibuat (jalankan setup_pengaturan_kop.sql di Supabase).");
+            }
+        }
+        function eksporPdfContohKop() {
+            if (!window.jspdf) { tampilkanPesanError("Pustaka PDF belum termuat. Periksa koneksi internet lalu muat ulang halaman."); return; }
+            bacaFormKop();
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+            const y = kopPdf(doc, 'CONTOH LAPORAN', 'Status: Semua  |  Jumlah: 0 paket', true, kopDraft);
+            doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(90);
+            doc.text('Ini hanya contoh. Isi laporan akan tampil di bawah kop ini.', 12, y + 6);
+            doc.save('Contoh_Kop_Surat.pdf');
         }
 
         async function lakukanPencarianPublik() {
@@ -2028,8 +2331,13 @@
                 tampilkanPesanError("Akses ditolak. Tab ini khusus Petugas Full dan Super Admin.");
                 return;
             }
+            // Tab Pengaturan Kop: hanya superadmin
+            if (tabId === 'navTabKop' && !(userLoginAktif && userLoginAktif.role === 'superadmin')) {
+                tampilkanPesanError("Akses ditolak. Tab ini khusus Super Admin.");
+                return;
+            }
             if (tabId !== 'navTabAnonim') tutupKamera();
-            ['navTabInput', 'navTabInputGuru', 'navTabAmbil', 'navTabAmbilGuru', 'navTabAnalisis', 'navTabAudit', 'navTabAnonim', 'navTabUsers'].forEach(t => {
+            ['navTabInput', 'navTabInputGuru', 'navTabAmbil', 'navTabAmbilGuru', 'navTabAnalisis', 'navTabAudit', 'navTabAnonim', 'navTabKop', 'navTabUsers'].forEach(t => {
                 const el = document.getElementById(t);
                 if(el) { el.classList.replace('bg-indigo-600', 'bg-gray-200'); el.classList.replace('text-white', 'text-gray-700'); }
             });
@@ -2042,6 +2350,7 @@
             document.getElementById('kontenTabAnalisis').classList.add('hidden');
             document.getElementById('kontenTabAudit').classList.add('hidden');
             document.getElementById('kontenTabAnonim').classList.add('hidden');
+            document.getElementById('kontenTabKop').classList.add('hidden');
             document.getElementById('kontenTabUsers').classList.add('hidden');
             if(tabId === 'navTabInput') document.getElementById('kontenTabInput').classList.remove('hidden');
             if(tabId === 'navTabInputGuru') { document.getElementById('kontenTabInputGuru').classList.remove('hidden'); setTimeout(()=> { document.getElementById('namaGuruInput').focus(); }, 50); }
@@ -2050,6 +2359,7 @@
             if(tabId === 'navTabAnalisis') { document.getElementById('kontenTabAnalisis').classList.remove('hidden'); buatGrafikAnalisisStatistik(); }
             if(tabId === 'navTabAudit') { document.getElementById('kontenTabAudit').classList.remove('hidden'); perbaruiTampilanAuditLog(); }
             if(tabId === 'navTabAnonim') { document.getElementById('kontenTabAnonim').classList.remove('hidden'); muatDataAnonim(); }
+            if(tabId === 'navTabKop') { document.getElementById('kontenTabKop').classList.remove('hidden'); bukaTabKop(); }
             if(tabId === 'navTabUsers') document.getElementById('kontenTabUsers').classList.remove('hidden');
         }
     </script>
