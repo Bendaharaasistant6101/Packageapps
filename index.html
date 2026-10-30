@@ -20,13 +20,13 @@
 </head>
 <body class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 font-sans min-h-screen flex items-center justify-center p-4">
     <div id="areaCetakStruk" class="hidden p-4 bg-white text-black text-xs leading-tight"></div>
-    
+
     <!-- LANDING PAGE -->
     <div id="landingPage" class="bg-white/10 backdrop-blur-xl p-10 rounded-3xl shadow-2xl border border-white/20 max-w-sm w-full text-center flex flex-col items-center justify-center no-print">
-        <div class="w-20 h-20 bg-gradient-to-tr from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center text-4xl shadow-lg mb-6 animate-pulse">  📦  </div>
+        <div class="w-20 h-20 bg-gradient-to-tr from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center text-4xl shadow-lg mb-6 animate-pulse">📦</div>
         <h1 class="text-3xl font-black text-white tracking-tight mb-2">Package Apps</h1>
         <p class="text-xs text-indigo-200 font-medium mb-8 px-4">Sistem Manajemen Pengarsipan Paket Terpadu Pesantren.</p>
-        <button onclick="pilihMenuAwal()" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-black px-6 py-3.5 rounded-2xl text-sm shadow-xl transition transform scale-[1.02]">Mulai Sistem  ➔  </button>
+        <button onclick="pilihMenuAwal()" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-black px-6 py-3.5 rounded-2xl text-sm shadow-xl transition transform scale-[1.02]">Mulai Sistem ➔</button>
     </div>
 
     <!-- PORTAL PAGE -->
@@ -34,22 +34,22 @@
         <h2 class="text-xl font-bold text-white mb-6 tracking-wide">PILIH PORTAL AKSES</h2>
         <div class="grid grid-cols-1 gap-4">
             <button onclick="bukaPortalPublik()" class="p-5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold rounded-2xl shadow-lg transition flex flex-col items-center gap-2 transform hover:scale-[1.01]">
-                <span class="text-3xl">  🔍  </span>
+                <span class="text-3xl">🔍</span>
                 <span class="text-sm">Portal Cari Paket Mandiri (Santri / Guru)</span>
             </button>
             <button onclick="bukaModalLoginAdmin()" class="p-5 bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-700 hover:to-slate-900 text-white font-bold rounded-2xl shadow-lg transition flex flex-col items-center gap-2 transform hover:scale-[1.01]">
-                <span class="text-3xl">  🔐  </span>
+                <span class="text-3xl">🔐</span>
                 <span class="text-sm">Login Akun Admin / Petugas</span>
             </button>
         </div>
-        <button onclick="kembaliKeLanding()" class="mt-6 text-xs text-slate-300 hover:text-white transition underline">  ➔  Kembali Ke Beranda</button>
+        <button onclick="kembaliKeLanding()" class="mt-6 text-xs text-slate-300 hover:text-white transition underline">➔ Kembali Ke Beranda</button>
     </div>
 
     <!-- PORTAL PUBLIK (CARI MANDIRI) -->
     <div id="portalPublik" class="hidden bg-slate-900/90 backdrop-blur-2xl rounded-3xl shadow-2xl w-full max-w-2xl p-8 border border-slate-700/50 text-white no-print">
         <div class="flex justify-between items-center border-b border-slate-700 pb-4 mb-6">
             <div>
-                <h2 class="text-xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">  🔍  PENCARIAN PAKET MANDIRI</h2>
+                <h2 class="text-xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">🔍 PENCARIAN PAKET MANDIRI</h2>
                 <p class="text-[10px] text-slate-400">Silakan masukkan stambuk atau nama Anda untuk melacak paket.</p>
             </div>
             <button onclick="kembaliKePortal()" class="text-xs bg-slate-800 border border-slate-700 px-4 py-1.5 rounded-xl font-bold text-slate-300 hover:bg-slate-700">Kembali</button>
@@ -60,34 +60,68 @@
         </div>
         <div id="boxHasilPublik" class="space-y-3 max-h-[350px] overflow-y-auto hidden pr-1"></div>
         <div id="areaHistoryPublik" class="mt-4 pt-4 border-t border-slate-700 hidden">
-            <button onclick="bukaModalHistoryPublik()" class="w-full bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/30 text-xs font-bold py-2.5 rounded-xl transition">  📜  Lihat Riwayat Paket yang Sudah Diambil </button>
+            <button onclick="bukaModalHistoryPublik()" class="w-full bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/30 text-xs font-bold py-2.5 rounded-xl transition">📜 Lihat Riwayat Paket yang Sudah Diambil</button>
             <div class="mt-4 flex justify-end">
                 <button onclick="konfirmasiSelesaiCariPublik()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2 rounded-xl text-xs shadow-md transition">OK (Selesai)</button>
             </div>
         </div>
     </div>
 
-    <!-- MAIN DASHBOARD UTAMA -->
-    <div id="mainDashboard" class="hidden bg-white rounded-3xl shadow-2xl w-full max-w-6xl p-6 h-[90vh] flex flex-col text-gray-800 no-print">
+    <!-- MAIN DASHBOARD UTAMA (SIDEBAR + KONTEN) -->
+    <div id="mainDashboard" class="hidden bg-white rounded-3xl shadow-2xl w-full max-w-7xl h-[92vh] flex overflow-hidden text-gray-800 no-print">
+
+        <!-- SIDEBAR -->
+        <aside class="w-52 shrink-0 bg-slate-50 border-r p-3 flex flex-col gap-3 overflow-y-auto text-xs">
+            <div class="text-center pb-2 border-b">
+                <div class="text-2xl">📦</div>
+                <p class="font-black text-sm text-slate-900">Package Apps</p>
+            </div>
+            <div>
+                <p class="text-[10px] font-black text-slate-400 mb-1 tracking-wider">SANTRI</p>
+                <div class="flex flex-col gap-1">
+                    <button onclick="switchTab('navTabInput')" id="navTabInput" class="text-left px-3 py-2 bg-indigo-600 text-white font-bold rounded-xl">📥 Input Paket</button>
+                    <button onclick="switchTab('navTabAmbil')" id="navTabAmbil" class="text-left px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">📤 Pengambilan</button>
+                </div>
+            </div>
+            <div>
+                <p class="text-[10px] font-black text-slate-400 mb-1 tracking-wider">GURU</p>
+                <div class="flex flex-col gap-1">
+                    <button onclick="switchTab('navTabInputGuru')" id="navTabInputGuru" class="text-left px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">📥 Input Paket</button>
+                    <button onclick="switchTab('navTabAmbilGuru')" id="navTabAmbilGuru" class="text-left px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">📤 Pengambilan</button>
+                </div>
+            </div>
+            <div>
+                <p class="text-[10px] font-black text-slate-400 mb-1 tracking-wider">LAPORAN</p>
+                <div class="flex flex-col gap-1">
+                    <button onclick="switchTab('navTabAnalisis')" id="navTabAnalisis" class="text-left px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">📊 Analisis Grafik</button>
+                    <button onclick="switchTab('navTabAudit')" id="navTabAudit" class="text-left px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">📜 Log Audit</button>
+                </div>
+            </div>
+            <div id="groupAnonim" class="hidden">
+                <p class="text-[10px] font-black text-slate-400 mb-1 tracking-wider">UNKNOWN PACKAGE</p>
+                <div class="flex flex-col gap-1">
+                    <button onclick="switchTab('navTabAnonim')" id="navTabAnonim" class="text-left px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">🕵️ Unknown Package</button>
+                </div>
+            </div>
+            <div id="groupAdmin" class="hidden">
+                <p class="text-[10px] font-black text-slate-400 mb-1 tracking-wider">ADMIN</p>
+                <div class="flex flex-col gap-1">
+                    <button onclick="switchTab('navTabKop')" id="navTabKop" class="text-left px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">🖨️ Kelola Kop</button>
+                    <button onclick="switchTab('navTabUsers')" id="navTabUsers" class="text-left px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">👥 Akun & Password</button>
+                </div>
+            </div>
+            <button onclick="keluarSistem()" class="mt-auto bg-red-500 hover:bg-red-600 text-white font-bold px-3 py-2 rounded-xl">🔒 Keluar</button>
+        </aside>
+
+        <!-- AREA KONTEN -->
+        <div class="flex-1 min-w-0 p-5 flex flex-col min-h-0">
         <div class="flex flex-wrap justify-between items-center border-b pb-3 mb-4 gap-2">
             <div>
-                <h2 class="text-xl font-black tracking-tight text-slate-900">  📦  Package Apps Dashboard</h2>
+                <h2 class="text-xl font-black tracking-tight text-slate-900">📦 Package Apps Dashboard</h2>
                 <p class="text-[11px] text-indigo-600 font-medium">Operator Piket: <span id="namaPetugasLabel" class="font-bold text-amber-600"></span> (<span id="roleLabel" class="uppercase text-gray-500 font-bold"></span>)</p>
             </div>
-            <div class="flex flex-wrap items-center gap-1.5 text-xs">
-                <button onclick="switchTab('navTabInput')" id="navTabInput" class="px-3 py-2 bg-indigo-600 text-white font-bold rounded-xl">  📥  Tab 1: Input Paket Santri</button>
-                <button onclick="switchTab('navTabInputGuru')" id="navTabInputGuru" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  📥  Tab 1.5: Input Paket Guru</button>
-                <button onclick="switchTab('navTabAmbil')" id="navTabAmbil" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  📤  Tab 2: Pengambilan Santri</button>
-                <button onclick="switchTab('navTabAmbilGuru')" id="navTabAmbilGuru" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  📤  Tab 2.5: Pengambilan Guru</button>
-                <button onclick="switchTab('navTabAnalisis')" id="navTabAnalisis" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  📊  Tab 3: Analisis Grafik</button>
-                <button onclick="switchTab('navTabAudit')" id="navTabAudit" class="px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  📜  Tab 4: Log Audit</button>
-                <button onclick="switchTab('navTabAnonim')" id="navTabAnonim" class="hidden px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  🕵️  Tab 6: Anonymus Package</button>
-                <button onclick="switchTab('navTabKop')" id="navTabKop" class="hidden px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  🖨️  Tab 7: Pengaturan Kop</button>
-                <button onclick="switchTab('navTabUsers')" id="navTabUsers" class="hidden px-3 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl">  👥  Tab 5: Kelola Akun</button>
-                <button onclick="keluarSistem()" class="bg-red-500 text-white font-bold px-3 py-2 rounded-xl ml-1">  🔒  Keluar</button>
-            </div>
         </div>
-        
+
         <!-- STATISTIK UTAMA -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center mb-3">
             <div class="bg-blue-50 rounded-xl p-2.5"><p class="text-[9px] font-bold text-blue-600">TOTAL PAKET</p><p id="statTotal" class="text-lg font-black text-blue-950">0</p></div>
@@ -97,9 +131,9 @@
         </div>
         <!-- BANNER PAKET MENUMPUK -->
         <div id="bannerMenumpuk" class="hidden mb-3 px-3 py-2 rounded-xl bg-red-50 border border-red-300 text-red-800 text-[11px] font-bold"><span id="teksBannerMenumpuk"></span></div>
-        
-        <!-- TAB 1: INPUT PAKET SANTRI -->
-        <div id="kontenTabInput" class="space-y-4 flex-grow flex flex-col overflow-hidden">
+
+        <!-- TAB: INPUT PAKET SANTRI -->
+        <div id="kontenTabInput" class="space-y-4 flex-grow flex flex-col overflow-hidden min-h-0">
             <div id="boxFormInputBatas" class="bg-slate-50 p-4 rounded-2xl border">
                 <form id="formPaket" onsubmit="simpanPaketBaru(event)" class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
                     <input type="text" id="stambuk" placeholder="Klik 2x / Ketik Stambuk + Enter" required onchange="cekStambukOtomatis()" ondblclick="bukaCtrlFSantri()" onkeydown="pindahInput(event, 'jenis_paket')" class="p-2 border-2 border-blue-400 bg-blue-50 rounded-md font-bold text-center placeholder-blue-600 focus:outline-none focus:border-blue-600">
@@ -142,8 +176,8 @@
             </div>
         </div>
 
-        <!-- TAB 1.5: INPUT PAKET GURU -->
-        <div id="kontenTabInputGuru" class="hidden space-y-4 flex-grow flex flex-col overflow-hidden">
+        <!-- TAB: INPUT PAKET GURU -->
+        <div id="kontenTabInputGuru" class="hidden space-y-4 flex-grow flex flex-col overflow-hidden min-h-0">
             <div class="bg-slate-50 p-4 rounded-2xl border relative">
                 <form id="formPaketGuru" onsubmit="simpanPaketGuruBaru(event)" class="grid grid-cols-2 md:grid-cols-5 gap-2 text-xs">
                     <div class="relative col-span-1 md:col-span-2">
@@ -184,16 +218,16 @@
             </div>
         </div>
 
-        <!-- TAB 2: PENGAMBILAN SANTRI -->
-        <div id="kontenTabAmbil" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden">
+        <!-- TAB: PENGAMBILAN SANTRI -->
+        <div id="kontenTabAmbil" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden min-h-0">
             <div class="flex flex-wrap justify-between items-center gap-2 bg-slate-50 p-3 rounded-xl border">
-                <div class="flex flex-wrap items-center gap-3 text-xs"> 
-                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  📅  Tanggal:</label> <input type="date" id="filterTanggalInput" onchange="jalankanFilterDashboardAmbil()" class="p-1.5 border rounded-lg bg-white font-medium"> </div>
-                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  📌  Status:</label> <select id="filterStatusInput" onchange="jalankanFilterDashboardAmbil()" class="p-1.5 border rounded-lg bg-white font-bold text-slate-700 focus:outline-none"> <option value="Semua">Semua Status</option> <option value="Belum Diambil">Belum Diambil</option> <option value="Sudah Diambil">Sudah Diambil</option> </select> </div>
-                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  🔍  Cari:</label> <input type="text" id="cariDashboardAmbil" placeholder="Ketik nama / stambuk..." oninput="jalankanFilterDashboardAmbil()" class="p-1.5 border-2 border-indigo-400 rounded-lg bg-white font-bold w-48 placeholder-gray-400 focus:outline-none focus:border-indigo-600"> </div>
+                <div class="flex flex-wrap items-center gap-3 text-xs">
+                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">📅 Tanggal:</label> <input type="date" id="filterTanggalInput" onchange="jalankanFilterDashboardAmbil()" class="p-1.5 border rounded-lg bg-white font-medium"> </div>
+                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">📌 Status:</label> <select id="filterStatusInput" onchange="jalankanFilterDashboardAmbil()" class="p-1.5 border rounded-lg bg-white font-bold text-slate-700 focus:outline-none"> <option value="Semua">Semua Status</option> <option value="Belum Diambil">Belum Diambil</option> <option value="Sudah Diambil">Sudah Diambil</option> </select> </div>
+                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">🔍 Cari:</label> <input type="text" id="cariDashboardAmbil" placeholder="Ketik nama / stambuk..." oninput="jalankanFilterDashboardAmbil()" class="p-1.5 border-2 border-indigo-400 rounded-lg bg-white font-bold w-48 placeholder-gray-400 focus:outline-none focus:border-indigo-600"> </div>
                     <button onclick="resetSemuaFilterAmbil()" class="bg-gray-500 text-white px-2.5 py-1.5 rounded-lg font-bold">Reset Filter</button>
                 </div>
-                <button onclick="eksporKeExcel('siswa')" class="bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-lg font-bold">  📥  Ekspor Paket Santri ke Excel (.xlsx)</button>
+                <button onclick="eksporKeExcel('siswa')" class="bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-lg font-bold">📥 Ekspor Paket Santri ke Excel (.xlsx)</button>
             </div>
             <div class="overflow-auto border rounded-xl flex-grow">
                 <table class="w-full text-left text-[11px] border-collapse min-w-[2200px] table-fixed">
@@ -221,16 +255,16 @@
             </div>
         </div>
 
-        <!-- TAB 2.5: PENGAMBILAN GURU -->
-        <div id="kontenTabAmbilGuru" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden">
+        <!-- TAB: PENGAMBILAN GURU -->
+        <div id="kontenTabAmbilGuru" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden min-h-0">
             <div class="flex flex-wrap justify-between items-center gap-2 bg-slate-50 p-3 rounded-xl border text-xs">
                 <div class="flex flex-wrap items-center gap-3">
-                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  📅  Tanggal:</label> <input type="date" id="filterTanggalGuru" onchange="renderTabelAmbilGuru()" class="p-1.5 border rounded-lg bg-white font-medium"> </div>
-                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  📌  Status:</label> <select id="filterStatusGuru" onchange="renderTabelAmbilGuru()" class="p-1.5 border rounded-lg bg-white font-bold text-purple-800 focus:outline-none"> <option value="Semua">Semua Status</option> <option value="Belum Diambil">Belum Diambil</option> <option value="Sudah Diambil">Sudah Diambil</option> </select> </div>
-                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  🔍  Cari:</label> <input type="text" id="cariAmbilGuruInput" placeholder="Ketik nama guru..." oninput="renderTabelAmbilGuru()" class="p-1.5 border-2 border-purple-400 rounded-lg bg-white font-bold w-48 placeholder-gray-400 focus:outline-none"> </div>
+                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">📅 Tanggal:</label> <input type="date" id="filterTanggalGuru" onchange="renderTabelAmbilGuru()" class="p-1.5 border rounded-lg bg-white font-medium"> </div>
+                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">📌 Status:</label> <select id="filterStatusGuru" onchange="renderTabelAmbilGuru()" class="p-1.5 border rounded-lg bg-white font-bold text-purple-800 focus:outline-none"> <option value="Semua">Semua Status</option> <option value="Belum Diambil">Belum Diambil</option> <option value="Sudah Diambil">Sudah Diambil</option> </select> </div>
+                    <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">🔍 Cari:</label> <input type="text" id="cariAmbilGuruInput" placeholder="Ketik nama guru..." oninput="renderTabelAmbilGuru()" class="p-1.5 border-2 border-purple-400 rounded-lg bg-white font-bold w-48 placeholder-gray-400 focus:outline-none"> </div>
                     <button onclick="resetFilterAmbilGuru()" class="bg-gray-500 text-white px-2.5 py-1.5 rounded-lg font-bold">Reset</button>
                 </div>
-                <button onclick="eksporKeExcel('guru')" class="bg-purple-700 text-white text-xs px-3 py-1.5 rounded-lg font-bold">  📥  Ekspor Paket Guru ke Excel (.xlsx)</button>
+                <button onclick="eksporKeExcel('guru')" class="bg-purple-700 text-white text-xs px-3 py-1.5 rounded-lg font-bold">📥 Ekspor Paket Guru ke Excel (.xlsx)</button>
             </div>
             <div class="overflow-auto border rounded-xl flex-grow">
                 <table class="w-full text-left text-[11px] border min-w-[1600px] table-fixed">
@@ -254,30 +288,30 @@
             </div>
         </div>
 
-        <!-- TAB 3: ANALISIS GRAFIK -->
-        <div id="kontenTabAnalisis" class="hidden space-y-4 flex-grow flex flex-col overflow-hidden">
+        <!-- TAB: ANALISIS GRAFIK -->
+        <div id="kontenTabAnalisis" class="hidden space-y-4 flex-grow flex flex-col overflow-hidden min-h-0">
             <div class="bg-slate-50 p-3 rounded-xl border flex flex-wrap justify-between items-center gap-2 text-xs">
-                <h3 class="font-bold text-gray-700"> 📊  Grafik Analisis Paket Real-Time (Siswa vs Guru)</h3>
-                <button onclick="eksporGrafikKeGambar()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-lg"> 📸 Ekspor Grafik ke Gambar (.png)</button>
+                <h3 class="font-bold text-gray-700">📊 Grafik Analisis Paket Real-Time (Siswa vs Guru)</h3>
+                <button onclick="eksporGrafikKeGambar()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-lg">📸 Ekspor Grafik ke Gambar (.png)</button>
             </div>
             <div class="flex-grow p-4 bg-slate-50 border rounded-xl flex items-center justify-center relative">
                 <canvas id="grafikLogistikUtama" class="max-w-full max-h-[320px]"></canvas>
             </div>
         </div>
 
-        <!-- TAB 4: LOG AUDIT SYSTEM -->
-        <div id="kontenTabAudit" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden">
+        <!-- TAB: LOG AUDIT SYSTEM -->
+        <div id="kontenTabAudit" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden min-h-0">
             <div class="flex justify-between items-center bg-slate-50 p-3 rounded-xl border text-xs">
-                <span class="font-bold text-slate-700">  📜  LOG RIWAYAT AKTIVITAS AUDIT SISTEM (REAL-TIME)</span>
+                <span class="font-bold text-slate-700">📜 LOG RIWAYAT AKTIVITAS AUDIT SISTEM (REAL-TIME)</span>
                 <button onclick="bersihkanLogAuditLocal()" class="bg-red-100 border border-red-300 text-red-700 font-bold px-2.5 py-1 rounded-md hover:bg-red-200">Clear Logs</button>
             </div>
             <div class="overflow-y-auto border rounded-xl flex-grow p-2 bg-slate-900 font-mono text-xs text-green-400 space-y-1" id="boxLogAuditSystem"></div>
         </div>
 
-        <!-- TAB 6: ANONYMUS PACKAGE (Petugas Full & Super Admin) -->
-        <div id="kontenTabAnonim" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden">
+        <!-- TAB: UNKNOWN PACKAGE (Petugas Full & Super Admin) -->
+        <div id="kontenTabAnonim" class="hidden space-y-3 flex-grow flex flex-col overflow-hidden min-h-0">
             <div class="bg-slate-100 p-4 rounded-2xl border border-slate-300 overflow-y-auto max-h-[42%]">
-                <h3 class="font-black text-xs text-slate-800 mb-2">  🕵️  Catat Paket Tanpa Identitas <span class="font-medium text-slate-500">(semua kolom boleh dikosongkan)</span></h3>
+                <h3 class="font-black text-xs text-slate-800 mb-2">🕵️ Catat Unknown Package <span class="font-medium text-slate-500">(semua kolom boleh dikosongkan)</span></h3>
                 <form id="formAnonim" onsubmit="simpanPaketAnonim(event)" class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
                     <input type="text" id="anonNama" placeholder="Nama (opsional)" autocomplete="off" class="p-2 border rounded-md font-semibold focus:outline-none focus:border-indigo-500">
                     <input type="tel" id="anonTelp" placeholder="No. Telp (opsional)" autocomplete="off" class="p-2 border rounded-md font-semibold focus:outline-none focus:border-indigo-500">
@@ -286,16 +320,16 @@
                     <input type="text" id="anonCiri" placeholder="Ciri-ciri (opsional)" autocomplete="off" class="col-span-2 p-2 border rounded-md font-semibold focus:outline-none focus:border-indigo-500">
                     <textarea id="anonKet" rows="1" placeholder="Keterangan tambahan (opsional)" class="col-span-2 p-2 border rounded-md font-semibold focus:outline-none focus:border-indigo-500"></textarea>
                     <div class="col-span-2 md:col-span-4 flex flex-wrap items-center gap-2">
-                        <button type="button" id="btnAmbilFotoAnonim" onclick="bukaKamera()" class="bg-slate-800 hover:bg-slate-900 disabled:opacity-50 text-white font-bold px-3 py-2 rounded-md whitespace-nowrap">  📷  Ambil Foto (0/4)</button>
+                        <button type="button" id="btnAmbilFotoAnonim" onclick="bukaKamera()" class="bg-slate-800 hover:bg-slate-900 disabled:opacity-50 text-white font-bold px-3 py-2 rounded-md whitespace-nowrap">📷 Ambil Foto (0/4)</button>
                         <div id="thumbFotoAnonim" class="flex flex-wrap items-center gap-2"></div>
                         <span id="infoFotoAnonim" class="text-slate-500 text-[11px]">Belum ada foto (maksimal 4 foto)</span>
                     </div>
                     <input type="file" id="inputFotoFallback" accept="image/*" capture="environment" class="hidden" onchange="handleFotoFallback(event)">
-                    <button type="submit" id="btnSubmitAnonim" class="col-span-2 md:col-span-4 bg-slate-800 text-white font-black p-2.5 rounded-md tracking-wider shadow hover:bg-slate-900 transition">+= SIMPAN ANONYMUS PACKAGE</button>
+                    <button type="submit" id="btnSubmitAnonim" class="col-span-2 md:col-span-4 bg-slate-800 text-white font-black p-2.5 rounded-md tracking-wider shadow hover:bg-slate-900 transition">+= SIMPAN UNKNOWN PACKAGE</button>
                 </form>
             </div>
             <div class="flex flex-wrap items-center gap-2.5 bg-slate-50 p-2.5 rounded-xl border text-xs">
-                <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  📌  Status:</label>
+                <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">📌 Status:</label>
                     <select id="filterStatusAnonim" onchange="renderTabelAnonim()" class="p-1.5 border rounded-lg bg-white font-bold text-slate-700 focus:outline-none">
                         <option value="Semua">Semua Status</option>
                         <option value="Belum Diambil">Belum Diambil</option>
@@ -303,14 +337,14 @@
                         <option value="Ditautkan">Ditautkan</option>
                     </select>
                 </div>
-                <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  🔍  Cari:</label> <input type="text" id="cariAnonim" placeholder="Nama / telp / pengirim / ciri / rak..." oninput="renderTabelAnonim()" class="p-1.5 border-2 border-slate-400 rounded-lg bg-white font-bold w-52 placeholder-gray-400 focus:outline-none"> </div>
-                <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">  📅  Dari:</label> <input type="date" id="anonTglDari" onchange="renderTabelAnonim()" class="p-1.5 border rounded-lg bg-white font-medium"> </div>
+                <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">🔍 Cari:</label> <input type="text" id="cariAnonim" placeholder="Nama / telp / pengirim / ciri / rak..." oninput="renderTabelAnonim()" class="p-1.5 border-2 border-slate-400 rounded-lg bg-white font-bold w-52 placeholder-gray-400 focus:outline-none"> </div>
+                <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">📅 Dari:</label> <input type="date" id="anonTglDari" onchange="renderTabelAnonim()" class="p-1.5 border rounded-lg bg-white font-medium"> </div>
                 <div class="flex items-center gap-1.5"> <label class="font-bold text-gray-700">Sampai:</label> <input type="date" id="anonTglSampai" onchange="renderTabelAnonim()" class="p-1.5 border rounded-lg bg-white font-medium"> </div>
                 <button onclick="resetFilterAnonim()" class="bg-gray-500 text-white px-2.5 py-1.5 rounded-lg font-bold">Reset</button>
                 <button onclick="muatDataAnonim()" class="bg-gray-500 text-white px-2.5 py-1.5 rounded-lg font-bold">Muat Ulang</button>
                 <div class="flex items-center gap-1.5 ml-auto">
-                    <button id="btnPdfKartu" onclick="eksporPdfAnonim('kartu')" class="bg-indigo-700 hover:bg-indigo-800 disabled:opacity-50 text-white px-3 py-1.5 rounded-lg font-bold">  📄  PDF Kartu</button>
-                    <button id="btnPdfTabel" onclick="eksporPdfAnonim('tabel')" class="bg-indigo-700 hover:bg-indigo-800 disabled:opacity-50 text-white px-3 py-1.5 rounded-lg font-bold">  📄  PDF Tabel</button>
+                    <button id="btnPdfKartu" onclick="eksporPdfAnonim('kartu')" class="bg-indigo-700 hover:bg-indigo-800 disabled:opacity-50 text-white px-3 py-1.5 rounded-lg font-bold">📄 PDF Kartu</button>
+                    <button id="btnPdfTabel" onclick="eksporPdfAnonim('tabel')" class="bg-indigo-700 hover:bg-indigo-800 disabled:opacity-50 text-white px-3 py-1.5 rounded-lg font-bold">📄 PDF Tabel</button>
                 </div>
                 <span id="statusPdfAnonim" class="w-full text-[11px] text-indigo-700 font-bold"></span>
             </div>
@@ -336,11 +370,11 @@
             </div>
         </div>
 
-        <!-- TAB 7: PENGATURAN KOP SURAT (Super Admin) -->
-        <div id="kontenTabKop" class="hidden flex-grow flex flex-col overflow-y-auto gap-3">
+        <!-- TAB: PENGATURAN KOP SURAT (Super Admin) -->
+        <div id="kontenTabKop" class="hidden flex-grow flex flex-col overflow-y-auto gap-3 min-h-0">
             <div class="bg-slate-50 p-4 rounded-2xl border text-xs">
-                <h3 class="font-black text-slate-800 mb-1">  🖨️  Pengaturan Kop Surat PDF</h3>
-                <p class="text-[11px] text-gray-500 mb-3">Kop ini dipakai di semua PDF Anonymus Package, dan nama pesantrennya juga tampil di struk. Tersimpan di database, jadi sama di semua perangkat. Perubahan baru berlaku setelah menekan Simpan.</p>
+                <h3 class="font-black text-slate-800 mb-1">🖨️ Pengaturan Kop Surat PDF</h3>
+                <p class="text-[11px] text-gray-500 mb-3">Kop ini dipakai di semua PDF Unknown Package, dan nama pesantrennya juga tampil di struk. Tersimpan di database, jadi sama di semua perangkat. Perubahan baru berlaku setelah menekan Simpan.</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="space-y-3">
                         <div>
@@ -414,17 +448,17 @@
                 <div class="overflow-x-auto"><div id="kpPreview" class="bg-white border p-3" style="width:186mm"></div></div>
                 <div class="flex flex-wrap items-center gap-2 mt-3">
                     <button type="button" onclick="simpanPengaturanKop()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-black px-4 py-2 rounded-lg">SIMPAN KOP</button>
-                    <button type="button" onclick="eksporPdfContohKop()" class="bg-slate-700 hover:bg-slate-800 text-white font-bold px-3 py-2 rounded-lg">  📄  PDF Contoh</button>
+                    <button type="button" onclick="eksporPdfContohKop()" class="bg-slate-700 hover:bg-slate-800 text-white font-bold px-3 py-2 rounded-lg">📄 PDF Contoh</button>
                     <button type="button" onclick="resetKopDefault()" class="bg-gray-500 hover:bg-gray-600 text-white font-bold px-3 py-2 rounded-lg">Kembalikan Bawaan</button>
                     <span id="kpStatus" class="text-[11px] text-indigo-700 font-bold"></span>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 5: KELOLA AKUN -->
-        <div id="kontenTabUsers" class="hidden space-y-4 flex-grow flex flex-col overflow-hidden">
+        <!-- TAB: KELOLA AKUN & PASSWORD -->
+        <div id="kontenTabUsers" class="hidden space-y-4 flex-grow flex flex-col overflow-hidden min-h-0">
             <div class="bg-purple-50 p-4 rounded-2xl border border-purple-200">
-                <h3 class="font-black text-xs text-purple-900 mb-2">  ➕  Tambah / Update Akun Petugas</h3>
+                <h3 class="font-black text-xs text-purple-900 mb-2">➕ Tambah Akun Petugas</h3>
                 <form id="formUser" onsubmit="tambahUserPetugas(event)" class="grid grid-cols-1 sm:grid-cols-4 gap-2 text-xs">
                     <input type="text" id="newUsername" placeholder="Username Petugas" required class="p-2 border rounded-md">
                     <input type="text" id="newPassword" placeholder="Password Baru" required class="p-2 border rounded-md">
@@ -435,6 +469,7 @@
                     </select>
                     <button type="submit" class="bg-purple-700 text-white font-bold p-2 rounded-md shadow">Simpan Akun</button>
                 </form>
+                <p class="text-[10px] text-purple-700 mt-2">Untuk mengubah password akun yang sudah ada (termasuk akun Super Admin), klik tombol "Ganti Password" di tabel bawah.</p>
             </div>
             <div class="overflow-auto border rounded-xl flex-grow">
                 <table class="w-full text-left text-xs">
@@ -443,39 +478,56 @@
                 </table>
             </div>
         </div>
+        </div><!-- /area konten -->
+    </div><!-- /mainDashboard -->
+
+    <!-- MODAL PENGATURAN EKSPOR PDF UNKNOWN PACKAGE -->
+    <div id="modalEksporAnonim" class="fixed inset-0 bg-black/80 z-[85] flex justify-center items-center hidden no-print p-4">
+        <div class="bg-white w-full max-w-md max-h-[90vh] overflow-y-auto p-5 rounded-2xl text-gray-800 shadow-2xl text-xs">
+            <h3 class="font-black text-sm text-slate-900 border-b pb-2 mb-3">📄 Pengaturan Ekspor PDF</h3>
+            <label class="font-bold text-gray-600">Judul laporan (tampil di bawah kop)</label>
+            <input type="text" id="exJudul" class="w-full p-2 border rounded-md font-semibold mb-3">
+            <p class="font-bold text-gray-600 mb-1">Data yang ditampilkan <span class="font-normal text-gray-400">(yang tidak dicentang tampil "....." buram)</span></p>
+            <div id="exDaftar" class="grid grid-cols-2 gap-1.5 mb-2"></div>
+            <p class="text-[10px] text-gray-400 mb-3">Petugas Input dan Waktu/Ket. Keluar hanya tampil pada PDF Kartu.</p>
+            <div class="flex gap-2">
+                <button type="button" onclick="tutupEksporAnonim()" class="w-1/3 bg-gray-200 font-bold py-2 rounded-xl">Batal</button>
+                <button type="button" onclick="jalankanEksporAnonim()" class="w-2/3 bg-indigo-600 hover:bg-indigo-700 text-white font-black py-2 rounded-xl">BUAT PDF</button>
+            </div>
+        </div>
     </div>
 
-    <!-- MODAL KAMERA (ANONYMUS PACKAGE) -->
+    <!-- MODAL KAMERA (UNKNOWN PACKAGE) -->
     <div id="modalKamera" class="fixed inset-0 bg-black/90 z-[90] flex justify-center items-center hidden no-print p-4">
         <div class="bg-slate-900 border border-slate-700 w-full max-w-md p-4 rounded-2xl flex flex-col text-white shadow-2xl">
             <div class="flex justify-between items-center mb-3">
-                <h3 class="font-black text-xs text-amber-400">  📷  AMBIL FOTO PAKET</h3>
+                <h3 class="font-black text-xs text-amber-400">📷 AMBIL FOTO PAKET</h3>
                 <button onclick="tutupKamera()" class="text-xs bg-slate-800 text-slate-300 px-2 py-1 rounded">X</button>
             </div>
             <video id="videoKamera" autoplay playsinline muted class="w-full rounded-xl bg-black max-h-[60vh]"></video>
             <canvas id="canvasKamera" class="hidden"></canvas>
             <div class="flex gap-2 mt-3">
                 <button onclick="tutupKamera()" class="w-1/3 bg-slate-700 font-bold py-2 rounded-xl text-xs">Batal</button>
-                <button onclick="ambilFotoDariKamera()" class="w-2/3 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-black py-2 rounded-xl text-xs tracking-wider">  📸  AMBIL FOTO</button>
+                <button onclick="ambilFotoDariKamera()" class="w-2/3 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-black py-2 rounded-xl text-xs tracking-wider">📸 AMBIL FOTO</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL DETAIL ANONYMUS PACKAGE -->
+    <!-- MODAL DETAIL UNKNOWN PACKAGE -->
     <div id="modalDetailAnonim" class="fixed inset-0 bg-black/80 z-[80] flex justify-center items-center hidden no-print p-4">
         <div class="bg-white w-full max-w-md max-h-[90vh] overflow-y-auto p-5 rounded-2xl text-gray-800 shadow-2xl">
             <div class="flex justify-between items-center border-b pb-2 mb-3">
-                <h3 class="font-black text-sm text-slate-900">  🕵️  Detail Anonymus Package</h3>
+                <h3 class="font-black text-sm text-slate-900">🕵️ Detail Unknown Package</h3>
                 <button onclick="tutupDetailAnonim()" class="text-xs bg-gray-200 px-2 py-1 rounded font-bold">Tutup</button>
             </div>
             <div id="isiDetailAnonim" class="text-xs space-y-2"></div>
         </div>
     </div>
 
-    <!-- MODAL EDIT ANONYMUS PACKAGE -->
+    <!-- MODAL EDIT UNKNOWN PACKAGE -->
     <div id="modalEditAnonim" class="fixed inset-0 bg-black/80 z-[80] flex justify-center items-center hidden no-print p-4">
         <div class="bg-white w-full max-w-md max-h-[90vh] overflow-y-auto p-5 rounded-2xl text-gray-800 shadow-2xl">
-            <h3 class="font-black text-sm text-slate-900 border-b pb-2 mb-3">  ✏️  Edit Data Anonymus Package</h3>
+            <h3 class="font-black text-sm text-slate-900 border-b pb-2 mb-3">✏️ Edit Data Unknown Package</h3>
             <form onsubmit="simpanEditAnonim(event)" class="space-y-2 text-xs">
                 <input type="hidden" id="edId">
                 <div><label class="font-bold text-gray-600">Nama</label><input type="text" id="edNama" class="w-full p-2 border rounded-md font-semibold"></div>
@@ -496,8 +548,8 @@
     <!-- MODAL TAUTKAN KE PEMILIK -->
     <div id="modalTautkanAnonim" class="fixed inset-0 bg-black/80 z-[80] flex justify-center items-center hidden no-print p-4">
         <div class="bg-white w-full max-w-md max-h-[90vh] overflow-y-auto p-5 rounded-2xl text-gray-800 shadow-2xl">
-            <h3 class="font-black text-sm text-slate-900 border-b pb-2 mb-3">  🔗  Tautkan ke Pemilik</h3>
-            <p class="text-[11px] text-gray-500 mb-2">Paket ini akan dibuat sebagai paket santri/guru biasa. Data anonim dan fotonya tetap disimpan dengan status "Ditautkan".</p>
+            <h3 class="font-black text-sm text-slate-900 border-b pb-2 mb-3">🔗 Tautkan ke Pemilik</h3>
+            <p class="text-[11px] text-gray-500 mb-2">Paket ini akan dibuat sebagai paket santri/guru biasa. Data unknown dan fotonya tetap disimpan dengan status "Ditautkan".</p>
             <input type="hidden" id="tkId">
             <div class="space-y-2 text-xs">
                 <select id="tkTipe" onchange="cariPemilikTautkan()" class="w-full p-2 border rounded-md font-bold bg-white">
@@ -528,7 +580,7 @@
     <div id="modalCtrlFSantri" class="fixed inset-0 bg-black/70 z-50 flex justify-center items-center hidden no-print p-4">
         <div class="bg-slate-900 border border-slate-700 w-full max-w-md p-5 rounded-2xl flex flex-col text-white shadow-2xl">
             <div class="flex justify-between items-center border-b border-slate-700 pb-2.5 mb-4">
-                <h3 class="font-black text-xs text-blue-400"> 🔍  CARI DATA SANTRI (TANPA STAMBUK)</h3>
+                <h3 class="font-black text-xs text-blue-400">🔍 CARI DATA SANTRI (TANPA STAMBUK)</h3>
                 <button onclick="tutupCtrlFSantri()" class="text-xs bg-slate-800 text-slate-400 px-2 py-1 rounded">X</button>
             </div>
             <input type="text" id="inputFilterCtrlF" placeholder="Ketik nama lengkap santri..." oninput="filterListCtrlFSantri(this.value)" class="w-full p-2 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white focus:outline-none mb-3 font-medium">
@@ -539,7 +591,7 @@
     <!-- MODAL AMBIL PAKET GURU -->
     <div id="modalAmbilPaketGuru" class="fixed inset-0 bg-black/70 z-50 flex justify-center items-center hidden no-print p-4">
         <div class="bg-white rounded-2xl p-6 w-full max-w-sm border shadow-2xl text-center text-gray-800 animate-fade-in">
-            <div class="text-3xl mb-2"> 🎉 </div>
+            <div class="text-3xl mb-2">🎉</div>
             <h3 class="font-black text-sm text-slate-900 uppercase tracking-wide mb-1">Berhasil Proses Paket</h3>
             <p class="text-xs text-gray-500 mb-4">Silakan tentukan jenis metode pengambilan paket guru:</p>
             <input type="hidden" id="idTargetAmbilGuru">
@@ -563,7 +615,7 @@
     <div id="modalHistoryPublik" class="fixed inset-0 bg-black/80 z-50 flex justify-center items-center hidden no-print p-4">
         <div class="bg-slate-900 border border-slate-700 w-full max-w-2xl p-6 rounded-2xl max-h-[80vh] flex flex-col text-white">
             <div class="flex justify-between items-center border-b border-slate-700 pb-3 mb-4">
-                <h3 class="font-black text-sm tracking-wide text-amber-400">  📜  RIWAYAT PAKET YANG SUDAH DIAMBIL</h3>
+                <h3 class="font-black text-sm tracking-wide text-amber-400">📜 RIWAYAT PAKET YANG SUDAH DIAMBIL</h3>
                 <button onclick="tutupModalHistoryPublik()" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded-lg">Tutup</button>
             </div>
             <div id="boxHistorySudahAmbil" class="space-y-2 overflow-y-auto flex-grow pr-1 text-xs"></div>
@@ -585,7 +637,7 @@
                 </div>
                 <div class="flex gap-2 pt-2">
                     <button type="button" onclick="tutupModalLoginAdmin()" class="w-1/3 bg-gray-200 font-bold py-2.5 rounded-xl transition">Batal</button>
-                    <button type="submit" class="w-2/3 bg-indigo-600 hover:bg-indigo-700 text-white font-black py-2.5 rounded-xl transition tracking-wide shadow-md">MASUK  ➔</button>
+                    <button type="submit" class="w-2/3 bg-indigo-600 hover:bg-indigo-700 text-white font-black py-2.5 rounded-xl transition tracking-wide shadow-md">MASUK ➔</button>
                 </div>
             </form>
         </div>
@@ -612,12 +664,12 @@
         const NAMA_PESANTREN = "PONDOK PESANTREN";   // tampil di kop PDF dan struk
         const BATAS_HARI_MENUMPUK = 7;               // paket dianggap menumpuk setelah sekian hari belum diambil
         const BATAS_MENIT_TIDAK_AKTIF = 15;          // otomatis keluar kalau tidak ada aktivitas
-        const MAKS_FOTO_ANONIM = 4;                  // maksimal foto per Anonymus Package
+        const MAKS_FOTO_ANONIM = 4;                  // maksimal foto per Unknown Package
 
         let listSeluruhMahasiswa = [];
         let databasePaket = [];
         let dataPaketTerfilter = [];
-        let listSeluruhGuruData = []; 
+        let listSeluruhGuruData = [];
         let userLoginAktif = null;
         let logAuditSystem = [];
         let elemenFokusTerakhir = null;
@@ -626,7 +678,7 @@
         let hasilSugestiGuru = [];
         let daftarUsers = [];
 
-        // ===== ANONYMUS PACKAGE: state =====
+        // ===== UNKNOWN PACKAGE: state =====
         let listAnonim = [];
         let fotoAnonimList = [];
         let streamKamera = null;
@@ -744,7 +796,7 @@
         function bukaModalLoginAdmin() { document.getElementById('modalLoginAdmin').classList.remove('hidden'); document.getElementById('loginUsername').value = ''; document.getElementById('loginPassword').value = ''; setTimeout(() => { document.getElementById('loginUsername').focus(); }, 120); }
         function tutupModalLoginAdmin() { document.getElementById('modalLoginAdmin').classList.add('hidden'); }
 
-        async function pr9yMnTm4NSzvG9rrwjM2ec8xZgh1cafXH8() {
+        async function prahJ91ZuNL8Y2px8iYciYeHN8sfSh5eXH8() {
             try {
                 let seluruhSantri = [];
                 let barisMulai = 0;
@@ -761,7 +813,7 @@
                     }
                 }
                 listSeluruhMahasiswa = seluruhSantri;
-                
+
                 const res2 = await _supabase.from('guru').select('*');
                 if(!res2.error) {
                     listSeluruhGuruData = res2.data || [];
@@ -848,7 +900,7 @@
                 tahun: String(g.tahun || g.Tahun || "-")
             }));
             dropdown.innerHTML = hasilSugestiGuru.map((g, i) => `
-                <div onclick="pilihGuruDariIndex(${i})" 
+                <div onclick="pilihGuruDariIndex(${i})"
                      class="p-2 text-xs hover:bg-purple-100 cursor-pointer font-semibold border-b border-gray-100 text-gray-800 transition">
                      💡 ${esc(g.nama)} — <span class="text-purple-600 font-bold">${esc(g.kamar)}</span> (${esc(g.tahun)})
                 </div>
@@ -862,11 +914,11 @@
             document.getElementById('namaGuruInput').value = g.nama;
             document.getElementById('kamarGuru').value = g.kamar;
             document.getElementById('tahunGuru').value = g.tahun;
-            
+
             const dropdown = document.getElementById('dropdownSugestiGuru');
             dropdown.innerHTML = '';
             dropdown.classList.add('hidden');
-            
+
             setTimeout(() => {
                 document.getElementById('jenis_paket_guru').focus();
             }, 50);
@@ -961,14 +1013,14 @@
             if(!userLoginAktif) return;
             document.getElementById('namaPetugasLabel').innerText = userLoginAktif.nama || userLoginAktif.username;
             document.getElementById('roleLabel').innerText = userLoginAktif.role;
-            const btnUsersTab = document.getElementById('navTabUsers');
-            if(userLoginAktif.role === 'superadmin') btnUsersTab.classList.remove('hidden'); else btnUsersTab.classList.add('hidden');
-            // Tab Pengaturan Kop: hanya superadmin
-            const btnKopTab = document.getElementById('navTabKop');
-            if(userLoginAktif.role === 'superadmin') btnKopTab.classList.remove('hidden'); else btnKopTab.classList.add('hidden');
-            // Tab Anonymus Package: hanya petugas_full & superadmin
-            const btnAnonimTab = document.getElementById('navTabAnonim');
-            if(bolehAksesAnonim()) btnAnonimTab.classList.remove('hidden'); else btnAnonimTab.classList.add('hidden');
+            const adalahSuper = userLoginAktif.role === 'superadmin';
+            // Menu Admin (Kop + Akun & Password): hanya superadmin
+            document.getElementById('navTabUsers').classList.toggle('hidden', !adalahSuper);
+            document.getElementById('navTabKop').classList.toggle('hidden', !adalahSuper);
+            document.getElementById('groupAdmin').classList.toggle('hidden', !adalahSuper);
+            // Menu Unknown Package: hanya petugas_full & superadmin
+            document.getElementById('navTabAnonim').classList.toggle('hidden', !bolehAksesAnonim());
+            document.getElementById('groupAnonim').classList.toggle('hidden', !bolehAksesAnonim());
             tutupModalLoginAdmin();
             document.getElementById('portalPage').classList.add('hidden');
             document.getElementById('landingPage').classList.add('hidden');
@@ -976,11 +1028,11 @@
             catatAuditLog(`Berhasil login ke dalam sistem.`);
             resetTimerTidakAktif();
             switchTab('navTabInput');
-            pr9yMnTm4NSzvG9rrwjM2ec8xZgh1cafXH8();
+            prahJ91ZuNL8Y2px8iYciYeHN8sfSh5eXH8();
             muatDataKomplit();
             muatPengaturanKop();
             if(bolehAksesAnonim()) { muatDataAnonim(); }
-            if(userLoginAktif.role === 'superadmin') { muatDaftarPenggunaPetugas(); }
+            if(adalahSuper) { muatDaftarPenggunaPetugas(); }
         }
 
         // ===== Keluar otomatis kalau tidak ada aktivitas =====
@@ -1018,7 +1070,7 @@
             if (!p) { tampilkanPesanError("Data paket tidak ditemukan."); return; }
             let judul, baris;
             if (jenis === 'anonim') {
-                judul = 'PAKET TANPA IDENTITAS';
+                judul = 'UNKNOWN PACKAGE';
                 baris = [['No.', '#' + p.id], ['Nama', p.nama], ['Pengirim', p.pengirim], ['No. Telp', p.no_telp], ['Ciri-ciri', p.ciri_ciri], ['Ket.', p.keterangan_tambahan], ['Rak', p.tempat], ['Foto', p.jumlah_foto ? p.jumlah_foto + ' foto' : (p.ada_foto ? 'ada' : '-')], ['Masuk', p.waktu_masuk], ['Petugas', p.petugas_input]];
             } else if (p.keterangan === 'guru') {
                 judul = 'PAKET GURU';
@@ -1096,8 +1148,8 @@
                         <td class="p-2 text-gray-500">${esc(p.waktu_keluar || '-')}</td>
                         <td class="p-2 text-gray-400">${esc(p.petugas_keluar || '-')}</td>
                         <td class="p-2 text-center flex items-center justify-center gap-1.5">
-                            ${p.status === 'Belum Diambil' ? 
-                            `<button onclick="prosesAmbilPaketLangsung('${esc(p.id)}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Set Diambil</button>` : 
+                            ${p.status === 'Belum Diambil' ?
+                            `<button onclick="prosesAmbilPaketLangsung('${esc(p.id)}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Set Diambil</button>` :
                             `<button onclick="batalAmbilPaket('${esc(p.id)}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Batal Ambil</button>` }
                             <button onclick="editPosisiRakPaket('${esc(p.id)}')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-2 py-0.5 rounded text-[10px]">Edit Rak</button>
                             <button onclick="cetakStruk('paket','${esc(p.id)}')" class="bg-slate-600 hover:bg-slate-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Struk</button>
@@ -1112,13 +1164,13 @@
         function renderTabelAmbilGuru() {
             const tbody = document.getElementById('tabelBodyAmbilGuru');
             if(!tbody) return;
-            
+
             const tglVal = document.getElementById('filterTanggalGuru').value;
             const statusVal = document.getElementById('filterStatusGuru').value;
             const keyword = document.getElementById('cariAmbilGuruInput').value.toLowerCase().trim();
-            
+
             let dataGuru = databasePaket.filter(p => p.keterangan === 'guru');
-            
+
             dataGuru = dataGuru.filter(g => {
                 let matchTgl = true, matchStatus = true, matchCari = true;
                 if (tglVal) matchTgl = g.waktu_masuk && g.waktu_masuk.includes(tglVal.split('-').reverse().join('/'));
@@ -1140,8 +1192,8 @@
                     <td class="p-2 text-gray-500">${esc(g.waktu_keluar || '-')}</td>
                     <td class="p-2 text-gray-400 truncate max-w-[120px]" title="${esc(g.petugas_keluar || '-')}">${esc(g.petugas_keluar || '-')}</td>
                     <td class="p-2 text-center flex items-center justify-center gap-1">
-                        ${g.status === 'Belum Diambil' ? 
-                        `<button onclick="bukaModalProsesAmbilGuru('${esc(g.id)}')" class="bg-purple-700 hover:bg-purple-800 text-white font-bold px-2 py-0.5 rounded text-[10px]">Opsi Ambil</button>` : 
+                        ${g.status === 'Belum Diambil' ?
+                        `<button onclick="bukaModalProsesAmbilGuru('${esc(g.id)}')" class="bg-purple-700 hover:bg-purple-800 text-white font-bold px-2 py-0.5 rounded text-[10px]">Opsi Ambil</button>` :
                         `<button onclick="batalAmbilPaket('${esc(g.id)}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Batalkan</button>`}
                         <button onclick="editPosisiRakPaket('${esc(g.id)}')" class="bg-amber-500 text-slate-950 font-black px-2 py-0.5 rounded text-[10px]">Edit Rak</button>
                         <button onclick="cetakStruk('paket','${esc(g.id)}')" class="bg-slate-600 hover:bg-slate-700 text-white font-bold px-2 py-0.5 rounded text-[10px]">Struk</button>
@@ -1149,7 +1201,7 @@
                     </td>
                 </tr>
             `).join('');
-            
+
             const logGuruTerkini = document.getElementById('tabelBodyLogGuruTerkini');
             if(logGuruTerkini) {
                 let dataGuruTerkini = databasePaket.filter(p => p.keterangan === 'guru');
@@ -1188,7 +1240,7 @@
             const total = nUtama + nAnonim;
             if (total === 0) { banner.classList.add('hidden'); return; }
             let rincian = `santri/guru: ${nUtama}`;
-            if (bolehAksesAnonim()) rincian += `, anonim: ${nAnonim}`;
+            if (bolehAksesAnonim()) rincian += `, unknown: ${nAnonim}`;
             document.getElementById('teksBannerMenumpuk').innerText = `⚠️ ${total} paket belum diambil sudah ${BATAS_HARI_MENUMPUK} hari atau lebih (${rincian}). Baris ditandai merah di tabel.`;
             banner.classList.remove('hidden');
         }
@@ -1341,7 +1393,7 @@
         function eksporKeExcel(tipe) {
             let dataTarget = [];
             let namaBerkas = "";
-            
+
             if(tipe === 'siswa') {
                 dataTarget = dataPaketTerfilter.length > 0 ? dataPaketTerfilter : databasePaket.filter(p => p.keterangan !== 'guru');
                 namaBerkas = "Laporan_Arsip_Paket_Santri.xlsx";
@@ -1349,7 +1401,7 @@
                 const tglVal = document.getElementById('filterTanggalGuru').value;
                 const statusVal = document.getElementById('filterStatusGuru').value;
                 const keyword = document.getElementById('cariAmbilGuruInput').value.toLowerCase().trim();
-                
+
                 dataTarget = databasePaket.filter(p => p.keterangan === 'guru');
                 dataTarget = dataTarget.filter(g => {
                     let matchTgl = true, matchStatus = true, matchCari = true;
@@ -1363,18 +1415,18 @@
 
             if (dataTarget.length === 0) { tampilkanPesanError("Tidak ada data paket untuk diekspor!"); return; }
             try {
-                const dataSiapEkspor = dataTarget.map((p, index) => ({ 
-                    "No": index + 1, 
-                    "No Stambuk": p.stambuk || "-", 
-                    "Nama Pemilik": p.nama || "", 
-                    "Kelas / Kamar": p.kelas || "", 
-                    "Rayon / Tahun": p.rayon || "-", 
-                    "Daerah": p.daerah || "-", 
-                    "Jenis Paket": p.jenis_paket || "", 
-                    "Lokasi Rak": p.tempat || "", 
-                    "Tipe Pengguna": p.keterangan || "siswa", 
-                    "Status Paket": p.status || "", 
-                    "Waktu Tiba/Masuk": p.waktu_masuk || "", 
+                const dataSiapEkspor = dataTarget.map((p, index) => ({
+                    "No": index + 1,
+                    "No Stambuk": p.stambuk || "-",
+                    "Nama Pemilik": p.nama || "",
+                    "Kelas / Kamar": p.kelas || "",
+                    "Rayon / Tahun": p.rayon || "-",
+                    "Daerah": p.daerah || "-",
+                    "Jenis Paket": p.jenis_paket || "",
+                    "Lokasi Rak": p.tempat || "",
+                    "Tipe Pengguna": p.keterangan || "siswa",
+                    "Status Paket": p.status || "",
+                    "Waktu Tiba/Masuk": p.waktu_masuk || "",
                     "Petugas Input": p.petugas_input || "",
                     "Waktu Keluar": p.waktu_keluar || "-",
                     "Petugas Keluar / Pengambil": p.petugas_keluar || "-"
@@ -1390,6 +1442,9 @@
         }
         function resetSemuaFilterAmbil() { document.getElementById('filterTanggalInput').value = ''; document.getElementById('filterStatusInput').value = 'Semua'; document.getElementById('cariDashboardAmbil').value = ''; jalankanFilterDashboardAmbil(); }
 
+        // =====================================================================
+        // KELOLA AKUN & PASSWORD (superadmin)
+        // =====================================================================
         async function muatDaftarPenggunaPetugas() {
             const bodyUsers = document.getElementById('tabelBodyUsers');
             if(!bodyUsers) return;
@@ -1401,7 +1456,10 @@
                     <tr class="border-b text-slate-700">
                         <td class="p-2 font-bold">${esc(u.username)}</td>
                         <td class="p-2 font-medium uppercase text-indigo-600">${esc(u.role)}</td>
-                        <td class="p-2 text-center"><button onclick="hapusAkunPetugas('${esc(u.id)}')" class="bg-red-100 border border-red-300 text-red-700 px-2 py-0.5 rounded text-[11px] font-bold">Hapus</button></td>
+                        <td class="p-2 text-center">
+                            <button onclick="gantiPasswordAkun('${esc(u.id)}')" class="bg-amber-100 border border-amber-300 text-amber-800 px-2 py-0.5 rounded text-[11px] font-bold mr-1">Ganti Password</button>
+                            <button onclick="hapusAkunPetugas('${esc(u.id)}')" class="bg-red-100 border border-red-300 text-red-700 px-2 py-0.5 rounded text-[11px] font-bold">Hapus</button>
+                        </td>
                     </tr>
                 `).join('');
             } catch(e) { console.error(e); }
@@ -1415,11 +1473,28 @@
             try {
                 const { error } = await _supabase.from('users').insert([{ username: usernameInp, password: passwordInp, role: roleInp, nama: usernameInp }]);
                 if (error) throw error;
-                catatAuditLog(`Membuat/memperbarui hak akses akun petugas baru: ${usernameInp}`);
+                catatAuditLog(`Membuat akun petugas baru: ${usernameInp}`);
                 document.getElementById('formUser').reset();
                 await muatDaftarPenggunaPetugas();
                 alert("Sukses menyimpan akun petugas!");
             } catch(e) { alert("Gagal mendaftarkan akun baru."); }
+        }
+
+        async function gantiPasswordAkun(id) {
+            if (!userLoginAktif || userLoginAktif.role !== 'superadmin') { alert("Hanya Super Admin yang boleh mengganti password."); return; }
+            const u = daftarUsers.find(x => String(x.id) === String(id));
+            if (!u) return;
+            const baru = (prompt(`Masukkan password baru untuk akun [ ${u.username} ]:`) || '').trim();
+            if (!baru) return;
+            if (baru.length < 4) { alert("Password minimal 4 karakter."); return; }
+            if (!confirm(`Yakin ganti password akun [ ${u.username} ]?`)) return;
+            try {
+                const { error } = await _supabase.from('users').update({ password: baru }).eq('id', id);
+                if (error) throw error;
+                catatAuditLog(`Mengganti password akun: ${u.username}`);
+                alert(`Password akun ${u.username} berhasil diubah. Gunakan password baru saat login berikutnya.`);
+                await muatDaftarPenggunaPetugas();
+            } catch (e) { alert("Gagal mengganti password."); }
         }
 
         async function hapusAkunPetugas(id) {
@@ -1436,7 +1511,7 @@
         }
 
         // =====================================================================
-        // ANONYMUS PACKAGE (khusus petugas_full & superadmin)
+        // UNKNOWN PACKAGE (khusus petugas_full & superadmin)
         // =====================================================================
         function bolehAksesAnonim() {
             return !!userLoginAktif && (userLoginAktif.role === 'petugas_full' || userLoginAktif.role === 'superadmin');
@@ -1549,15 +1624,15 @@
             try {
                 const { error } = await _supabase.from('paket_anonim').insert([rec]);
                 if (error) throw error;
-                catatAuditLog(`Menyimpan Anonymus Package${rec.nama ? ': ' + rec.nama : ''}${rec.pengirim ? ' (pengirim: ' + rec.pengirim + ')' : ''}`);
+                catatAuditLog(`Menyimpan Unknown Package${rec.nama ? ': ' + rec.nama : ''}${rec.pengirim ? ' (pengirim: ' + rec.pengirim + ')' : ''}`);
                 document.getElementById('formAnonim').reset();
                 fotoAnonimList = [];
                 renderFotoAnonimForm();
                 await muatDataAnonim();
-                tampilkanPesanError("Anonymus Package berhasil disimpan!", 'anonNama');
+                tampilkanPesanError("Unknown Package berhasil disimpan!", 'anonNama');
             } catch (err) {
                 console.error(err);
-                tampilkanPesanError("Gagal menyimpan Anonymus Package.\n" + PESAN_KOLOM_ANONIM);
+                tampilkanPesanError("Gagal menyimpan Unknown Package.\n" + PESAN_KOLOM_ANONIM);
             } finally {
                 btn.disabled = false;
             }
@@ -1576,7 +1651,7 @@
                 renderTabelAnonim();
                 perbaruiBannerMenumpuk();
             } catch (err) {
-                console.error("Gagal memuat Anonymus Package:", err);
+                console.error("Gagal memuat Unknown Package:", err);
                 const tbody = document.getElementById('tabelBodyAnonim');
                 if (tbody) tbody.innerHTML = `<tr><td colspan="11" class="p-4 text-center text-red-600 font-bold">Gagal memuat data. ${esc(PESAN_KOLOM_ANONIM)}</td></tr>`;
             }
@@ -1625,7 +1700,7 @@
             if (!tbody) return;
             const hasil = dataAnonimTerfilter();
             if (hasil.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="11" class="p-4 text-center text-slate-400">[Belum ada data Anonymus Package]</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="11" class="p-4 text-center text-slate-400">[Belum ada data Unknown Package]</td></tr>`;
                 return;
             }
             const kosong = '<span class="text-slate-300">-</span>';
@@ -1730,10 +1805,10 @@
             try {
                 const { error } = await _supabase.from('paket_anonim').update(perubahan).eq('id', id);
                 if (error) throw error;
-                catatAuditLog(`Mengedit data Anonymus Package ID ${id}.`);
+                catatAuditLog(`Mengedit data Unknown Package ID ${id}.`);
                 tutupEditAnonim();
                 await muatDataAnonim();
-            } catch (err) { tampilkanPesanError("Gagal menyimpan perubahan Anonymus Package.\n" + PESAN_KOLOM_ANONIM); }
+            } catch (err) { tampilkanPesanError("Gagal menyimpan perubahan Unknown Package.\n" + PESAN_KOLOM_ANONIM); }
         }
 
         // ----- Tautkan ke pemilik -----
@@ -1797,7 +1872,7 @@
             if (!tkTerpilih) { tampilkanPesanError("Pilih dulu pemilik paket dari daftar."); return; }
             if (!jenis) { tampilkanPesanError("Pilih jenis paket dulu."); return; }
             if (!tempat) { tampilkanPesanError("Lokasi rak wajib diisi untuk paket santri/guru."); return; }
-            if (!confirm(`Tautkan paket anonim #${p.id} ke ${tkTerpilih.nama}?`)) return;
+            if (!confirm(`Tautkan paket unknown #${p.id} ke ${tkTerpilih.nama}?`)) return;
             const paketBaru = {
                 stambuk: tkTerpilih.stambuk, nama: tkTerpilih.nama, kelas: tkTerpilih.kelas, rayon: tkTerpilih.rayon,
                 daerah: tkTerpilih.daerah, orangtua: tkTerpilih.orangtua, jenis_paket: jenis, tempat: tempat,
@@ -1808,15 +1883,15 @@
             try {
                 const { error: e1 } = await _supabase.from('paket').insert([paketBaru]);
                 if (e1) throw e1;
-            } catch (err) { tampilkanPesanError("Gagal membuat paket santri/guru dari paket anonim."); return; }
+            } catch (err) { tampilkanPesanError("Gagal membuat paket santri/guru dari paket unknown."); return; }
             try {
                 const { error: e2 } = await _supabase.from('paket_anonim').update({
                     status: 'Ditautkan', waktu_keluar: dapatkanWaktuSekarang(),
                     petugas_keluar: `${namaPetugasSaatIni()} -> ${tkTerpilih.tipe === 'guru' ? 'Guru' : 'Santri'}: ${tkTerpilih.nama}`
                 }).eq('id', id);
                 if (e2) throw e2;
-            } catch (err) { tampilkanPesanError("Paket baru sudah dibuat, tapi status paket anonim gagal diperbarui. Ubah status secara manual agar tidak terhitung dua kali."); }
-            catatAuditLog(`Menautkan Anonymus Package ID ${id} ke ${tkTerpilih.tipe}: ${tkTerpilih.nama}`);
+            } catch (err) { tampilkanPesanError("Paket baru sudah dibuat, tapi status paket unknown gagal diperbarui. Ubah status secara manual agar tidak terhitung dua kali."); }
+            catatAuditLog(`Menautkan Unknown Package ID ${id} ke ${tkTerpilih.tipe}: ${tkTerpilih.nama}`);
             tutupTautkanAnonim();
             await muatDataKomplit();
             await muatDataAnonim();
@@ -1824,34 +1899,37 @@
         }
 
         // ----- Aksi status & hapus -----
+        // Set Diambil: keterangan WAJIB diisi dulu
         async function setDiambilAnonim(id) {
             if (!bolehAksesAnonim()) return;
+            const ket = (prompt("Keterangan pengambilan (WAJIB diisi).\nContoh: diambil oleh siapa / hubungan dengan pemilik / alasan:") || '').trim();
+            if (!ket) { tampilkanPesanError("Keterangan wajib diisi sebelum paket ditandai sudah diambil."); return; }
             try {
-                const { error } = await _supabase.from('paket_anonim').update({ status: 'Sudah Diambil', waktu_keluar: dapatkanWaktuSekarang(), petugas_keluar: namaPetugasSaatIni() }).eq('id', id);
+                const { error } = await _supabase.from('paket_anonim').update({ status: 'Sudah Diambil', waktu_keluar: dapatkanWaktuSekarang(), petugas_keluar: `${namaPetugasSaatIni()} — ${ket}` }).eq('id', id);
                 if (error) throw error;
-                catatAuditLog(`Menandai Anonymus Package ID ${id} sebagai sudah diambil.`);
+                catatAuditLog(`Menandai Unknown Package ID ${id} sebagai sudah diambil. Ket: ${ket}`);
                 await muatDataAnonim();
-            } catch (err) { tampilkanPesanError("Gagal memperbarui status Anonymus Package."); }
+            } catch (err) { tampilkanPesanError("Gagal memperbarui status Unknown Package."); }
         }
         async function batalDiambilAnonim(id) {
             if (!bolehAksesAnonim()) return;
-            if (!confirm("Batalkan status pengambilan paket anonim ini?")) return;
+            if (!confirm("Batalkan status pengambilan paket unknown ini?")) return;
             try {
                 const { error } = await _supabase.from('paket_anonim').update({ status: 'Belum Diambil', waktu_keluar: '-', petugas_keluar: '-' }).eq('id', id);
                 if (error) throw error;
-                catatAuditLog(`Membatalkan pengambilan Anonymus Package ID ${id}.`);
+                catatAuditLog(`Membatalkan pengambilan Unknown Package ID ${id}.`);
                 await muatDataAnonim();
-            } catch (err) { tampilkanPesanError("Gagal membatalkan status Anonymus Package."); }
+            } catch (err) { tampilkanPesanError("Gagal membatalkan status Unknown Package."); }
         }
         async function hapusPaketAnonim(id) {
             if (!bolehAksesAnonim()) return;
-            if (!confirm("Hapus PERMANEN data Anonymus Package ini beserta fotonya?")) return;
+            if (!confirm("Hapus PERMANEN data Unknown Package ini beserta fotonya?")) return;
             try {
                 const { error } = await _supabase.from('paket_anonim').delete().eq('id', id);
                 if (error) throw error;
-                catatAuditLog(`Menghapus permanen Anonymus Package ID ${id}.`);
+                catatAuditLog(`Menghapus permanen Unknown Package ID ${id}.`);
                 await muatDataAnonim();
-            } catch (err) { tampilkanPesanError("Gagal menghapus Anonymus Package."); }
+            } catch (err) { tampilkanPesanError("Gagal menghapus Unknown Package."); }
         }
 
         // ----- Ekspor PDF (kartu / tabel) -----
@@ -1886,37 +1964,58 @@
         function gambarKopPdf(doc, judul, infoFilter, gambar = true) {
             return kopPdf(doc, judul, infoFilter, gambar, kopCfg);
         }
-        function gambarKartuAnonim(doc, r, fotos, x, y, w, h) {
+
+        // Daftar kolom yang bisa dipilih saat ekspor
+        const FIELD_EKSPOR = [
+            ['waktu_masuk', 'Waktu Masuk'], ['nama', 'Nama'], ['no_telp', 'No. Telp'], ['pengirim', 'Pengirim'],
+            ['tempat', 'Lokasi Rak'], ['ciri_ciri', 'Ciri-ciri'], ['keterangan_tambahan', 'Keterangan'],
+            ['petugas_input', 'Petugas Input (kartu)'], ['status', 'Status'], ['keluar', 'Waktu & Ket. Keluar (kartu)'], ['foto', 'Foto']
+        ];
+        let modeEksporAnonim = 'kartu';
+        let judulEksporTerakhir = 'Unknown Package Report';
+
+        // Kartu: nomor = urutan paket di tabel; data tidak dipilih tampil "....." buram
+        function gambarKartuAnonim(doc, r, fotos, x, y, w, h, nomor, pilih) {
+            const T = (k, v) => pilih[k] ? ((v && String(v).trim() && String(v).trim() !== '-') ? String(v) : '-') : '.....';
             doc.setDrawColor(100); doc.setLineWidth(0.4); doc.rect(x, y, w, h);
             doc.setFillColor(30, 41, 59); doc.rect(x, y, w, 8, 'F');
             doc.setTextColor(255); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
-            doc.text(`Anonymus Package #${r.id}`, x + 3, y + 5.5);
-            doc.text(String(r.status || ''), x + w - 3, y + 5.5, { align: 'right' });
-            doc.setTextColor(0);
-            const baris = [['Waktu Masuk', r.waktu_masuk], ['Nama', r.nama], ['No. Telp', r.no_telp], ['Pengirim', r.pengirim], ['Lokasi Rak', r.tempat], ['Ciri-ciri', r.ciri_ciri], ['Keterangan', r.keterangan_tambahan], ['Petugas Input', r.petugas_input]];
-            if (r.status !== 'Belum Diambil') { baris.push(['Waktu Keluar', r.waktu_keluar], ['Ket. Keluar', r.petugas_keluar]); }
+            doc.text(`Unknown Package ke-${nomor}`, x + 3, y + 5.5);
+            doc.text(T('status', r.status), x + w - 3, y + 5.5, { align: 'right' });
+            const baris = [
+                ['waktu_masuk', 'Waktu Masuk', r.waktu_masuk], ['nama', 'Nama', r.nama], ['no_telp', 'No. Telp', r.no_telp],
+                ['pengirim', 'Pengirim', r.pengirim], ['tempat', 'Lokasi Rak', r.tempat], ['ciri_ciri', 'Ciri-ciri', r.ciri_ciri],
+                ['keterangan_tambahan', 'Keterangan', r.keterangan_tambahan], ['petugas_input', 'Petugas Input', r.petugas_input]
+            ];
+            if (r.status !== 'Belum Diambil') { baris.push(['keluar', 'Waktu Keluar', r.waktu_keluar], ['keluar', 'Ket. Keluar', r.petugas_keluar]); }
             let cy = y + 14;
-            for (const [label, val] of baris) {
+            for (const [k, label, val] of baris) {
+                doc.setTextColor(pilih[k] ? 0 : 185);
                 doc.setFont('helvetica', 'bold'); doc.setFontSize(8.5);
                 doc.text(label, x + 4, cy);
                 doc.setFont('helvetica', 'normal');
-                const teks = (val && String(val).trim() && String(val).trim() !== '-') ? String(val) : '-';
-                let lines = doc.splitTextToSize(teks, 74);
+                let lines = doc.splitTextToSize(T(k, val), 74);
                 if (lines.length > 3) { lines = lines.slice(0, 3); lines[2] = lines[2].replace(/.{0,3}$/, '...'); }
                 doc.text(lines, x + 32, cy);
                 cy += Math.max(lines.length * 4, 4) + 2.5;
             }
+            doc.setTextColor(0);
             // Area foto
             const fx = x + 112, fy = y + 12;
             doc.setDrawColor(190); doc.setLineWidth(0.2);
             doc.rect(fx, fy, 70, 58);
+            doc.setTextColor(185); doc.setFont('helvetica', 'italic'); doc.setFontSize(9);
+            if (!pilih.foto) {
+                doc.text('.....', fx + 35, fy + 30, { align: 'center' });
+                doc.setTextColor(0);
+                return;
+            }
             if (fotos.length > 0) {
                 gambarFit(doc, fotos[0], fx + 1, fy + 1, 68, 56);
             } else {
-                doc.setTextColor(150); doc.setFont('helvetica', 'italic'); doc.setFontSize(9);
                 doc.text('Tidak ada foto', fx + 35, fy + 30, { align: 'center' });
-                doc.setTextColor(0);
             }
+            doc.setTextColor(0);
             if (fotos.length > 1) {
                 doc.setFont('helvetica', 'bold'); doc.setFontSize(8);
                 doc.text('Foto tambahan', fx, fy + 76);
@@ -1927,37 +2026,57 @@
                 });
             }
         }
-        async function eksporPdfAnonim(mode) {
+
+        // Tombol PDF Kartu / PDF Tabel -> buka dialog pengaturan ekspor dulu
+        function eksporPdfAnonim(mode) {
             if (!bolehAksesAnonim()) { tampilkanPesanError("Akses ditolak. Ekspor ini khusus Petugas Full dan Super Admin."); return; }
+            if (dataAnonimTerfilter().length === 0) { tampilkanPesanError("Tidak ada data Unknown Package untuk diekspor dengan filter saat ini."); return; }
+            modeEksporAnonim = mode;
+            document.getElementById('exJudul').value = judulEksporTerakhir;
+            document.getElementById('exDaftar').innerHTML = FIELD_EKSPOR.map(([k, l]) =>
+                `<label class="flex items-center gap-1.5 font-semibold"><input type="checkbox" class="exCek" value="${k}" checked> ${l}</label>`).join('');
+            document.getElementById('modalEksporAnonim').classList.remove('hidden');
+        }
+        function tutupEksporAnonim() { document.getElementById('modalEksporAnonim').classList.add('hidden'); }
+        function jalankanEksporAnonim() {
+            const judul = document.getElementById('exJudul').value.trim() || 'Unknown Package Report';
+            judulEksporTerakhir = judul;
+            const pilih = {};
+            document.querySelectorAll('.exCek').forEach(c => { pilih[c.value] = c.checked; });
+            tutupEksporAnonim();
+            buatPdfAnonim(modeEksporAnonim, judul, pilih);
+        }
+
+        async function buatPdfAnonim(mode, judul, pilih) {
+            if (!bolehAksesAnonim()) return;
             if (!window.jspdf) { tampilkanPesanError("Pustaka PDF belum termuat. Periksa koneksi internet lalu muat ulang halaman."); return; }
             const data = dataAnonimTerfilter();
-            if (data.length === 0) { tampilkanPesanError("Tidak ada data Anonymus Package untuk diekspor dengan filter saat ini."); return; }
+            if (data.length === 0) { tampilkanPesanError("Tidak ada data Unknown Package untuk diekspor dengan filter saat ini."); return; }
             if (mode === 'kartu' && data.length > 100 && !confirm(`Ada ${data.length} paket, PDF kartu bisa besar dan lama dibuat. Lanjutkan?`)) return;
             const btnK = document.getElementById('btnPdfKartu'), btnT = document.getElementById('btnPdfTabel');
             btnK.disabled = true; btnT.disabled = true;
             setStatusPdf('Menyiapkan PDF...');
             try {
-                const peta = await ambilFotoUntukPdf(data);
+                const peta = pilih.foto ? await ambilFotoUntukPdf(data) : {};
                 setStatusPdf('Membuat PDF...');
                 const { jsPDF } = window.jspdf;
                 const infoFilter = deskripsiFilterAnonim() + `  |  Jumlah: ${data.length} paket`;
                 let doc;
                 if (mode === 'kartu') {
                     doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-                    const judul = 'LAPORAN ANONYMUS PACKAGE (KARTU)';
                     const yMulai = gambarKopPdf(doc, judul, infoFilter, false);
                     const tinggiKartu = 116, jarakKartu = 4;
                     const perHalaman = (yMulai + 2 * tinggiKartu + jarakKartu + 10 <= doc.internal.pageSize.getHeight()) ? 2 : 1;
                     data.forEach((r, i) => {
                         if (i % perHalaman === 0) { if (i > 0) doc.addPage(); gambarKopPdf(doc, judul, infoFilter); }
                         const y = yMulai + (i % perHalaman) * (tinggiKartu + jarakKartu);
-                        gambarKartuAnonim(doc, r, peta[String(r.id)] || [], 12, y, 186, tinggiKartu);
+                        gambarKartuAnonim(doc, r, peta[String(r.id)] || [], 12, y, 186, tinggiKartu, i + 1, pilih);
                     });
                 } else {
                     doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-                    const judul = 'LAPORAN ANONYMUS PACKAGE (TABEL)';
                     const yMulaiTabel = gambarKopPdf(doc, judul, infoFilter, false);
-                    const body = data.map((r, i) => [i + 1, r.waktu_masuk || '-', r.nama || '-', r.no_telp || '-', r.pengirim || '-', r.ciri_ciri || '-', r.keterangan_tambahan || '-', r.tempat || '-', r.status || '-', '']);
+                    const N = (k, v) => pilih[k] ? (v || '-') : '.....';
+                    const body = data.map((r, i) => [i + 1, N('waktu_masuk', r.waktu_masuk), N('nama', r.nama), N('no_telp', r.no_telp), N('pengirim', r.pengirim), N('ciri_ciri', r.ciri_ciri), N('keterangan_tambahan', r.keterangan_tambahan), N('tempat', r.tempat), N('status', r.status), pilih.foto ? '' : '.....']);
                     doc.autoTable({
                         startY: yMulaiTabel,
                         margin: { top: yMulaiTabel, left: 10, right: 10, bottom: 14 },
@@ -1966,8 +2085,9 @@
                         styles: { fontSize: 7.5, cellPadding: 1.5, valign: 'middle', overflow: 'linebreak' },
                         headStyles: { fillColor: [30, 41, 59] },
                         columnStyles: { 0: { cellWidth: 9 }, 9: { cellWidth: 20, minCellHeight: 17 } },
+                        didParseCell: (d) => { if (d.section === 'body' && d.cell.raw === '.....') d.cell.styles.textColor = [185, 185, 185]; },
                         didDrawCell: (d) => {
-                            if (d.section === 'body' && d.column.index === 9) {
+                            if (pilih.foto && d.section === 'body' && d.column.index === 9) {
                                 const rec = data[d.row.index];
                                 const f = (peta[String(rec.id)] || [])[0];
                                 if (f) gambarFit(doc, f, d.cell.x + 1, d.cell.y + 1, d.cell.width - 2, d.cell.height - 2);
@@ -1983,8 +2103,8 @@
                     doc.text(`Halaman ${i} / ${total}`, lb / 2, tg - 6, { align: 'center' });
                 }
                 const tglBerkas = new Date().toISOString().slice(0, 10);
-                doc.save(`Laporan_Anonymus_Package_${mode}_${tglBerkas}.pdf`);
-                catatAuditLog(`Mengekspor ${data.length} Anonymus Package ke PDF (${mode}).`);
+                doc.save(`Laporan_Unknown_Package_${mode}_${tglBerkas}.pdf`);
+                catatAuditLog(`Mengekspor ${data.length} Unknown Package ke PDF (${mode}) dengan judul "${judul}".`);
                 setStatusPdf(`PDF berhasil dibuat (${data.length} paket).`);
             } catch (err) {
                 console.error("Gagal membuat PDF:", err);
@@ -2147,7 +2267,7 @@
                     </div>
                     <div style="display:flex">${sisiLogo(d.logoKanan)}</div>
                 </div>
-                <div style="text-align:center;font-family:Arial,Helvetica,sans-serif;font-weight:bold;font-size:11pt;margin-top:3mm;color:#000">JUDUL LAPORAN</div>`;
+                <div style="text-align:center;font-family:Arial,Helvetica,sans-serif;font-weight:bold;font-size:11pt;margin-top:3mm;color:#000">Unknown Package Report</div>`;
         }
         async function bukaTabKop() {
             await muatPengaturanKop();
@@ -2207,7 +2327,7 @@
             bacaFormKop();
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-            const y = kopPdf(doc, 'CONTOH LAPORAN', 'Status: Semua  |  Jumlah: 0 paket', true, kopDraft);
+            const y = kopPdf(doc, 'Unknown Package Report', 'Status: Semua  |  Jumlah: 0 paket', true, kopDraft);
             doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(90);
             doc.text('Ini hanya contoh. Isi laporan akan tampil di bawah kop ini.', 12, y + 6);
             doc.save('Contoh_Kop_Surat.pdf');
@@ -2220,14 +2340,14 @@
             try {
                 const { data, error } = await _supabase.from('paket').select('*');
                 if (error) throw error;
-                
+
                 const hasilSesuaiNama = data.filter(p => (p.nama && p.nama.toLowerCase().includes(kw)) || (p.stambuk && p.stambuk.toLowerCase().includes(kw)) );
                 window.dataHistorySantriSaja = hasilSesuaiNama.filter(p => p.status === 'Sudah Diambil');
                 const belumAmbil = hasilSesuaiNama.filter(p => p.status === 'Belum Diambil');
-                
+
                 box.classList.remove('hidden');
                 document.getElementById('areaHistoryPublik').classList.remove('hidden');
-                
+
                 if (hasilSesuaiNama.length === 0) {
                     box.innerHTML = `
                         <div class="p-6 bg-red-500/10 border border-red-500/30 rounded-2xl text-center">
@@ -2236,7 +2356,7 @@
                         </div>`;
                     return;
                 }
-                
+
                 if (belumAmbil.length === 0 && window.dataHistorySantriSaja.length > 0) {
                     box.innerHTML = `
                         <div class="p-6 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-center">
@@ -2304,7 +2424,7 @@
             }
         }
         function tutupModalHistoryPublik() { document.getElementById('modalHistoryPublik').classList.add('hidden'); }
-        
+
         document.addEventListener('click', function(e){
             const dropdown = document.getElementById('dropdownSugestiGuru');
             if(dropdown && e.target.id !== 'namaGuruInput') { dropdown.classList.add('hidden'); }
@@ -2326,14 +2446,14 @@
         });
 
         function switchTab(tabId) {
-            // Penjagaan akses: tab Anonymus Package hanya untuk petugas_full & superadmin
+            // Penjagaan akses: Unknown Package hanya untuk petugas_full & superadmin
             if (tabId === 'navTabAnonim' && !bolehAksesAnonim()) {
-                tampilkanPesanError("Akses ditolak. Tab ini khusus Petugas Full dan Super Admin.");
+                tampilkanPesanError("Akses ditolak. Menu ini khusus Petugas Full dan Super Admin.");
                 return;
             }
-            // Tab Pengaturan Kop: hanya superadmin
-            if (tabId === 'navTabKop' && !(userLoginAktif && userLoginAktif.role === 'superadmin')) {
-                tampilkanPesanError("Akses ditolak. Tab ini khusus Super Admin.");
+            // Kelola Kop & Akun: hanya superadmin
+            if ((tabId === 'navTabKop' || tabId === 'navTabUsers') && !(userLoginAktif && userLoginAktif.role === 'superadmin')) {
+                tampilkanPesanError("Akses ditolak. Menu ini khusus Super Admin.");
                 return;
             }
             if (tabId !== 'navTabAnonim') tutupKamera();
@@ -2343,15 +2463,9 @@
             });
             const activeTab = document.getElementById(tabId);
             if(activeTab) { activeTab.classList.replace('bg-gray-200', 'bg-indigo-600'); activeTab.classList.replace('text-gray-700', 'text-white'); }
-            document.getElementById('kontenTabInput').classList.add('hidden');
-            document.getElementById('kontenTabInputGuru').classList.add('hidden');
-            document.getElementById('kontenTabAmbil').classList.add('hidden');
-            document.getElementById('kontenTabAmbilGuru').classList.add('hidden');
-            document.getElementById('kontenTabAnalisis').classList.add('hidden');
-            document.getElementById('kontenTabAudit').classList.add('hidden');
-            document.getElementById('kontenTabAnonim').classList.add('hidden');
-            document.getElementById('kontenTabKop').classList.add('hidden');
-            document.getElementById('kontenTabUsers').classList.add('hidden');
+            ['kontenTabInput', 'kontenTabInputGuru', 'kontenTabAmbil', 'kontenTabAmbilGuru', 'kontenTabAnalisis', 'kontenTabAudit', 'kontenTabAnonim', 'kontenTabKop', 'kontenTabUsers'].forEach(c => {
+                document.getElementById(c).classList.add('hidden');
+            });
             if(tabId === 'navTabInput') document.getElementById('kontenTabInput').classList.remove('hidden');
             if(tabId === 'navTabInputGuru') { document.getElementById('kontenTabInputGuru').classList.remove('hidden'); setTimeout(()=> { document.getElementById('namaGuruInput').focus(); }, 50); }
             if(tabId === 'navTabAmbil') document.getElementById('kontenTabAmbil').classList.remove('hidden');
@@ -2360,7 +2474,7 @@
             if(tabId === 'navTabAudit') { document.getElementById('kontenTabAudit').classList.remove('hidden'); perbaruiTampilanAuditLog(); }
             if(tabId === 'navTabAnonim') { document.getElementById('kontenTabAnonim').classList.remove('hidden'); muatDataAnonim(); }
             if(tabId === 'navTabKop') { document.getElementById('kontenTabKop').classList.remove('hidden'); bukaTabKop(); }
-            if(tabId === 'navTabUsers') document.getElementById('kontenTabUsers').classList.remove('hidden');
+            if(tabId === 'navTabUsers') { document.getElementById('kontenTabUsers').classList.remove('hidden'); muatDaftarPenggunaPetugas(); }
         }
     </script>
 </body>
